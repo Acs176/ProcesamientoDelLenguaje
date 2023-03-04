@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 
-public class AnalizadorLexico {
+public class AnalizadorLexicoViejo {
     public static int ERROR = -2;
     public static int FINAL = -1;
+    public static int ESTADO_KEYWORD = -3;
 
     public static Map<Integer, Integer> bufferTable = new HashMap<>();
     public static Map<Integer, Integer> typeTable = new HashMap<>();
@@ -53,7 +54,7 @@ public class AnalizadorLexico {
         typeTable.put(22,25);
     }
 
-    public AnalizadorLexico(RandomAccessFile entrada) {
+    public AnalizadorLexicoViejo(RandomAccessFile entrada) {
         this.entrada = entrada;
         buffer = new ArrayList<Character>();
         fillBufferTable();
@@ -93,7 +94,7 @@ public class AnalizadorLexico {
         }
     }
 
-    public Token siguienteToken(RandomAccessFile entrada){
+    public Token siguienteToken(){
         int estado = 0;
         String current_token = "";
         int fila_token = fila_actual;
@@ -112,7 +113,11 @@ public class AnalizadorLexico {
 
         while(true){
                 
-            int nuevoEstado = delta(estado, c);
+            int nuevoEstado = delta(estado, c, current_token);
+            if(nuevoEstado == ESTADO_KEYWORD){
+                nuevoEstado = -1;
+                estado = ESTADO_KEYWORD;        
+            }
             System.out.println("Estado: " + estado + " | Nuevo estado: " + nuevoEstado);
 
             if(nuevoEstado == ERROR){
@@ -138,7 +143,16 @@ public class AnalizadorLexico {
                 }
                 else{
                     Token toReturn = new Token();
-                    String lexema = devolverChars(estado, current_token);
+                    String lexema;
+                    if(estado == ESTADO_KEYWORD){
+                        lexema = current_token;
+                        estado = 24; // FIN DE IDENTIFICADOR PARA QUE COMPRUEBE PALABRAS CLAVE
+                    }
+                    else{
+                        lexema = devolverChars(estado, current_token);
+                    }
+
+                    
                     toReturn.lexema = lexema;
                     toReturn.fila = fila_token;
                     toReturn.columna = col_token;
@@ -242,17 +256,11 @@ public class AnalizadorLexico {
             String resultString = current_token.substring(0, current_token.length()-chars_to_buffer);
 
             System.out.println("current_token antes de quitar chars: " + current_token);
-
                 
                 for(int i=chars_to_buffer; i>0; i--){
-                    //char charPalBuffer = current_token.charAt(current_token.length()-i);
-                    //addToBuffer(charPalBuffer);
                     fileSeekBack();
-                    //System.out.println("CHAR PAL BUFFER: " + charPalBuffer);
+                    
                 }
-
-
-            
             return resultString;
         }
 
@@ -289,7 +297,7 @@ private void errorLexico(char c) {
 }
 
 
-    private int delta(int estado, char c) {
+    private int delta(int estado, char c, String lexema) {
         if( c == ' ' || c == '\n' || c == '\t')
             return estado; 
 
@@ -352,6 +360,11 @@ private void errorLexico(char c) {
                 else                        return 22;
             case 22: return -1;
             case 23:
+                // checkear si tenemos keyword
+                int tipo = getTipo(24, lexema);
+                if(tipo != 23){
+                    return ESTADO_KEYWORD;                              // ESTADO DE KEYWORD
+                }
                 if(Character.isAlphabetic(c) || Character.isDigit(c))
                     return 23;
                 else

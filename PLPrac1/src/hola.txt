@@ -1,1 +1,3 @@
-wenas          que= ENTERO(*tetas*)=3.3dado, algoritmotetas
+wenas (*tetas*)=3.3dado, algoritmotetas
+algoritmo. tetorras
+tetorrinyas, loool3.
