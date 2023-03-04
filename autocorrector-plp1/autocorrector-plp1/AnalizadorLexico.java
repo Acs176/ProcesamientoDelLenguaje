@@ -100,7 +100,7 @@ public class AnalizadorLexico {
         int fila_token = fila_actual;
         int col_token = columna_actual;
         char c = leerCaracter(entrada);
-        System.out.println("CHAR LEIDO: " + c);
+        //System.out.println("CHAR LEIDO: " + c);
         
         
         if(c == Token.EOF){
@@ -118,7 +118,7 @@ public class AnalizadorLexico {
                 nuevoEstado = -1;
                 estado = ESTADO_KEYWORD;        
             }
-            System.out.println("Estado: " + estado + " | Nuevo estado: " + nuevoEstado);
+            //System.out.println("Estado: " + estado + " | Nuevo estado: " + nuevoEstado);
 
             if(nuevoEstado == ERROR){
                 errorLexico(c);
@@ -133,7 +133,7 @@ public class AnalizadorLexico {
                     fila_token = fila_actual;
                     col_token = columna_actual;
                     c = leerCaracter(entrada);
-                    System.out.println("CHAR LEIDO: " + c);
+                    //System.out.println("CHAR LEIDO: " + c);
                     if(c == Token.EOF){
                         Token eof = new Token();
                         eof.lexema = "";
@@ -171,13 +171,13 @@ public class AnalizadorLexico {
 
                 estado = nuevoEstado;
                 c = leerCaracter(entrada);
-                System.out.println("CHAR LEIDO: " + c);
+                //System.out.println("CHAR LEIDO: " + c);
                 
                 // HECHO: Que ante un EOF trate los chars que lleva leidos
                 // SI TERMINAS EN ESTADO DE TRATAR COMENTARIO: ERROR
                 // DEFINIR ACCION PARA CADA ESTADO
                 if(c == Token.EOF){
-                    System.out.println("END OF FILE HEHE");
+                    //System.out.println("END OF FILE HEHE");
                     if(current_token.length() > 0){
                         Token toReturn = new Token();
                         String lexema = devolverChars(estado, current_token);
@@ -255,7 +255,7 @@ public class AnalizadorLexico {
             int chars_to_buffer = bufferTable.get(nuevoEstado);
             String resultString = current_token.substring(0, current_token.length()-chars_to_buffer);
 
-            System.out.println("current_token antes de quitar chars: " + current_token);
+            //System.out.println("current_token antes de quitar chars: " + current_token);
                 
                 for(int i=chars_to_buffer; i>0; i--){
                     fileSeekBack();
@@ -271,7 +271,7 @@ private void fileSeekBack(){
         long file_pointer = entrada.getFilePointer();
         entrada.seek(file_pointer - 1);
         char prevChar = (char)entrada.read();
-        System.out.println("PREV CHAR: " + prevChar);
+        //System.out.println("PREV CHAR: " + prevChar);
         if(prevChar == ' ' || prevChar == '\t'){
             columna_actual -= 2;
             entrada.seek(file_pointer-2);

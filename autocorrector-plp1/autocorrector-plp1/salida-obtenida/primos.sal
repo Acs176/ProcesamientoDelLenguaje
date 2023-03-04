@@ -1,0 +1,98 @@
+Token: 1,1 algoritmo  -> (1,1): algoritmo es de tipo 12
+
+Token: 2,11 primos  -> (2,11): primos es de tipo 23
+
+Token: 25,13 divisor  -> (25,13): divisor es de tipo 23
+
+Token: 25,21 :=  -> (25,21): := es de tipo 8
+
+Token: 25,24 divisor  -> (25,24): divisor es de tipo 23
+
+Token: 25,32 -  -> (25,32): - es de tipo 3
+
+Token: 25,34 1  -> (25,34): 1 es de tipo 24
+
+Token: 26,11 si  -> (26,11): si es de tipo 16
+
+Token: 26,13 noesprimo  -> (26,13): noesprimo es de tipo 23
+
+Token: 27,21 :=  -> (27,21): := es de tipo 8
+
+Token: 27,24 0  -> (27,24): 0 es de tipo 24
+
+Token: 28,11 fsi  -> (28,11): fsi es de tipo 19
+
+Token: 28,14 ;  -> (28,14): ; es de tipo 5
+
+Token: 29,11 si  -> (29,11): si es de tipo 16
+
+Token: 29,14 esprimo  -> (29,14): esprimo es de tipo 23
+
+Token: 29,22 =  -> (29,22): = es de tipo 4
+
+Token: 29,24 0  -> (29,24): 0 es de tipo 24
+
+Token: 29,26 entonces  -> (29,26): entonces es de tipo 17
+
+Token: 30,13 seguirenbucle  -> (30,13): seguirenbucle es de tipo 23
+
+Token: 30,27 :=  -> (30,27): := es de tipo 8
+
+Token: 30,30 0  -> (30,30): 0 es de tipo 24
+
+Token: 31,11 fsi  -> (31,11): fsi es de tipo 19
+
+Token: 32,10 fblq  -> (32,10): fblq es de tipo 14
+
+Token: 33,8 fsi  -> (33,8): fsi es de tipo 19
+
+Token: 33,11 ;  -> (33,11): ; es de tipo 5
+
+Token: 34,6 si  -> (34,6): si es de tipo 16
+
+Token: 34,9 esprimo  -> (34,9): esprimo es de tipo 23
+
+Token: 34,17 =  -> (34,17): = es de tipo 4
+
+Token: 34,19 1  -> (34,19): 1 es de tipo 24
+
+Token: 34,21 entonces  -> (34,21): entonces es de tipo 17
+
+Token: 35,8 blq  -> (35,8): blq es de tipo 13
+
+Token: 36,9 escribir  -> (36,9): escribir es de tipo 22
+
+Token: 36,17 (n  -> (36,17): (n es de tipo 0
+
+Token: 36,19 )  -> (36,19): ) es de tipo 1
+
+Token: 36,20 ;  -> (36,20): ; es de tipo 5
+
+Token: 37,9 nprimos  -> (37,9): nprimos es de tipo 23
+
+Token: 37,17 :=  -> (37,17): := es de tipo 8
+
+Token: 37,20 nprimos  -> (37,20): nprimos es de tipo 23
+
+Token: 37,28 +  -> (37,28): + es de tipo 3
+
+Token: 37,30 1  -> (37,30): 1 es de tipo 24
+
+Token: 38,8 fblq  -> (38,8): fblq es de tipo 14
+
+Token: 39,6 fsi  -> (39,6): fsi es de tipo 19
+
+Token: 39,9 ;  -> (39,9): ; es de tipo 5
+
+Token: 40,6 n  -> (40,6): n es de tipo 23
+
+Token: 40,8 :=  -> (40,8): := es de tipo 8
+
+Token: 40,11 n  -> (40,11): n es de tipo 23
+
+Token: 40,12 +  -> (40,12): + es de tipo 3
+
+Token: 40,13 1  -> (40,13): 1 es de tipo 24
+
+Token: 41,4 fblq  -> (41,4): fblq es de tipo 14
+
