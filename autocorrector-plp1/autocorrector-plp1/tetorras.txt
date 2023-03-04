@@ -1,0 +1,1988 @@
+*********************************************************
+Autocorrector plp1 (solo analizador léxico) 
+ Generando ficheros auxiliares... 
+*********************************************************
+ Compilando...
+*********************************************************
+
+*********************************************************
+ Ejecutando y comprobando salida a la vez...
+*********************************************************
+Prueba: errlex1
+--- Fallo en la traducción ----------
+1c1
+< Token: 1,1 algoritmocolores  -> (1,1): algoritmocolores es de tipo 23
+---
+> Token: 1,1 algoritmo  -> (1,1): algoritmo es de tipo 12
+3c3,9
+< Token: 2,1 funcionrojo  -> (2,1): funcionrojo es de tipo 23
+---
+> Token: 1,11 colores  -> (1,11): colores es de tipo 23
+> 
+> Token: 1,18 ;  -> (1,18): ; es de tipo 5
+> 
+> Token: 2,3 funcion  -> (2,3): funcion es de tipo 15
+> 
+> Token: 2,11 rojo  -> (2,11): rojo es de tipo 23
+9c15,19
+< Token: 3,2 vara  -> (3,2): vara es de tipo 23
+---
+> Token: 2,22 ;  -> (2,22): ; es de tipo 5
+> 
+> Token: 3,4 var  -> (3,4): var es de tipo 9
+> 
+> Token: 3,8 a  -> (3,8): a es de tipo 23
+23c33,35
+< Token: 4,1 blq  -> (4,1): blq es de tipo 13
+---
+> Token: 3,20 ;  -> (3,20): ; es de tipo 5
+> 
+> Token: 4,3 blq  -> (4,3): blq es de tipo 13
+--------------------------
+Prueba: errlex2
+--- Fallo en la traducción ----------
+1c1
+< Token: 1,1 algoritmocolores  -> (1,1): algoritmocolores es de tipo 23
+---
+> Token: 1,1 algoritmo  -> (1,1): algoritmo es de tipo 12
+3c3,9
+< Token: 2,1 funcionrojo  -> (2,1): funcionrojo es de tipo 23
+---
+> Token: 1,11 colores  -> (1,11): colores es de tipo 23
+> 
+> Token: 1,18 ;  -> (1,18): ; es de tipo 5
+> 
+> Token: 2,3 funcion  -> (2,3): funcion es de tipo 15
+> 
+> Token: 2,11 rojo  -> (2,11): rojo es de tipo 23
+9c15,19
+< Token: 3,2 vara  -> (3,2): vara es de tipo 23
+---
+> Token: 2,22 ;  -> (2,22): ; es de tipo 5
+> 
+> Token: 3,4 var  -> (3,4): var es de tipo 9
+> 
+> Token: 3,8 a  -> (3,8): a es de tipo 23
+23c33,35
+< Token: 4,1 blq  -> (4,1): blq es de tipo 13
+---
+> Token: 3,20 ;  -> (3,20): ; es de tipo 5
+> 
+> Token: 4,3 blq  -> (4,3): blq es de tipo 13
+31c43,45
+< Token: 6,3 b  -> (6,3): b es de tipo 23
+---
+> Token: 5,11 ;  -> (5,11): ; es de tipo 5
+> 
+> Token: 6,5 b  -> (6,5): b es de tipo 23
+40,41d53
+< 
+< Token: 7,1 fblq  -> (7,1): fblq es de tipo 14
+--------------------------
+Prueba: errlex3
+--- Fallo en la traducción ----------
+1c1
+< Token: 1,1 algoritmocolores  -> (1,1): algoritmocolores es de tipo 23
+---
+> Token: 1,1 algoritmo  -> (1,1): algoritmo es de tipo 12
+3c3,9
+< Token: 2,1 funcionrojo  -> (2,1): funcionrojo es de tipo 23
+---
+> Token: 1,11 colores  -> (1,11): colores es de tipo 23
+> 
+> Token: 1,18 ;  -> (1,18): ; es de tipo 5
+> 
+> Token: 2,3 funcion  -> (2,3): funcion es de tipo 15
+> 
+> Token: 2,11 rojo  -> (2,11): rojo es de tipo 23
+9c15,19
+< Token: 3,2 vara  -> (3,2): vara es de tipo 23
+---
+> Token: 2,22 ;  -> (2,22): ; es de tipo 5
+> 
+> Token: 3,4 var  -> (3,4): var es de tipo 9
+> 
+> Token: 3,8 a  -> (3,8): a es de tipo 23
+23c33,35
+< Token: 4,1 blq  -> (4,1): blq es de tipo 13
+---
+> Token: 3,20 ;  -> (3,20): ; es de tipo 5
+> 
+> Token: 4,3 blq  -> (4,3): blq es de tipo 13
+--------------------------
+Prueba: errlex4
+--- Fallo en la traducción ----------
+1c1
+< Token: 1,1 algoritmocolores  -> (1,1): algoritmocolores es de tipo 23
+---
+> Token: 1,1 algoritmo  -> (1,1): algoritmo es de tipo 12
+3c3,9
+< Token: 2,1 funcionrojo  -> (2,1): funcionrojo es de tipo 23
+---
+> Token: 1,11 colores  -> (1,11): colores es de tipo 23
+> 
+> Token: 1,18 ;  -> (1,18): ; es de tipo 5
+> 
+> Token: 2,3 funcion  -> (2,3): funcion es de tipo 15
+> 
+> Token: 2,11 rojo  -> (2,11): rojo es de tipo 23
+9c15,19
+< Token: 3,2 vara  -> (3,2): vara es de tipo 23
+---
+> Token: 2,22 ;  -> (2,22): ; es de tipo 5
+> 
+> Token: 3,4 var  -> (3,4): var es de tipo 9
+> 
+> Token: 3,8 a  -> (3,8): a es de tipo 23
+23c33,35
+< Token: 4,1 blq  -> (4,1): blq es de tipo 13
+---
+> Token: 3,20 ;  -> (3,20): ; es de tipo 5
+> 
+> Token: 4,3 blq  -> (4,3): blq es de tipo 13
+31c43,45
+< Token: 6,3 b  -> (6,3): b es de tipo 23
+---
+> Token: 5,11 ;  -> (5,11): ; es de tipo 5
+> 
+> Token: 6,5 b  -> (6,5): b es de tipo 23
+43c57,61
+< Token: 9,1 funcionve  -> (9,1): funcionve es de tipo 23
+---
+> Token: 7,7 ;  -> (7,7): ; es de tipo 5
+> 
+> Token: 9,3 funcion  -> (9,3): funcion es de tipo 15
+> 
+> Token: 9,11 ve  -> (9,11): ve es de tipo 23
+45d62
+< Error lexico (9,14): caracter '.' incorrecto
+--------------------------
+Prueba: errsint1
+--- Fallo en la traducción ----------
+1c1
+< Token: 1,1 algoritmocolores  -> (1,1): algoritmocolores es de tipo 23
+---
+> Token: 1,1 algoritmo  -> (1,1): algoritmo es de tipo 12
+3c3,9
+< Token: 2,1 funcionrojo  -> (2,1): funcionrojo es de tipo 23
+---
+> Token: 1,11 colores  -> (1,11): colores es de tipo 23
+> 
+> Token: 1,18 ;  -> (1,18): ; es de tipo 5
+> 
+> Token: 2,3 funcion  -> (2,3): funcion es de tipo 15
+> 
+> Token: 2,11 rojo  -> (2,11): rojo es de tipo 23
+9c15,19
+< Token: 3,2 vara  -> (3,2): vara es de tipo 23
+---
+> Token: 2,22 ;  -> (2,22): ; es de tipo 5
+> 
+> Token: 3,4 var  -> (3,4): var es de tipo 9
+> 
+> Token: 3,8 a  -> (3,8): a es de tipo 23
+23c33,35
+< Token: 4,1 blq  -> (4,1): blq es de tipo 13
+---
+> Token: 3,20 ;  -> (3,20): ; es de tipo 5
+> 
+> Token: 4,3 blq  -> (4,3): blq es de tipo 13
+31c43,45
+< Token: 6,3 b  -> (6,3): b es de tipo 23
+---
+> Token: 5,11 ;  -> (5,11): ; es de tipo 5
+> 
+> Token: 6,5 b  -> (6,5): b es de tipo 23
+41c55,59
+< Token: 7,1 fblq  -> (7,1): fblq es de tipo 14
+---
+> Token: 6,13 ;  -> (6,13): ; es de tipo 5
+> 
+> Token: 7,3 fblq  -> (7,3): fblq es de tipo 14
+> 
+> Token: 7,7 ;  -> (7,7): ; es de tipo 5
+43c61,63
+< Token: 9,1 funcionverde  -> (9,1): funcionverde es de tipo 23
+---
+> Token: 9,3 funcion  -> (9,3): funcion es de tipo 15
+> 
+> Token: 9,11 verde  -> (9,11): verde es de tipo 23
+49c69,73
+< Token: 10,3 funcionfosfo  -> (10,3): funcionfosfo es de tipo 23
+---
+> Token: 9,21 ;  -> (9,21): ; es de tipo 5
+> 
+> Token: 10,5 funcion  -> (10,5): funcion es de tipo 15
+> 
+> Token: 10,13 fosfo  -> (10,13): fosfo es de tipo 23
+55c79,83
+< Token: 11,5 varj  -> (11,5): varj es de tipo 23
+---
+> Token: 10,25 ;  -> (10,25): ; es de tipo 5
+> 
+> Token: 11,7 var  -> (11,7): var es de tipo 9
+> 
+> Token: 11,11 j  -> (11,11): j es de tipo 23
+61c89,93
+< Token: 12,5 funcionrito  -> (12,5): funcionrito es de tipo 23
+---
+> Token: 11,17 ;  -> (11,17): ; es de tipo 5
+> 
+> Token: 12,7 funcion  -> (12,7): funcion es de tipo 15
+> 
+> Token: 12,15 rito  -> (12,15): rito es de tipo 23
+67c99,103
+< Token: 13,7 vark  -> (13,7): vark es de tipo 23
+---
+> Token: 12,24 ;  -> (12,24): ; es de tipo 5
+> 
+> Token: 13,9 var  -> (13,9): var es de tipo 9
+> 
+> Token: 13,13 k  -> (13,13): k es de tipo 23
+73c109,111
+< Token: 14,5 blq  -> (14,5): blq es de tipo 13
+---
+> Token: 13,21 ;  -> (13,21): ; es de tipo 5
+> 
+> Token: 14,7 blq  -> (14,7): blq es de tipo 13
+81c119,121
+< Token: 16,7 j  -> (16,7): j es de tipo 23
+---
+> Token: 15,17 ;  -> (15,17): ; es de tipo 5
+> 
+> Token: 16,9 j  -> (16,9): j es de tipo 23
+93c133,135
+< Token: 18,3 blq  -> (18,3): blq es de tipo 13
+---
+> Token: 17,11 ;  -> (17,11): ; es de tipo 5
+> 
+> Token: 18,5 blq  -> (18,5): blq es de tipo 13
+103c145,149
+< Token: 21,3 varm  -> (21,3): varm es de tipo 23
+---
+> Token: 20,9 ;  -> (20,9): ; es de tipo 5
+> 
+> Token: 21,5 var  -> (21,5): var es de tipo 9
+> 
+> Token: 21,9 m  -> (21,9): m es de tipo 23
+113c159,161
+< Token: 22,3 o  -> (22,3): o es de tipo 23
+---
+> Token: 21,17 ;  -> (21,17): ; es de tipo 5
+> 
+> Token: 22,5 o  -> (22,5): o es de tipo 23
+123c171,173
+< Token: 23,1 blq  -> (23,1): blq es de tipo 13
+---
+> Token: 22,15 ;  -> (22,15): ; es de tipo 5
+> 
+> Token: 23,3 blq  -> (23,3): blq es de tipo 13
+129c179
+< Token: 24,10 (2  -> (24,10): (2 es de tipo 0
+---
+> Token: 24,10 (  -> (24,10): ( es de tipo 0
+131c181
+< Token: 24,12 7  -> (24,12): 7 es de tipo 24
+---
+> Token: 24,11 27  -> (24,11): 27 es de tipo 24
+143c193,195
+< Token: 25,3 m  -> (25,3): m es de tipo 23
+---
+> Token: 24,21 ;  -> (24,21): ; es de tipo 5
+> 
+> Token: 25,5 m  -> (25,5): m es de tipo 23
+149c201,205
+< Token: 26,3 mientraso  -> (26,3): mientraso es de tipo 23
+---
+> Token: 25,11 ;  -> (25,11): ; es de tipo 5
+> 
+> Token: 26,5 mientras  -> (26,5): mientras es de tipo 20
+> 
+> Token: 26,14 o  -> (26,14): o es de tipo 23
+155c211,217
+< Token: 26,19 hacerblqsi2  -> (26,19): hacerblqsi2 es de tipo 23
+---
+> Token: 26,19 hacer  -> (26,19): hacer es de tipo 21
+> 
+> Token: 27,5 blq  -> (27,5): blq es de tipo 13
+> 
+> Token: 28,7 si  -> (28,7): si es de tipo 16
+> 
+> Token: 28,10 2  -> (28,10): 2 es de tipo 24
+165c227,229
+< Token: 28,19 entoncesp  -> (28,19): entoncesp es de tipo 23
+---
+> Token: 28,19 entonces  -> (28,19): entonces es de tipo 17
+> 
+> Token: 29,9 p  -> (29,9): p es de tipo 23
+171c235,237
+< Token: 30,7 sinop  -> (30,7): sinop es de tipo 23
+---
+> Token: 30,7 sino  -> (30,7): sino es de tipo 18
+> 
+> Token: 31,9 p  -> (31,9): p es de tipo 23
+179c245,247
+< Token: 33,5 o  -> (33,5): o es de tipo 23
+---
+> Token: 32,10 ;  -> (32,10): ; es de tipo 5
+> 
+> Token: 33,7 o  -> (33,7): o es de tipo 23
+189c257,263
+< Token: 34,5 fblqfblq  -> (34,5): fblqfblq es de tipo 23
+---
+> Token: 34,5 fblq  -> (34,5): fblq es de tipo 14
+> 
+> Token: 35,3 fblq  -> (35,3): fblq es de tipo 14
+> 
+> Token: 35,7 ;  -> (35,7): ; es de tipo 5
+> 
+> Token: 37,3 VAR  -> (37,3): VAR es de tipo 23
+191c265
+< Token: 37,1 VARA  -> (37,1): VARA es de tipo 23
+---
+> Token: 37,7 A  -> (37,7): A es de tipo 23
+205c279,281
+< Token: 38,1 blq  -> (38,1): blq es de tipo 13
+---
+> Token: 37,20 ;  -> (37,20): ; es de tipo 5
+> 
+> Token: 38,3 blq  -> (38,3): blq es de tipo 13
+213c289,293
+< Token: 40,3 escribir  -> (40,3): escribir es de tipo 22
+---
+> Token: 39,12 ;  -> (39,12): ; es de tipo 5
+> 
+> Token: 40,5 escribir  -> (40,5): escribir es de tipo 22
+> 
+> Token: 40,13 (  -> (40,13): ( es de tipo 0
+215c295
+< Token: 40,13 (a  -> (40,13): (a es de tipo 0
+---
+> Token: 40,14 a  -> (40,14): a es de tipo 23
+219a300,303
+> 
+> Token: 40,17 )  -> (40,17): ) es de tipo 1
+> 
+> Token: 41,3 fblq  -> (41,3): fblq es de tipo 14
+--------------------------
+Prueba: errsint2
+--- Fallo en la traducción ----------
+1c1
+< Token: 1,1 algoritmocolores  -> (1,1): algoritmocolores es de tipo 23
+---
+> Token: 1,1 algoritmo  -> (1,1): algoritmo es de tipo 12
+3c3,9
+< Token: 2,1 funcionrojo  -> (2,1): funcionrojo es de tipo 23
+---
+> Token: 1,11 colores  -> (1,11): colores es de tipo 23
+> 
+> Token: 1,18 ;  -> (1,18): ; es de tipo 5
+> 
+> Token: 2,3 funcion  -> (2,3): funcion es de tipo 15
+> 
+> Token: 2,11 rojo  -> (2,11): rojo es de tipo 23
+9c15,19
+< Token: 3,2 vara  -> (3,2): vara es de tipo 23
+---
+> Token: 2,22 ;  -> (2,22): ; es de tipo 5
+> 
+> Token: 3,4 var  -> (3,4): var es de tipo 9
+> 
+> Token: 3,8 a  -> (3,8): a es de tipo 23
+23c33,35
+< Token: 4,1 blq  -> (4,1): blq es de tipo 13
+---
+> Token: 3,20 ;  -> (3,20): ; es de tipo 5
+> 
+> Token: 4,3 blq  -> (4,3): blq es de tipo 13
+31c43,45
+< Token: 6,3 b  -> (6,3): b es de tipo 23
+---
+> Token: 5,11 ;  -> (5,11): ; es de tipo 5
+> 
+> Token: 6,5 b  -> (6,5): b es de tipo 23
+43c57,61
+< Token: 9,1 funcionverde  -> (9,1): funcionverde es de tipo 23
+---
+> Token: 7,7 ;  -> (7,7): ; es de tipo 5
+> 
+> Token: 9,3 funcion  -> (9,3): funcion es de tipo 15
+> 
+> Token: 9,11 verde  -> (9,11): verde es de tipo 23
+49c67,71
+< Token: 10,3 funcionfosfo  -> (10,3): funcionfosfo es de tipo 23
+---
+> Token: 9,21 ;  -> (9,21): ; es de tipo 5
+> 
+> Token: 10,5 funcion  -> (10,5): funcion es de tipo 15
+> 
+> Token: 10,13 fosfo  -> (10,13): fosfo es de tipo 23
+55c77,81
+< Token: 11,5 varj  -> (11,5): varj es de tipo 23
+---
+> Token: 10,25 ;  -> (10,25): ; es de tipo 5
+> 
+> Token: 11,7 var  -> (11,7): var es de tipo 9
+> 
+> Token: 11,11 j  -> (11,11): j es de tipo 23
+61c87,91
+< Token: 12,5 funcionrito  -> (12,5): funcionrito es de tipo 23
+---
+> Token: 11,17 ;  -> (11,17): ; es de tipo 5
+> 
+> Token: 12,7 funcion  -> (12,7): funcion es de tipo 15
+> 
+> Token: 12,15 rito  -> (12,15): rito es de tipo 23
+67c97,101
+< Token: 13,7 vark  -> (13,7): vark es de tipo 23
+---
+> Token: 12,24 ;  -> (12,24): ; es de tipo 5
+> 
+> Token: 13,9 var  -> (13,9): var es de tipo 9
+> 
+> Token: 13,13 k  -> (13,13): k es de tipo 23
+73c107,109
+< Token: 14,5 blq  -> (14,5): blq es de tipo 13
+---
+> Token: 13,21 ;  -> (13,21): ; es de tipo 5
+> 
+> Token: 14,7 blq  -> (14,7): blq es de tipo 13
+81c117,119
+< Token: 16,7 j  -> (16,7): j es de tipo 23
+---
+> Token: 15,17 ;  -> (15,17): ; es de tipo 5
+> 
+> Token: 16,9 j  -> (16,9): j es de tipo 23
+93c131,133
+< Token: 18,3 blq  -> (18,3): blq es de tipo 13
+---
+> Token: 17,11 ;  -> (17,11): ; es de tipo 5
+> 
+> Token: 18,5 blq  -> (18,5): blq es de tipo 13
+103c143,147
+< Token: 21,3 varm  -> (21,3): varm es de tipo 23
+---
+> Token: 20,9 ;  -> (20,9): ; es de tipo 5
+> 
+> Token: 21,5 var  -> (21,5): var es de tipo 9
+> 
+> Token: 21,9 m  -> (21,9): m es de tipo 23
+113c157,159
+< Token: 22,3 o  -> (22,3): o es de tipo 23
+---
+> Token: 21,17 ;  -> (21,17): ; es de tipo 5
+> 
+> Token: 22,5 o  -> (22,5): o es de tipo 23
+123c169,171
+< Token: 23,1 blq  -> (23,1): blq es de tipo 13
+---
+> Token: 22,15 ;  -> (22,15): ; es de tipo 5
+> 
+> Token: 23,3 blq  -> (23,3): blq es de tipo 13
+129c177
+< Token: 24,10 (2  -> (24,10): (2 es de tipo 0
+---
+> Token: 24,10 (  -> (24,10): ( es de tipo 0
+131c179
+< Token: 24,12 7  -> (24,12): 7 es de tipo 24
+---
+> Token: 24,11 27  -> (24,11): 27 es de tipo 24
+143c191,193
+< Token: 25,3 m  -> (25,3): m es de tipo 23
+---
+> Token: 24,21 ;  -> (24,21): ; es de tipo 5
+> 
+> Token: 25,5 m  -> (25,5): m es de tipo 23
+149c199,203
+< Token: 26,3 mientraso  -> (26,3): mientraso es de tipo 23
+---
+> Token: 25,11 ;  -> (25,11): ; es de tipo 5
+> 
+> Token: 26,5 mientras  -> (26,5): mientras es de tipo 20
+> 
+> Token: 26,14 o  -> (26,14): o es de tipo 23
+155c209,215
+< Token: 26,19 hacerblqsi2  -> (26,19): hacerblqsi2 es de tipo 23
+---
+> Token: 26,19 hacer  -> (26,19): hacer es de tipo 21
+> 
+> Token: 27,5 blq  -> (27,5): blq es de tipo 13
+> 
+> Token: 28,7 si  -> (28,7): si es de tipo 16
+> 
+> Token: 28,10 2  -> (28,10): 2 es de tipo 24
+165c225,227
+< Token: 28,19 entoncesp  -> (28,19): entoncesp es de tipo 23
+---
+> Token: 28,19 entonces  -> (28,19): entonces es de tipo 17
+> 
+> Token: 29,9 p  -> (29,9): p es de tipo 23
+171c233,235
+< Token: 30,7 sinop  -> (30,7): sinop es de tipo 23
+---
+> Token: 30,7 sino  -> (30,7): sino es de tipo 18
+> 
+> Token: 31,9 p  -> (31,9): p es de tipo 23
+179c243,245
+< Token: 33,5 o  -> (33,5): o es de tipo 23
+---
+> Token: 32,10 ;  -> (32,10): ; es de tipo 5
+> 
+> Token: 33,7 o  -> (33,7): o es de tipo 23
+189c255,257
+< Token: 34,5 fblqfblq  -> (34,5): fblqfblq es de tipo 23
+---
+> Token: 34,5 fblq  -> (34,5): fblq es de tipo 14
+> 
+> Token: 35,3 fblq  -> (35,3): fblq es de tipo 14
+--------------------------
+Prueba: errsint3
+--- Fallo en la traducción ----------
+0a1,18
+> Token: 4,1 algoritmo  -> (4,1): algoritmo es de tipo 12
+> 
+> Token: 4,11 prueba  -> (4,11): prueba es de tipo 23
+> 
+> Token: 5,1 var  -> (5,1): var es de tipo 9
+> 
+> Token: 5,5 a  -> (5,5): a es de tipo 23
+> 
+> Token: 5,6 :  -> (5,6): : es de tipo 6
+> 
+> Token: 5,7 integ  -> (5,7): integ es de tipo 23
+> 
+> Token: 5,12 ;  -> (5,12): ; es de tipo 5
+> 
+> Token: 6,1 beg  -> (6,1): beg es de tipo 23
+> 
+> Token: 7,1 e  -> (7,1): e es de tipo 23
+> 
+--------------------------
+Prueba: errsint4
+--- Fallo en la traducción ----------
+1c1,3
+< Token: 1,1 algoritmoprueba  -> (1,1): algoritmoprueba es de tipo 23
+---
+> Token: 1,1 algoritmo  -> (1,1): algoritmo es de tipo 12
+> 
+> Token: 1,11 prueba  -> (1,11): prueba es de tipo 23
+5c7,9
+< Token: 2,1 vara  -> (2,1): vara es de tipo 23
+---
+> Token: 2,1 var  -> (2,1): var es de tipo 9
+> 
+> Token: 2,5 a  -> (2,5): a es de tipo 23
+15c19,21
+< Token: 3,3 c  -> (3,3): c es de tipo 23
+---
+> Token: 2,15 ;  -> (2,15): ; es de tipo 5
+> 
+> Token: 3,5 c  -> (3,5): c es de tipo 23
+27c33,35
+< Token: 4,1 blqa  -> (4,1): blqa es de tipo 23
+---
+> Token: 4,1 blq  -> (4,1): blq es de tipo 13
+> 
+> Token: 5,3 a  -> (5,3): a es de tipo 23
+33c41,43
+< Token: 6,1 b  -> (6,1): b es de tipo 23
+---
+> Token: 5,9 ;  -> (5,9): ; es de tipo 5
+> 
+> Token: 6,3 b  -> (6,3): b es de tipo 23
+39c49,51
+< Token: 7,1 c  -> (7,1): c es de tipo 23
+---
+> Token: 6,9 ;  -> (6,9): ; es de tipo 5
+> 
+> Token: 7,3 c  -> (7,3): c es de tipo 23
+45c57,61
+< Token: 8,1 sia  -> (8,1): sia es de tipo 23
+---
+> Token: 7,9 ;  -> (7,9): ; es de tipo 5
+> 
+> Token: 8,3 si  -> (8,3): si es de tipo 16
+> 
+> Token: 8,6 a  -> (8,6): a es de tipo 23
+49c65,69
+< Token: 8,10 bentoncesc  -> (8,10): bentoncesc es de tipo 23
+---
+> Token: 8,10 b  -> (8,10): b es de tipo 23
+> 
+> Token: 8,12 entonces  -> (8,12): entonces es de tipo 17
+> 
+> Token: 9,5 c  -> (9,5): c es de tipo 23
+55c75,77
+< Token: 10,1 d  -> (10,1): d es de tipo 23
+---
+> Token: 9,11 ;  -> (9,11): ; es de tipo 5
+> 
+> Token: 10,3 d  -> (10,3): d es de tipo 23
+59a82,83
+> 
+> Token: 11,1 fblq  -> (11,1): fblq es de tipo 14
+--------------------------
+Prueba: primos
+--- Fallo en la traducción ----------
+1c1
+< Token: 1,1 algoritmoprimos  -> (1,1): algoritmoprimos es de tipo 23
+---
+> Token: 2,1 algoritmo  -> (2,1): algoritmo es de tipo 12
+3c3
+< Token: 25,13 divisor  -> (25,13): divisor es de tipo 23
+---
+> Token: 2,11 primos  -> (2,11): primos es de tipo 23
+5c5
+< Token: 25,21 :=  -> (25,21): := es de tipo 8
+---
+> Token: 2,17 ;  -> (2,17): ; es de tipo 5
+7c7
+< Token: 25,24 divisor  -> (25,24): divisor es de tipo 23
+---
+> Token: 6,1 var  -> (6,1): var es de tipo 9
+9c9
+< Token: 25,32 -  -> (25,32): - es de tipo 3
+---
+> Token: 6,5 k  -> (6,5): k es de tipo 23
+11c11
+< Token: 25,34 1  -> (25,34): 1 es de tipo 24
+---
+> Token: 6,6 ,  -> (6,6): , es de tipo 7
+13c13
+< Token: 26,11 sinoesprimo  -> (26,11): sinoesprimo es de tipo 23
+---
+> Token: 6,7 nprimos  -> (6,7): nprimos es de tipo 23
+15c15
+< Token: 27,21 :=  -> (27,21): := es de tipo 8
+---
+> Token: 6,14 ,  -> (6,14): , es de tipo 7
+17c17
+< Token: 27,24 0  -> (27,24): 0 es de tipo 24
+---
+> Token: 6,15 n  -> (6,15): n es de tipo 23
+19c19
+< Token: 28,11 fsi  -> (28,11): fsi es de tipo 19
+---
+> Token: 6,16 ,  -> (6,16): , es de tipo 7
+21c21
+< Token: 29,9 siesprimo  -> (29,9): siesprimo es de tipo 23
+---
+> Token: 6,17 divisor  -> (6,17): divisor es de tipo 23
+23c23
+< Token: 29,22 =  -> (29,22): = es de tipo 4
+---
+> Token: 6,24 :  -> (6,24): : es de tipo 6
+25c25
+< Token: 29,24 0  -> (29,24): 0 es de tipo 24
+---
+> Token: 6,25 entero  -> (6,25): entero es de tipo 11
+27c27
+< Token: 29,26 entoncesseguirenbucle  -> (29,26): entoncesseguirenbucle es de tipo 23
+---
+> Token: 6,31 ;  -> (6,31): ; es de tipo 5
+29c29
+< Token: 30,27 :=  -> (30,27): := es de tipo 8
+---
+> Token: 7,5 esprimo  -> (7,5): esprimo es de tipo 23
+31c31
+< Token: 30,30 0  -> (30,30): 0 es de tipo 24
+---
+> Token: 7,12 ,  -> (7,12): , es de tipo 7
+33c33
+< Token: 31,11 fsifblqfsi  -> (31,11): fsifblqfsi es de tipo 23
+---
+> Token: 7,14 seguirenbucle  -> (7,14): seguirenbucle es de tipo 23
+35c35
+< Token: 34,4 siesprimo  -> (34,4): siesprimo es de tipo 23
+---
+> Token: 7,27 :  -> (7,27): : es de tipo 6
+37c37
+< Token: 34,17 =  -> (34,17): = es de tipo 4
+---
+> Token: 7,28 entero  -> (7,28): entero es de tipo 11
+39c39
+< Token: 34,19 1  -> (34,19): 1 es de tipo 24
+---
+> Token: 7,34 ;  -> (7,34): ; es de tipo 5
+41c41
+< Token: 34,21 entoncesblqescribir  -> (34,21): entoncesblqescribir es de tipo 23
+---
+> Token: 8,1 blq  -> (8,1): blq es de tipo 13
+43c43
+< Token: 36,17 (n  -> (36,17): (n es de tipo 0
+---
+> Token: 9,3 k  -> (9,3): k es de tipo 23
+45c45
+< Token: 36,19 )  -> (36,19): ) es de tipo 1
+---
+> Token: 9,5 :=  -> (9,5): := es de tipo 8
+47c47
+< Token: 36,20 ;  -> (36,20): ; es de tipo 5
+---
+> Token: 9,8 100  -> (9,8): 100 es de tipo 24
+49c49
+< Token: 37,9 nprimos  -> (37,9): nprimos es de tipo 23
+---
+> Token: 9,11 ;  -> (9,11): ; es de tipo 5
+51c51
+< Token: 37,17 :=  -> (37,17): := es de tipo 8
+---
+> Token: 10,3 nprimos  -> (10,3): nprimos es de tipo 23
+53c53
+< Token: 37,20 nprimos  -> (37,20): nprimos es de tipo 23
+---
+> Token: 10,11 :=  -> (10,11): := es de tipo 8
+55c55
+< Token: 37,28 +  -> (37,28): + es de tipo 3
+---
+> Token: 10,14 0  -> (10,14): 0 es de tipo 24
+57c57
+< Token: 37,30 1  -> (37,30): 1 es de tipo 24
+---
+> Token: 10,15 ;  -> (10,15): ; es de tipo 5
+59c59
+< Token: 38,8 fblqfsi  -> (38,8): fblqfsi es de tipo 23
+---
+> Token: 11,3 n  -> (11,3): n es de tipo 23
+61c61
+< Token: 40,4 n  -> (40,4): n es de tipo 23
+---
+> Token: 11,5 :=  -> (11,5): := es de tipo 8
+63c63
+< Token: 40,8 :=  -> (40,8): := es de tipo 8
+---
+> Token: 11,8 1  -> (11,8): 1 es de tipo 24
+65c65
+< Token: 40,11 n  -> (40,11): n es de tipo 23
+---
+> Token: 11,9 ;  -> (11,9): ; es de tipo 5
+67c67
+< Token: 40,12 +  -> (40,12): + es de tipo 3
+---
+> Token: 13,3 mientras  -> (13,3): mientras es de tipo 20
+69c69,255
+< Token: 40,13 1  -> (40,13): 1 es de tipo 24
+---
+> Token: 13,12 nprimos  -> (13,12): nprimos es de tipo 23
+> 
+> Token: 13,20 <  -> (13,20): < es de tipo 4
+> 
+> Token: 13,22 k  -> (13,22): k es de tipo 23
+> 
+> Token: 13,24 hacer  -> (13,24): hacer es de tipo 21
+> 
+> Token: 14,4 blq  -> (14,4): blq es de tipo 13
+> 
+> Token: 15,6 esprimo  -> (15,6): esprimo es de tipo 23
+> 
+> Token: 15,14 :=  -> (15,14): := es de tipo 8
+> 
+> Token: 15,17 1  -> (15,17): 1 es de tipo 24
+> 
+> Token: 15,18 ;  -> (15,18): ; es de tipo 5
+> 
+> Token: 16,6 seguirenbucle  -> (16,6): seguirenbucle es de tipo 23
+> 
+> Token: 16,20 :=  -> (16,20): := es de tipo 8
+> 
+> Token: 16,23 1  -> (16,23): 1 es de tipo 24
+> 
+> Token: 16,24 ;  -> (16,24): ; es de tipo 5
+> 
+> Token: 17,6 divisor  -> (17,6): divisor es de tipo 23
+> 
+> Token: 17,14 :=  -> (17,14): := es de tipo 8
+> 
+> Token: 17,17 n  -> (17,17): n es de tipo 23
+> 
+> Token: 17,19 //  -> (17,19): // es de tipo 2
+> 
+> Token: 17,22 2  -> (17,22): 2 es de tipo 24
+> 
+> Token: 17,23 ;  -> (17,23): ; es de tipo 5
+> 
+> Token: 18,6 mientras  -> (18,6): mientras es de tipo 20
+> 
+> Token: 18,15 seguirenbucle  -> (18,15): seguirenbucle es de tipo 23
+> 
+> Token: 18,29 =  -> (18,29): = es de tipo 4
+> 
+> Token: 18,31 1  -> (18,31): 1 es de tipo 24
+> 
+> Token: 18,33 hacer  -> (18,33): hacer es de tipo 21
+> 
+> Token: 19,8 si  -> (19,8): si es de tipo 16
+> 
+> Token: 19,11 divisor  -> (19,11): divisor es de tipo 23
+> 
+> Token: 19,19 <=  -> (19,19): <= es de tipo 4
+> 
+> Token: 19,22 1  -> (19,22): 1 es de tipo 24
+> 
+> Token: 19,24 entonces  -> (19,24): entonces es de tipo 17
+> 
+> Token: 20,10 seguirenbucle  -> (20,10): seguirenbucle es de tipo 23
+> 
+> Token: 20,24 :=  -> (20,24): := es de tipo 8
+> 
+> Token: 20,27 0  -> (20,27): 0 es de tipo 24
+> 
+> Token: 21,8 sino  -> (21,8): sino es de tipo 18
+> 
+> Token: 22,10 blq  -> (22,10): blq es de tipo 13
+> 
+> Token: 23,11 si  -> (23,11): si es de tipo 16
+> 
+> Token: 23,14 divisor  -> (23,14): divisor es de tipo 23
+> 
+> Token: 23,22 *  -> (23,22): * es de tipo 2
+> 
+> Token: 23,24 (  -> (23,24): ( es de tipo 0
+> 
+> Token: 23,25 n  -> (23,25): n es de tipo 23
+> 
+> Token: 23,27 //  -> (23,27): // es de tipo 2
+> 
+> Token: 23,30 divisor  -> (23,30): divisor es de tipo 23
+> 
+> Token: 23,37 )  -> (23,37): ) es de tipo 1
+> 
+> Token: 23,39 <>  -> (23,39): <> es de tipo 4
+> 
+> Token: 23,42 n  -> (23,42): n es de tipo 23
+> 
+> Token: 23,44 entonces  -> (23,44): entonces es de tipo 17
+> 
+> Token: 24,13 divisor  -> (24,13): divisor es de tipo 23
+> 
+> Token: 24,21 :=  -> (24,21): := es de tipo 8
+> 
+> Token: 24,24 divisor  -> (24,24): divisor es de tipo 23
+> 
+> Token: 24,32 -  -> (24,32): - es de tipo 3
+> 
+> Token: 24,34 1  -> (24,34): 1 es de tipo 24
+> 
+> Token: 25,11 sino  -> (25,11): sino es de tipo 18
+> 
+> Token: 26,13 esprimo  -> (26,13): esprimo es de tipo 23
+> 
+> Token: 26,21 :=  -> (26,21): := es de tipo 8
+> 
+> Token: 26,24 0  -> (26,24): 0 es de tipo 24
+> 
+> Token: 27,11 fsi  -> (27,11): fsi es de tipo 19
+> 
+> Token: 27,14 ;  -> (27,14): ; es de tipo 5
+> 
+> Token: 28,11 si  -> (28,11): si es de tipo 16
+> 
+> Token: 28,14 esprimo  -> (28,14): esprimo es de tipo 23
+> 
+> Token: 28,22 =  -> (28,22): = es de tipo 4
+> 
+> Token: 28,24 0  -> (28,24): 0 es de tipo 24
+> 
+> Token: 28,26 entonces  -> (28,26): entonces es de tipo 17
+> 
+> Token: 29,13 seguirenbucle  -> (29,13): seguirenbucle es de tipo 23
+> 
+> Token: 29,27 :=  -> (29,27): := es de tipo 8
+> 
+> Token: 29,30 0  -> (29,30): 0 es de tipo 24
+> 
+> Token: 30,11 fsi  -> (30,11): fsi es de tipo 19
+> 
+> Token: 31,10 fblq  -> (31,10): fblq es de tipo 14
+> 
+> Token: 32,8 fsi  -> (32,8): fsi es de tipo 19
+> 
+> Token: 32,11 ;  -> (32,11): ; es de tipo 5
+> 
+> Token: 33,6 si  -> (33,6): si es de tipo 16
+> 
+> Token: 33,9 esprimo  -> (33,9): esprimo es de tipo 23
+> 
+> Token: 33,17 =  -> (33,17): = es de tipo 4
+> 
+> Token: 33,19 1  -> (33,19): 1 es de tipo 24
+> 
+> Token: 33,21 entonces  -> (33,21): entonces es de tipo 17
+> 
+> Token: 34,8 blq  -> (34,8): blq es de tipo 13
+> 
+> Token: 35,9 escribir  -> (35,9): escribir es de tipo 22
+> 
+> Token: 35,17 (  -> (35,17): ( es de tipo 0
+> 
+> Token: 35,18 n  -> (35,18): n es de tipo 23
+> 
+> Token: 35,19 )  -> (35,19): ) es de tipo 1
+> 
+> Token: 35,20 ;  -> (35,20): ; es de tipo 5
+> 
+> Token: 36,9 nprimos  -> (36,9): nprimos es de tipo 23
+> 
+> Token: 36,17 :=  -> (36,17): := es de tipo 8
+> 
+> Token: 36,20 nprimos  -> (36,20): nprimos es de tipo 23
+> 
+> Token: 36,28 +  -> (36,28): + es de tipo 3
+> 
+> Token: 36,30 1  -> (36,30): 1 es de tipo 24
+> 
+> Token: 37,8 fblq  -> (37,8): fblq es de tipo 14
+> 
+> Token: 38,6 fsi  -> (38,6): fsi es de tipo 19
+> 
+> Token: 38,9 ;  -> (38,9): ; es de tipo 5
+> 
+> Token: 39,6 n  -> (39,6): n es de tipo 23
+> 
+> Token: 39,8 :=  -> (39,8): := es de tipo 8
+> 
+> Token: 39,11 n  -> (39,11): n es de tipo 23
+> 
+> Token: 39,12 +  -> (39,12): + es de tipo 3
+> 
+> Token: 39,13 1  -> (39,13): 1 es de tipo 24
+> 
+> Token: 40,4 fblq  -> (40,4): fblq es de tipo 14
+> 
+> Token: 41,1 fblq  -> (41,1): fblq es de tipo 14
+--------------------------
+Prueba: prog-correcto2
+--- Fallo en la traducción ----------
+1c1
+< Token: 1,1 algoritmocolores  -> (1,1): algoritmocolores es de tipo 23
+---
+> Token: 1,1 algoritmo  -> (1,1): algoritmo es de tipo 12
+3c3
+< Token: 2,0 funcionrojo  -> (2,0): funcionrojo es de tipo 23
+---
+> Token: 1,11 colores  -> (1,11): colores es de tipo 23
+5c5
+< Token: 3,14 :  -> (3,14): : es de tipo 6
+---
+> Token: 1,18 ;  -> (1,18): ; es de tipo 5
+7c7
+< Token: 3,15 entero  -> (3,15): entero es de tipo 11
+---
+> Token: 2,2 funcion  -> (2,2): funcion es de tipo 15
+9c9
+< Token: 4,2 vara  -> (4,2): vara es de tipo 23
+---
+> Token: 2,10 rojo  -> (2,10): rojo es de tipo 23
+11c11
+< Token: 4,9 ,  -> (4,9): , es de tipo 7
+---
+> Token: 2,14 :  -> (2,14): : es de tipo 6
+13c13
+< Token: 4,10 b  -> (4,10): b es de tipo 23
+---
+> Token: 2,15 entero  -> (2,15): entero es de tipo 11
+15c15
+< Token: 4,11 ,  -> (4,11): , es de tipo 7
+---
+> Token: 2,21 ;  -> (2,21): ; es de tipo 5
+17c17
+< Token: 4,12 c  -> (4,12): c es de tipo 23
+---
+> Token: 3,4 var  -> (3,4): var es de tipo 9
+19c19
+< Token: 4,13 :  -> (4,13): : es de tipo 6
+---
+> Token: 3,8 a  -> (3,8): a es de tipo 23
+21c21
+< Token: 4,14 entero  -> (4,14): entero es de tipo 11
+---
+> Token: 3,9 ,  -> (3,9): , es de tipo 7
+23c23
+< Token: 5,2 blq  -> (5,2): blq es de tipo 13
+---
+> Token: 3,10 b  -> (3,10): b es de tipo 23
+25c25,45
+< Token: 6,6 a  -> (6,6): a es de tipo 23
+---
+> Token: 3,11 ,  -> (3,11): , es de tipo 7
+> 
+> Token: 3,12 c  -> (3,12): c es de tipo 23
+> 
+> Token: 3,13 :  -> (3,13): : es de tipo 6
+> 
+> Token: 3,14 entero  -> (3,14): entero es de tipo 11
+> 
+> Token: 3,20 ;  -> (3,20): ; es de tipo 5
+> 
+> Token: 4,4 blq  -> (4,4): blq es de tipo 13
+> 
+> Token: 5,6 a  -> (5,6): a es de tipo 23
+> 
+> Token: 5,8 :=  -> (5,8): := es de tipo 8
+> 
+> Token: 5,11 7  -> (5,11): 7 es de tipo 24
+> 
+> Token: 5,12 ;  -> (5,12): ; es de tipo 5
+> 
+> Token: 6,6 b  -> (6,6): b es de tipo 23
+29c49,71
+< Token: 6,11 7  -> (6,11): 7 es de tipo 24
+---
+> Token: 6,11 a  -> (6,11): a es de tipo 23
+> 
+> Token: 6,12 +  -> (6,12): + es de tipo 3
+> 
+> Token: 6,13 3  -> (6,13): 3 es de tipo 24
+> 
+> Token: 7,4 fblq  -> (7,4): fblq es de tipo 14
+> 
+> Token: 7,8 ;  -> (7,8): ; es de tipo 5
+> 
+> Token: 9,2 funcion  -> (9,2): funcion es de tipo 15
+> 
+> Token: 9,10 verde  -> (9,10): verde es de tipo 23
+> 
+> Token: 9,15 :  -> (9,15): : es de tipo 6
+> 
+> Token: 9,16 real  -> (9,16): real es de tipo 10
+> 
+> Token: 9,20 ;  -> (9,20): ; es de tipo 5
+> 
+> Token: 10,4 funcion  -> (10,4): funcion es de tipo 15
+> 
+> Token: 10,12 fosfo  -> (10,12): fosfo es de tipo 23
+31c73
+< Token: 7,4 b  -> (7,4): b es de tipo 23
+---
+> Token: 10,17 :  -> (10,17): : es de tipo 6
+33c75
+< Token: 7,8 :=  -> (7,8): := es de tipo 8
+---
+> Token: 10,18 entero  -> (10,18): entero es de tipo 11
+35c77
+< Token: 7,11 a  -> (7,11): a es de tipo 23
+---
+> Token: 10,24 ;  -> (10,24): ; es de tipo 5
+37c79
+< Token: 7,12 +  -> (7,12): + es de tipo 3
+---
+> Token: 11,6 var  -> (11,6): var es de tipo 9
+39c81
+< Token: 7,13 3  -> (7,13): 3 es de tipo 24
+---
+> Token: 11,10 j  -> (11,10): j es de tipo 23
+41c83
+< Token: 8,4 fblq  -> (8,4): fblq es de tipo 14
+---
+> Token: 11,11 :  -> (11,11): : es de tipo 6
+43c85
+< Token: 10,0 funcionverde  -> (10,0): funcionverde es de tipo 23
+---
+> Token: 11,12 real  -> (11,12): real es de tipo 10
+45c87
+< Token: 11,15 :  -> (11,15): : es de tipo 6
+---
+> Token: 11,16 ;  -> (11,16): ; es de tipo 5
+47c89
+< Token: 11,16 real  -> (11,16): real es de tipo 10
+---
+> Token: 12,6 funcion  -> (12,6): funcion es de tipo 15
+49c91
+< Token: 12,2 funcionfosfo  -> (12,2): funcionfosfo es de tipo 23
+---
+> Token: 12,14 rito  -> (12,14): rito es de tipo 23
+51c93
+< Token: 12,17 :  -> (12,17): : es de tipo 6
+---
+> Token: 12,18 :  -> (12,18): : es de tipo 6
+53c95
+< Token: 12,18 entero  -> (12,18): entero es de tipo 11
+---
+> Token: 12,19 real  -> (12,19): real es de tipo 10
+55c97
+< Token: 13,4 varj  -> (13,4): varj es de tipo 23
+---
+> Token: 12,23 ;  -> (12,23): ; es de tipo 5
+57c99
+< Token: 13,11 :  -> (13,11): : es de tipo 6
+---
+> Token: 13,8 var  -> (13,8): var es de tipo 9
+59c101
+< Token: 13,12 real  -> (13,12): real es de tipo 10
+---
+> Token: 13,12 k  -> (13,12): k es de tipo 23
+61c103
+< Token: 14,4 funcionrito  -> (14,4): funcionrito es de tipo 23
+---
+> Token: 13,13 :  -> (13,13): : es de tipo 6
+63c105
+< Token: 14,18 :  -> (14,18): : es de tipo 6
+---
+> Token: 13,14 entero  -> (13,14): entero es de tipo 11
+65c107
+< Token: 14,19 real  -> (14,19): real es de tipo 10
+---
+> Token: 13,20 ;  -> (13,20): ; es de tipo 5
+67c109
+< Token: 15,6 vark  -> (15,6): vark es de tipo 23
+---
+> Token: 14,8 blq  -> (14,8): blq es de tipo 13
+69c111
+< Token: 15,13 :  -> (15,13): : es de tipo 6
+---
+> Token: 15,10 k  -> (15,10): k es de tipo 23
+71c113
+< Token: 15,14 entero  -> (15,14): entero es de tipo 11
+---
+> Token: 15,12 :=  -> (15,12): := es de tipo 8
+73c115
+< Token: 16,6 blq  -> (16,6): blq es de tipo 13
+---
+> Token: 15,15 643  -> (15,15): 643 es de tipo 24
+75c117
+< Token: 17,10 k  -> (17,10): k es de tipo 23
+---
+> Token: 15,18 ;  -> (15,18): ; es de tipo 5
+77c119
+< Token: 17,12 :=  -> (17,12): := es de tipo 8
+---
+> Token: 16,10 j  -> (16,10): j es de tipo 23
+79c121
+< Token: 17,15 643  -> (17,15): 643 es de tipo 24
+---
+> Token: 16,12 :=  -> (16,12): := es de tipo 8
+81c123
+< Token: 18,8 j  -> (18,8): j es de tipo 23
+---
+> Token: 16,15 k  -> (16,15): k es de tipo 23
+83c125
+< Token: 18,12 :=  -> (18,12): := es de tipo 8
+---
+> Token: 16,17 /  -> (16,17): / es de tipo 2
+85c127
+< Token: 18,15 k  -> (18,15): k es de tipo 23
+---
+> Token: 16,19 10  -> (16,19): 10 es de tipo 24
+87c129
+< Token: 18,17 /  -> (18,17): / es de tipo 2
+---
+> Token: 17,8 fblq  -> (17,8): fblq es de tipo 14
+89c131
+< Token: 18,19 10  -> (18,19): 10 es de tipo 24
+---
+> Token: 17,12 ;  -> (17,12): ; es de tipo 5
+91c133
+< Token: 19,8 fblq  -> (19,8): fblq es de tipo 14
+---
+> Token: 18,6 blq  -> (18,6): blq es de tipo 13
+93c135
+< Token: 20,4 blq  -> (20,4): blq es de tipo 13
+---
+> Token: 19,8 j  -> (19,8): j es de tipo 23
+95c137
+< Token: 21,8 j  -> (21,8): j es de tipo 23
+---
+> Token: 19,10 :=  -> (19,10): := es de tipo 8
+97c139
+< Token: 21,10 :=  -> (21,10): := es de tipo 8
+---
+> Token: 19,13 34.5  -> (19,13): 34.5 es de tipo 25
+99c141
+< Token: 21,13 34.5  -> (21,13): 34.5 es de tipo 25
+---
+> Token: 20,6 fblq  -> (20,6): fblq es de tipo 14
+101c143
+< Token: 22,6 fblq  -> (22,6): fblq es de tipo 14
+---
+> Token: 20,10 ;  -> (20,10): ; es de tipo 5
+103c145
+< Token: 23,2 varm  -> (23,2): varm es de tipo 23
+---
+> Token: 21,4 var  -> (21,4): var es de tipo 9
+105c147
+< Token: 23,9 ,  -> (23,9): , es de tipo 7
+---
+> Token: 21,8 m  -> (21,8): m es de tipo 23
+107c149
+< Token: 23,10 n  -> (23,10): n es de tipo 23
+---
+> Token: 21,9 ,  -> (21,9): , es de tipo 7
+109c151
+< Token: 23,11 :  -> (23,11): : es de tipo 6
+---
+> Token: 21,10 n  -> (21,10): n es de tipo 23
+111c153,171
+< Token: 23,12 real  -> (23,12): real es de tipo 10
+---
+> Token: 21,11 :  -> (21,11): : es de tipo 6
+> 
+> Token: 21,12 real  -> (21,12): real es de tipo 10
+> 
+> Token: 21,16 ;  -> (21,16): ; es de tipo 5
+> 
+> Token: 22,8 o  -> (22,8): o es de tipo 23
+> 
+> Token: 22,9 ,  -> (22,9): , es de tipo 7
+> 
+> Token: 22,10 p  -> (22,10): p es de tipo 23
+> 
+> Token: 22,11 :  -> (22,11): : es de tipo 6
+> 
+> Token: 22,12 entero  -> (22,12): entero es de tipo 11
+> 
+> Token: 22,18 ;  -> (22,18): ; es de tipo 5
+> 
+> Token: 23,4 blq  -> (23,4): blq es de tipo 13
+115c175,177
+< Token: 24,9 ,  -> (24,9): , es de tipo 7
+---
+> Token: 24,8 :=  -> (24,8): := es de tipo 8
+> 
+> Token: 24,11 (  -> (24,11): ( es de tipo 0
+117c179
+< Token: 24,10 p  -> (24,10): p es de tipo 23
+---
+> Token: 24,12 27  -> (24,12): 27 es de tipo 24
+119c181
+< Token: 24,11 :  -> (24,11): : es de tipo 6
+---
+> Token: 24,14 -  -> (24,14): - es de tipo 3
+121c183
+< Token: 24,12 entero  -> (24,12): entero es de tipo 11
+---
+> Token: 24,15 20  -> (24,15): 20 es de tipo 24
+123c185
+< Token: 25,2 blq  -> (25,2): blq es de tipo 13
+---
+> Token: 24,17 )  -> (24,17): ) es de tipo 1
+125c187
+< Token: 26,6 o  -> (26,6): o es de tipo 23
+---
+> Token: 24,19 *  -> (24,19): * es de tipo 2
+127c189
+< Token: 26,8 :=  -> (26,8): := es de tipo 8
+---
+> Token: 24,21 3  -> (24,21): 3 es de tipo 24
+129c191
+< Token: 26,11 (2  -> (26,11): (2 es de tipo 0
+---
+> Token: 24,22 ;  -> (24,22): ; es de tipo 5
+131c193
+< Token: 26,13 7  -> (26,13): 7 es de tipo 24
+---
+> Token: 25,6 m  -> (25,6): m es de tipo 23
+133c195
+< Token: 26,14 -  -> (26,14): - es de tipo 3
+---
+> Token: 25,8 :=  -> (25,8): := es de tipo 8
+135c197
+< Token: 26,15 20  -> (26,15): 20 es de tipo 24
+---
+> Token: 25,11 o  -> (25,11): o es de tipo 23
+137c199
+< Token: 26,17 )  -> (26,17): ) es de tipo 1
+---
+> Token: 25,12 ;  -> (25,12): ; es de tipo 5
+139c201
+< Token: 26,19 *  -> (26,19): * es de tipo 2
+---
+> Token: 26,6 mientras  -> (26,6): mientras es de tipo 20
+141c203
+< Token: 26,21 3  -> (26,21): 3 es de tipo 24
+---
+> Token: 26,15 o  -> (26,15): o es de tipo 23
+143c205
+< Token: 27,4 m  -> (27,4): m es de tipo 23
+---
+> Token: 26,16 >  -> (26,16): > es de tipo 4
+145c207
+< Token: 27,8 :=  -> (27,8): := es de tipo 8
+---
+> Token: 26,17 10  -> (26,17): 10 es de tipo 24
+147c209
+< Token: 27,11 o  -> (27,11): o es de tipo 23
+---
+> Token: 26,20 hacer  -> (26,20): hacer es de tipo 21
+149c211
+< Token: 28,4 mientraso  -> (28,4): mientraso es de tipo 23
+---
+> Token: 27,8 blq  -> (27,8): blq es de tipo 13
+151c213
+< Token: 28,16 >  -> (28,16): > es de tipo 4
+---
+> Token: 28,10 si  -> (28,10): si es de tipo 16
+153c215
+< Token: 28,17 10  -> (28,17): 10 es de tipo 24
+---
+> Token: 28,13 2  -> (28,13): 2 es de tipo 24
+155c217
+< Token: 28,20 hacerblqsi2  -> (28,20): hacerblqsi2 es de tipo 23
+---
+> Token: 28,14 *  -> (28,14): * es de tipo 2
+157c219
+< Token: 30,14 *  -> (30,14): * es de tipo 2
+---
+> Token: 28,15 o  -> (28,15): o es de tipo 23
+159c221
+< Token: 30,15 o  -> (30,15): o es de tipo 23
+---
+> Token: 28,17 =  -> (28,17): = es de tipo 4
+161c223
+< Token: 30,17 =  -> (30,17): = es de tipo 4
+---
+> Token: 28,19 22  -> (28,19): 22 es de tipo 24
+163c225
+< Token: 30,19 22  -> (30,19): 22 es de tipo 24
+---
+> Token: 28,22 entonces  -> (28,22): entonces es de tipo 17
+165c227,235
+< Token: 30,22 entoncesp  -> (30,22): entoncesp es de tipo 23
+---
+> Token: 29,12 p  -> (29,12): p es de tipo 23
+> 
+> Token: 29,14 :=  -> (29,14): := es de tipo 8
+> 
+> Token: 29,17 1  -> (29,17): 1 es de tipo 24
+> 
+> Token: 30,10 sino  -> (30,10): sino es de tipo 18
+> 
+> Token: 31,12 p  -> (31,12): p es de tipo 23
+169c239,251
+< Token: 31,17 1  -> (31,17): 1 es de tipo 24
+---
+> Token: 31,17 0  -> (31,17): 0 es de tipo 24
+> 
+> Token: 32,10 fsi  -> (32,10): fsi es de tipo 19
+> 
+> Token: 32,13 ;  -> (32,13): ; es de tipo 5
+> 
+> Token: 33,10 o  -> (33,10): o es de tipo 23
+> 
+> Token: 33,12 :=  -> (33,12): := es de tipo 8
+> 
+> Token: 33,15 o  -> (33,15): o es de tipo 23
+> 
+> Token: 33,17 -  -> (33,17): - es de tipo 3
+171c253
+< Token: 32,10 sinop  -> (32,10): sinop es de tipo 23
+---
+> Token: 33,19 1  -> (33,19): 1 es de tipo 24
+173c255
+< Token: 33,14 :=  -> (33,14): := es de tipo 8
+---
+> Token: 34,8 fblq  -> (34,8): fblq es de tipo 14
+175c257
+< Token: 33,17 0  -> (33,17): 0 es de tipo 24
+---
+> Token: 35,4 fblq  -> (35,4): fblq es de tipo 14
+177c259
+< Token: 34,10 fsi  -> (34,10): fsi es de tipo 19
+---
+> Token: 35,8 ;  -> (35,8): ; es de tipo 5
+179c261
+< Token: 35,8 o  -> (35,8): o es de tipo 23
+---
+> Token: 36,2 var  -> (36,2): var es de tipo 9
+181c263
+< Token: 35,12 :=  -> (35,12): := es de tipo 8
+---
+> Token: 36,6 a  -> (36,6): a es de tipo 23
+183c265
+< Token: 35,15 o  -> (35,15): o es de tipo 23
+---
+> Token: 36,7 ,  -> (36,7): , es de tipo 7
+185c267
+< Token: 35,17 -  -> (35,17): - es de tipo 3
+---
+> Token: 36,8 b  -> (36,8): b es de tipo 23
+187c269
+< Token: 35,19 1  -> (35,19): 1 es de tipo 24
+---
+> Token: 36,9 ,  -> (36,9): , es de tipo 7
+189c271
+< Token: 36,8 fblqfblq  -> (36,8): fblqfblq es de tipo 23
+---
+> Token: 36,10 c  -> (36,10): c es de tipo 23
+191c273
+< Token: 38,0 vara  -> (38,0): vara es de tipo 23
+---
+> Token: 36,11 :  -> (36,11): : es de tipo 6
+193c275
+< Token: 39,7 ,  -> (39,7): , es de tipo 7
+---
+> Token: 36,12 entero  -> (36,12): entero es de tipo 11
+195c277
+< Token: 39,8 b  -> (39,8): b es de tipo 23
+---
+> Token: 36,18 ;  -> (36,18): ; es de tipo 5
+197c279
+< Token: 39,9 ,  -> (39,9): , es de tipo 7
+---
+> Token: 37,2 blq  -> (37,2): blq es de tipo 13
+199c281
+< Token: 39,10 c  -> (39,10): c es de tipo 23
+---
+> Token: 38,4 a  -> (38,4): a es de tipo 23
+201c283
+< Token: 39,11 :  -> (39,11): : es de tipo 6
+---
+> Token: 38,6 :=  -> (38,6): := es de tipo 8
+203c285
+< Token: 39,12 entero  -> (39,12): entero es de tipo 11
+---
+> Token: 38,9 77  -> (38,9): 77 es de tipo 24
+205c287
+< Token: 40,0 blq  -> (40,0): blq es de tipo 13
+---
+> Token: 38,11 ;  -> (38,11): ; es de tipo 5
+207c289
+< Token: 42,4 a  -> (42,4): a es de tipo 23
+---
+> Token: 39,4 escribir  -> (39,4): escribir es de tipo 22
+209c291
+< Token: 42,6 :=  -> (42,6): := es de tipo 8
+---
+> Token: 39,12 (  -> (39,12): ( es de tipo 0
+211c293
+< Token: 42,9 77  -> (42,9): 77 es de tipo 24
+---
+> Token: 39,13 a  -> (39,13): a es de tipo 23
+213c295
+< Token: 43,2 escribir  -> (43,2): escribir es de tipo 22
+---
+> Token: 39,14 +  -> (39,14): + es de tipo 3
+215c297
+< Token: 43,12 (a  -> (43,12): (a es de tipo 0
+---
+> Token: 39,15 3  -> (39,15): 3 es de tipo 24
+217c299
+< Token: 43,14 +  -> (43,14): + es de tipo 3
+---
+> Token: 39,16 )  -> (39,16): ) es de tipo 1
+219c301
+< Token: 43,15 3  -> (43,15): 3 es de tipo 24
+---
+> Token: 40,2 fblq  -> (40,2): fblq es de tipo 14
+--------------------------
+Prueba: prog-correcto
+--- Fallo en la traducción ----------
+1c1
+< Token: 1,1 algoritmoprograma  -> (1,1): algoritmoprograma es de tipo 23
+---
+> Token: 2,1 algoritmo  -> (2,1): algoritmo es de tipo 12
+3c3,23
+< Token: 3,0 funcionf  -> (3,0): funcionf es de tipo 23
+---
+> Token: 2,11 programa  -> (2,11): programa es de tipo 23
+> 
+> Token: 2,19 ;  -> (2,19): ; es de tipo 5
+> 
+> Token: 4,1 funcion  -> (4,1): funcion es de tipo 15
+> 
+> Token: 4,9 f  -> (4,9): f es de tipo 23
+> 
+> Token: 4,10 :  -> (4,10): : es de tipo 6
+> 
+> Token: 4,11 real  -> (4,11): real es de tipo 10
+> 
+> Token: 4,15 ;  -> (4,15): ; es de tipo 5
+> 
+> Token: 5,3 var  -> (5,3): var es de tipo 9
+> 
+> Token: 5,7 a  -> (5,7): a es de tipo 23
+> 
+> Token: 5,8 ,  -> (5,8): , es de tipo 7
+> 
+> Token: 5,9 b  -> (5,9): b es de tipo 23
+7c27,51
+< Token: 5,11 real  -> (5,11): real es de tipo 10
+---
+> Token: 5,11 entero  -> (5,11): entero es de tipo 11
+> 
+> Token: 5,17 ;  -> (5,17): ; es de tipo 5
+> 
+> Token: 6,3 funcion  -> (6,3): funcion es de tipo 15
+> 
+> Token: 6,11 g  -> (6,11): g es de tipo 23
+> 
+> Token: 6,12 :  -> (6,12): : es de tipo 6
+> 
+> Token: 6,13 entero  -> (6,13): entero es de tipo 11
+> 
+> Token: 6,19 ;  -> (6,19): ; es de tipo 5
+> 
+> Token: 7,5 var  -> (7,5): var es de tipo 9
+> 
+> Token: 7,9 f  -> (7,9): f es de tipo 23
+> 
+> Token: 7,10 ,  -> (7,10): , es de tipo 7
+> 
+> Token: 7,11 g  -> (7,11): g es de tipo 23
+> 
+> Token: 7,12 ,  -> (7,12): , es de tipo 7
+> 
+> Token: 7,13 k  -> (7,13): k es de tipo 23
+9c53
+< Token: 6,1 vara  -> (6,1): vara es de tipo 23
+---
+> Token: 7,14 ,  -> (7,14): , es de tipo 7
+11c55
+< Token: 6,8 ,  -> (6,8): , es de tipo 7
+---
+> Token: 7,15 l  -> (7,15): l es de tipo 23
+13c57
+< Token: 6,9 b  -> (6,9): b es de tipo 23
+---
+> Token: 7,16 :  -> (7,16): : es de tipo 6
+15c59
+< Token: 6,10 :  -> (6,10): : es de tipo 6
+---
+> Token: 7,17 real  -> (7,17): real es de tipo 10
+17c61
+< Token: 6,11 entero  -> (6,11): entero es de tipo 11
+---
+> Token: 7,21 ;  -> (7,21): ; es de tipo 5
+19c63
+< Token: 7,1 funciong  -> (7,1): funciong es de tipo 23
+---
+> Token: 8,5 blq  -> (8,5): blq es de tipo 13
+21c65
+< Token: 7,12 :  -> (7,12): : es de tipo 6
+---
+> Token: 9,8 f  -> (9,8): f es de tipo 23
+23c67
+< Token: 7,13 entero  -> (7,13): entero es de tipo 11
+---
+> Token: 9,10 :=  -> (9,10): := es de tipo 8
+25c69
+< Token: 8,3 varf  -> (8,3): varf es de tipo 23
+---
+> Token: 9,13 1  -> (9,13): 1 es de tipo 24
+27c71
+< Token: 8,10 ,  -> (8,10): , es de tipo 7
+---
+> Token: 9,14 +  -> (9,14): + es de tipo 3
+29c73
+< Token: 8,11 g  -> (8,11): g es de tipo 23
+---
+> Token: 9,15 2  -> (9,15): 2 es de tipo 24
+31c75
+< Token: 8,12 ,  -> (8,12): , es de tipo 7
+---
+> Token: 9,16 +  -> (9,16): + es de tipo 3
+33c77
+< Token: 8,13 k  -> (8,13): k es de tipo 23
+---
+> Token: 9,17 3  -> (9,17): 3 es de tipo 24
+35c79
+< Token: 8,14 ,  -> (8,14): , es de tipo 7
+---
+> Token: 9,18 +  -> (9,18): + es de tipo 3
+37c81
+< Token: 8,15 l  -> (8,15): l es de tipo 23
+---
+> Token: 9,19 4  -> (9,19): 4 es de tipo 24
+39c83
+< Token: 8,16 :  -> (8,16): : es de tipo 6
+---
+> Token: 9,20 +  -> (9,20): + es de tipo 3
+41c85
+< Token: 8,17 real  -> (8,17): real es de tipo 10
+---
+> Token: 9,21 5  -> (9,21): 5 es de tipo 24
+43c87,105
+< Token: 9,3 blqf  -> (9,3): blqf es de tipo 23
+---
+> Token: 9,22 -  -> (9,22): - es de tipo 3
+> 
+> Token: 9,23 6  -> (9,23): 6 es de tipo 24
+> 
+> Token: 9,24 +  -> (9,24): + es de tipo 3
+> 
+> Token: 9,25 7  -> (9,25): 7 es de tipo 24
+> 
+> Token: 9,26 -  -> (9,26): - es de tipo 3
+> 
+> Token: 9,27 8  -> (9,27): 8 es de tipo 24
+> 
+> Token: 9,28 +  -> (9,28): + es de tipo 3
+> 
+> Token: 9,29 3.0  -> (9,29): 3.0 es de tipo 25
+> 
+> Token: 9,32 ;  -> (9,32): ; es de tipo 5
+> 
+> Token: 10,8 a  -> (10,8): a es de tipo 23
+65c127
+< Token: 10,22 -  -> (10,22): - es de tipo 3
+---
+> Token: 10,22 +  -> (10,22): + es de tipo 3
+79c141
+< Token: 10,29 3.0  -> (10,29): 3.0 es de tipo 25
+---
+> Token: 10,29 9  -> (10,29): 9 es de tipo 24
+81c143
+< Token: 11,6 a  -> (11,6): a es de tipo 23
+---
+> Token: 10,30 ;  -> (10,30): ; es de tipo 5
+83c145
+< Token: 11,10 :=  -> (11,10): := es de tipo 8
+---
+> Token: 11,8 si  -> (11,8): si es de tipo 16
+85c147
+< Token: 11,13 1  -> (11,13): 1 es de tipo 24
+---
+> Token: 11,11 f  -> (11,11): f es de tipo 23
+87c149
+< Token: 11,14 +  -> (11,14): + es de tipo 3
+---
+> Token: 11,13 <  -> (11,13): < es de tipo 4
+89c151
+< Token: 11,15 2  -> (11,15): 2 es de tipo 24
+---
+> Token: 11,15 a  -> (11,15): a es de tipo 23
+91c153
+< Token: 11,16 +  -> (11,16): + es de tipo 3
+---
+> Token: 11,17 entonces  -> (11,17): entonces es de tipo 17
+93c155
+< Token: 11,17 3  -> (11,17): 3 es de tipo 24
+---
+> Token: 12,10 escribir  -> (12,10): escribir es de tipo 22
+95c157
+< Token: 11,18 +  -> (11,18): + es de tipo 3
+---
+> Token: 12,18 (  -> (12,18): ( es de tipo 0
+97c159
+< Token: 11,19 4  -> (11,19): 4 es de tipo 24
+---
+> Token: 12,19 a  -> (12,19): a es de tipo 23
+99c161
+< Token: 11,20 +  -> (11,20): + es de tipo 3
+---
+> Token: 12,20 -  -> (12,20): - es de tipo 3
+101c163
+< Token: 11,21 5  -> (11,21): 5 es de tipo 24
+---
+> Token: 12,21 f  -> (12,21): f es de tipo 23
+103c165
+< Token: 11,22 +  -> (11,22): + es de tipo 3
+---
+> Token: 12,22 )  -> (12,22): ) es de tipo 1
+105c167
+< Token: 11,23 6  -> (11,23): 6 es de tipo 24
+---
+> Token: 13,8 sino  -> (13,8): sino es de tipo 18
+107c169
+< Token: 11,24 +  -> (11,24): + es de tipo 3
+---
+> Token: 14,10 escribir  -> (14,10): escribir es de tipo 22
+109c171
+< Token: 11,25 7  -> (11,25): 7 es de tipo 24
+---
+> Token: 14,18 (  -> (14,18): ( es de tipo 0
+111c173
+< Token: 11,26 -  -> (11,26): - es de tipo 3
+---
+> Token: 14,19 f  -> (14,19): f es de tipo 23
+113c175
+< Token: 11,27 8  -> (11,27): 8 es de tipo 24
+---
+> Token: 14,20 -  -> (14,20): - es de tipo 3
+115c177
+< Token: 11,28 +  -> (11,28): + es de tipo 3
+---
+> Token: 14,21 a  -> (14,21): a es de tipo 23
+117c179
+< Token: 11,29 9  -> (11,29): 9 es de tipo 24
+---
+> Token: 14,22 )  -> (14,22): ) es de tipo 1
+119c181
+< Token: 12,6 sif  -> (12,6): sif es de tipo 23
+---
+> Token: 15,8 fsi  -> (15,8): fsi es de tipo 19
+121c183
+< Token: 12,13 <  -> (12,13): < es de tipo 4
+---
+> Token: 16,5 fblq  -> (16,5): fblq es de tipo 14
+123c185
+< Token: 12,15 aentoncesescribir  -> (12,15): aentoncesescribir es de tipo 23
+---
+> Token: 16,9 ;  -> (16,9): ; es de tipo 5
+125c187
+< Token: 13,18 (a  -> (13,18): (a es de tipo 0
+---
+> Token: 18,3 var  -> (18,3): var es de tipo 9
+127c189
+< Token: 13,20 -  -> (13,20): - es de tipo 3
+---
+> Token: 18,7 k  -> (18,7): k es de tipo 23
+129c191
+< Token: 13,21 f  -> (13,21): f es de tipo 23
+---
+> Token: 18,8 ,  -> (18,8): , es de tipo 7
+131c193
+< Token: 14,6 sinoescribir  -> (14,6): sinoescribir es de tipo 23
+---
+> Token: 18,9 l  -> (18,9): l es de tipo 23
+133c195
+< Token: 15,18 (f  -> (15,18): (f es de tipo 0
+---
+> Token: 18,10 :  -> (18,10): : es de tipo 6
+135c197
+< Token: 15,20 -  -> (15,20): - es de tipo 3
+---
+> Token: 18,11 entero  -> (18,11): entero es de tipo 11
+137c199
+< Token: 15,21 a  -> (15,21): a es de tipo 23
+---
+> Token: 18,17 ;  -> (18,17): ; es de tipo 5
+139,141c201
+< Token: 16,6 fsifblq  -> (16,6): fsifblq es de tipo 23
+< 
+< Token: 19,1 vark  -> (19,1): vark es de tipo 23
+---
+> Token: 19,7 m  -> (19,7): m es de tipo 23
+145c205
+< Token: 19,9 l  -> (19,9): l es de tipo 23
+---
+> Token: 19,9 n  -> (19,9): n es de tipo 23
+149c209,211
+< Token: 19,11 entero  -> (19,11): entero es de tipo 11
+---
+> Token: 19,11 real  -> (19,11): real es de tipo 10
+> 
+> Token: 19,15 ;  -> (19,15): ; es de tipo 5
+151c213
+< Token: 20,5 m  -> (20,5): m es de tipo 23
+---
+> Token: 20,3 blq  -> (20,3): blq es de tipo 13
+153c215
+< Token: 20,8 ,  -> (20,8): , es de tipo 7
+---
+> Token: 21,5 b  -> (21,5): b es de tipo 23
+155c217
+< Token: 20,9 n  -> (20,9): n es de tipo 23
+---
+> Token: 21,7 :=  -> (21,7): := es de tipo 8
+157c219
+< Token: 20,10 :  -> (20,10): : es de tipo 6
+---
+> Token: 21,10 7  -> (21,10): 7 es de tipo 24
+159c221
+< Token: 20,11 real  -> (20,11): real es de tipo 10
+---
+> Token: 21,11 *  -> (21,11): * es de tipo 2
+161c223,231
+< Token: 21,1 blqb  -> (21,1): blqb es de tipo 23
+---
+> Token: 21,12 3  -> (21,12): 3 es de tipo 24
+> 
+> Token: 21,14 //  -> (21,14): // es de tipo 2
+> 
+> Token: 21,17 2  -> (21,17): 2 es de tipo 24
+> 
+> Token: 21,18 ;  -> (21,18): ; es de tipo 5
+> 
+> Token: 22,5 m  -> (22,5): m es de tipo 23
+165c235,249
+< Token: 22,10 7  -> (22,10): 7 es de tipo 24
+---
+> Token: 22,10 a  -> (22,10): a es de tipo 23
+> 
+> Token: 22,11 /  -> (22,11): / es de tipo 2
+> 
+> Token: 22,12 b  -> (22,12): b es de tipo 23
+> 
+> Token: 23,3 fblq  -> (23,3): fblq es de tipo 14
+> 
+> Token: 23,7 ;  -> (23,7): ; es de tipo 5
+> 
+> Token: 25,1 var  -> (25,1): var es de tipo 9
+> 
+> Token: 25,5 i  -> (25,5): i es de tipo 23
+> 
+> Token: 25,6 ,  -> (25,6): , es de tipo 7
+167c251
+< Token: 22,11 *  -> (22,11): * es de tipo 2
+---
+> Token: 25,7 j  -> (25,7): j es de tipo 23
+169c253
+< Token: 22,12 3  -> (22,12): 3 es de tipo 24
+---
+> Token: 25,8 :  -> (25,8): : es de tipo 6
+171c255
+< Token: 22,14 //  -> (22,14): // es de tipo 2
+---
+> Token: 25,9 entero  -> (25,9): entero es de tipo 11
+173c257
+< Token: 22,17 2  -> (22,17): 2 es de tipo 24
+---
+> Token: 25,15 ;  -> (25,15): ; es de tipo 5
+175c259
+< Token: 23,3 m  -> (23,3): m es de tipo 23
+---
+> Token: 26,1 blq  -> (26,1): blq es de tipo 13
+177c261
+< Token: 23,7 :=  -> (23,7): := es de tipo 8
+---
+> Token: 27,3 i  -> (27,3): i es de tipo 23
+179c263
+< Token: 23,10 a  -> (23,10): a es de tipo 23
+---
+> Token: 27,5 :=  -> (27,5): := es de tipo 8
+181c265
+< Token: 23,11 /  -> (23,11): / es de tipo 2
+---
+> Token: 27,8 1  -> (27,8): 1 es de tipo 24
+183c267
+< Token: 24,1 fblq  -> (24,1): fblq es de tipo 14
+---
+> Token: 27,9 ;  -> (27,9): ; es de tipo 5
+185c269
+< Token: 25,0 vari  -> (25,0): vari es de tipo 23
+---
+> Token: 28,3 j  -> (28,3): j es de tipo 23
+187c271
+< Token: 27,6 ,  -> (27,6): , es de tipo 7
+---
+> Token: 28,5 :=  -> (28,5): := es de tipo 8
+189c273
+< Token: 27,7 j  -> (27,7): j es de tipo 23
+---
+> Token: 28,8 10  -> (28,8): 10 es de tipo 24
+191c275
+< Token: 27,8 :  -> (27,8): : es de tipo 6
+---
+> Token: 28,10 ;  -> (28,10): ; es de tipo 5
+193c277
+< Token: 27,9 entero  -> (27,9): entero es de tipo 11
+---
+> Token: 29,3 mientras  -> (29,3): mientras es de tipo 20
+195c279
+< Token: 27,15 ;  -> (27,15): ; es de tipo 5
+---
+> Token: 29,12 i  -> (29,12): i es de tipo 23
+197c281
+< Token: 28,1 blqi  -> (28,1): blqi es de tipo 23
+---
+> Token: 29,13 <  -> (29,13): < es de tipo 4
+199c283
+< Token: 29,5 :=  -> (29,5): := es de tipo 8
+---
+> Token: 29,14 j  -> (29,14): j es de tipo 23
+201c285
+< Token: 29,8 1  -> (29,8): 1 es de tipo 24
+---
+> Token: 29,15 *  -> (29,15): * es de tipo 2
+203c287
+< Token: 30,1 j  -> (30,1): j es de tipo 23
+---
+> Token: 29,16 1.0  -> (29,16): 1.0 es de tipo 25
+205c289
+< Token: 30,5 :=  -> (30,5): := es de tipo 8
+---
+> Token: 29,20 hacer  -> (29,20): hacer es de tipo 21
+207c291
+< Token: 30,8 10  -> (30,8): 10 es de tipo 24
+---
+> Token: 30,4 blq  -> (30,4): blq es de tipo 13
+209c293
+< Token: 31,1 mientrasi  -> (31,1): mientrasi es de tipo 23
+---
+> Token: 31,5 escribir  -> (31,5): escribir es de tipo 22
+211c295
+< Token: 31,13 <  -> (31,13): < es de tipo 4
+---
+> Token: 31,13 (  -> (31,13): ( es de tipo 0
+213c297
+< Token: 31,14 j  -> (31,14): j es de tipo 23
+---
+> Token: 31,14 i  -> (31,14): i es de tipo 23
+215c299
+< Token: 31,15 *  -> (31,15): * es de tipo 2
+---
+> Token: 31,15 )  -> (31,15): ) es de tipo 1
+217c301
+< Token: 31,16 1.0  -> (31,16): 1.0 es de tipo 25
+---
+> Token: 31,16 ;  -> (31,16): ; es de tipo 5
+219c303
+< Token: 31,20 hacerblqescribir  -> (31,20): hacerblqescribir es de tipo 23
+---
+> Token: 32,5 escribir  -> (32,5): escribir es de tipo 22
+221c305
+< Token: 33,13 (i  -> (33,13): (i es de tipo 0
+---
+> Token: 32,13 (  -> (32,13): ( es de tipo 0
+223c307
+< Token: 33,15 )  -> (33,15): ) es de tipo 1
+---
+> Token: 32,14 j  -> (32,14): j es de tipo 23
+225c309
+< Token: 33,16 ;  -> (33,16): ; es de tipo 5
+---
+> Token: 32,15 )  -> (32,15): ) es de tipo 1
+227c311
+< Token: 34,5 escribir  -> (34,5): escribir es de tipo 22
+---
+> Token: 32,16 ;  -> (32,16): ; es de tipo 5
+229c313
+< Token: 34,13 (j  -> (34,13): (j es de tipo 0
+---
+> Token: 33,5 i  -> (33,5): i es de tipo 23
+231c315
+< Token: 34,15 )  -> (34,15): ) es de tipo 1
+---
+> Token: 33,7 :=  -> (33,7): := es de tipo 8
+233c317
+< Token: 34,16 ;  -> (34,16): ; es de tipo 5
+---
+> Token: 33,10 i  -> (33,10): i es de tipo 23
+235c319
+< Token: 35,5 i  -> (35,5): i es de tipo 23
+---
+> Token: 33,11 +  -> (33,11): + es de tipo 3
+237c321
+< Token: 35,7 :=  -> (35,7): := es de tipo 8
+---
+> Token: 33,12 1  -> (33,12): 1 es de tipo 24
+239c323
+< Token: 35,10 i  -> (35,10): i es de tipo 23
+---
+> Token: 33,13 ;  -> (33,13): ; es de tipo 5
+241c325
+< Token: 35,11 +  -> (35,11): + es de tipo 3
+---
+> Token: 34,5 j  -> (34,5): j es de tipo 23
+243c327
+< Token: 35,12 1  -> (35,12): 1 es de tipo 24
+---
+> Token: 34,7 :=  -> (34,7): := es de tipo 8
+245c329
+< Token: 36,3 j  -> (36,3): j es de tipo 23
+---
+> Token: 34,10 j  -> (34,10): j es de tipo 23
+247c331
+< Token: 36,7 :=  -> (36,7): := es de tipo 8
+---
+> Token: 34,11 -  -> (34,11): - es de tipo 3
+249c333
+< Token: 36,10 j  -> (36,10): j es de tipo 23
+---
+> Token: 34,12 1  -> (34,12): 1 es de tipo 24
+251c335
+< Token: 36,11 -  -> (36,11): - es de tipo 3
+---
+> Token: 35,4 fblq  -> (35,4): fblq es de tipo 14
+253c337
+< Token: 36,12 1  -> (36,12): 1 es de tipo 24
+---
+> Token: 36,1 fblq  -> (36,1): fblq es de tipo 14
+--------------------------
+
+OJO: FALLAN 11 PRUEBAS DEL AUTOCORRECTOR
+
+
+
+AVISO IMPORTANTE: este autocorrector solo prueba el analizador léxico y NO prueba todos los casos posibles
+

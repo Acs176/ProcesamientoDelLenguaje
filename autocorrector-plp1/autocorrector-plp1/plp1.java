@@ -1,8 +1,6 @@
 import java.io.RandomAccessFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import AnalizadorLexico;
-import Token;
 
 class plp1 {
     public static void main(String[] args) {
