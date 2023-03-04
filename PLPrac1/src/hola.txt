@@ -1,1 +1,1 @@
-wenas          que= ENTERO(*tetas*)=3.3dado
+wenas          que= ENTERO(*tetas*)=3.3dado, algoritmotetas

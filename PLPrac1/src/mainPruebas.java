@@ -15,7 +15,7 @@ public class mainPruebas {
             AnalizadorLexico al = new AnalizadorLexico(entrada);
             Token t;
             do{
-            t = al.siguienteToken(entrada);
+            t = al.siguienteToken();
             if(t.lexema != ""){
               System.out.println("Token extraido: " + t.lexema);
               System.out.println("Fila, columna: " + t.fila + ", " + t.columna);

@@ -10,6 +10,7 @@ import java.util.Map;
 public class AnalizadorLexico {
     public static int ERROR = -2;
     public static int FINAL = -1;
+    public static int ESTADO_KEYWORD = -3;
 
     public static Map<Integer, Integer> bufferTable = new HashMap<>();
     public static Map<Integer, Integer> typeTable = new HashMap<>();
@@ -99,7 +100,7 @@ public class AnalizadorLexico {
         int fila_token = fila_actual;
         int col_token = columna_actual;
         char c = leerCaracter(entrada);
-        //System.out.println("CHAR LEIDO: " + c);
+        System.out.println("CHAR LEIDO: " + c);
         
         
         if(c == Token.EOF){
@@ -112,8 +113,12 @@ public class AnalizadorLexico {
 
         while(true){
                 
-            int nuevoEstado = delta(estado, c);
-            //System.out.println("Estado: " + estado + " | Nuevo estado: " + nuevoEstado);
+            int nuevoEstado = delta(estado, c, current_token);
+            if(nuevoEstado == ESTADO_KEYWORD){
+                nuevoEstado = -1;
+                estado = ESTADO_KEYWORD;        
+            }
+            System.out.println("Estado: " + estado + " | Nuevo estado: " + nuevoEstado);
 
             if(nuevoEstado == ERROR){
                 errorLexico(c);
@@ -128,7 +133,7 @@ public class AnalizadorLexico {
                     fila_token = fila_actual;
                     col_token = columna_actual;
                     c = leerCaracter(entrada);
-                    //System.out.println("CHAR LEIDO: " + c);
+                    System.out.println("CHAR LEIDO: " + c);
                     if(c == Token.EOF){
                         Token eof = new Token();
                         eof.lexema = "";
@@ -138,7 +143,16 @@ public class AnalizadorLexico {
                 }
                 else{
                     Token toReturn = new Token();
-                    String lexema = devolverChars(estado, current_token);
+                    String lexema;
+                    if(estado == ESTADO_KEYWORD){
+                        lexema = current_token;
+                        estado = 24; // FIN DE IDENTIFICADOR PARA QUE COMPRUEBE PALABRAS CLAVE
+                    }
+                    else{
+                        lexema = devolverChars(estado, current_token);
+                    }
+
+                    
                     toReturn.lexema = lexema;
                     toReturn.fila = fila_token;
                     toReturn.columna = col_token;
@@ -157,13 +171,13 @@ public class AnalizadorLexico {
 
                 estado = nuevoEstado;
                 c = leerCaracter(entrada);
-                //System.out.println("CHAR LEIDO: " + c);
+                System.out.println("CHAR LEIDO: " + c);
                 
                 // HECHO: Que ante un EOF trate los chars que lleva leidos
                 // SI TERMINAS EN ESTADO DE TRATAR COMENTARIO: ERROR
                 // DEFINIR ACCION PARA CADA ESTADO
                 if(c == Token.EOF){
-                    //System.out.println("END OF FILE HEHE");
+                    System.out.println("END OF FILE HEHE");
                     if(current_token.length() > 0){
                         Token toReturn = new Token();
                         String lexema = devolverChars(estado, current_token);
@@ -241,18 +255,12 @@ public class AnalizadorLexico {
             int chars_to_buffer = bufferTable.get(nuevoEstado);
             String resultString = current_token.substring(0, current_token.length()-chars_to_buffer);
 
-            //System.out.println("current_token antes de quitar chars: " + current_token);
-
+            System.out.println("current_token antes de quitar chars: " + current_token);
                 
                 for(int i=chars_to_buffer; i>0; i--){
-                    //char charPalBuffer = current_token.charAt(current_token.length()-i);
-                    //addToBuffer(charPalBuffer);
                     fileSeekBack();
-                    //System.out.println("CHAR PAL BUFFER: " + charPalBuffer);
+                    
                 }
-
-
-            
             return resultString;
         }
 
@@ -263,7 +271,7 @@ private void fileSeekBack(){
         long file_pointer = entrada.getFilePointer();
         entrada.seek(file_pointer - 1);
         char prevChar = (char)entrada.read();
-        //System.out.println("PREV CHAR: " + prevChar);
+        System.out.println("PREV CHAR: " + prevChar);
         if(prevChar == ' ' || prevChar == '\t'){
             columna_actual -= 2;
             entrada.seek(file_pointer-2);
@@ -289,7 +297,7 @@ private void errorLexico(char c) {
 }
 
 
-    private int delta(int estado, char c) {
+    private int delta(int estado, char c, String lexema) {
         if( c == ' ' || c == '\n' || c == '\t')
             return estado; 
 
@@ -352,6 +360,11 @@ private void errorLexico(char c) {
                 else                        return 22;
             case 22: return -1;
             case 23:
+                // checkear si tenemos keyword
+                int tipo = getTipo(24, lexema);
+                if(tipo != 23){
+                    return ESTADO_KEYWORD;                              // ESTADO DE KEYWORD
+                }
                 if(Character.isAlphabetic(c) || Character.isDigit(c))
                     return 23;
                 else
