@@ -84,7 +84,6 @@ public class AnalizadorLexico {
     // metes char en el buffer, tienes que guardar su posicion para el token al que pertenece no?
     private void actualizarFilasCols(char c){
         if(c == '\n'){
-            System.out.println("SALTO DE LINEA HIJO DE LA GRANDISIMA PUTAAAAAAAAAAAA");
             fila_actual++;
             previous_col = columna_actual;
             columna_actual = 1;
@@ -101,7 +100,7 @@ public class AnalizadorLexico {
         int fila_token = fila_actual;
         int col_token = columna_actual;
         char c = leerCaracter(entrada);
-        System.out.println("CHAR LEIDO: " + c);
+        //System.out.println("CHAR LEIDO: " + c);
         
         
         if(c == Token.EOF){
@@ -119,7 +118,7 @@ public class AnalizadorLexico {
                 nuevoEstado = -1;
                 estado = ESTADO_KEYWORD;        
             }
-            System.out.println("Estado: " + estado + " | Nuevo estado: " + nuevoEstado);
+            //System.out.println("Estado: " + estado + " | Nuevo estado: " + nuevoEstado);
 
             if(nuevoEstado == ERROR){
                 errorLexico(c);
@@ -134,7 +133,7 @@ public class AnalizadorLexico {
                     fila_token = fila_actual;
                     col_token = columna_actual;
                     c = leerCaracter(entrada);
-                    System.out.println("CHAR LEIDO: " + c);
+                    //System.out.println("CHAR LEIDO: " + c);
                     if(c == Token.EOF){
                         Token eof = new Token();
                         eof.lexema = "";
@@ -172,13 +171,13 @@ public class AnalizadorLexico {
 
                 estado = nuevoEstado;
                 c = leerCaracter(entrada);
-                System.out.println("CHAR LEIDO: " + c);
+                //System.out.println("CHAR LEIDO: " + c);
                 
                 // HECHO: Que ante un EOF trate los chars que lleva leidos
                 // SI TERMINAS EN ESTADO DE TRATAR COMENTARIO: ERROR
                 // DEFINIR ACCION PARA CADA ESTADO
                 if(c == Token.EOF){
-                    System.out.println("END OF FILE HEHE");
+                    //System.out.println("END OF FILE HEHE");
                     if(estado == 26 || estado == 27){
                         // estamos en comentario
                         // LANZAR ERROR
@@ -262,7 +261,7 @@ public class AnalizadorLexico {
             int chars_to_buffer = bufferTable.get(nuevoEstado);
             String resultString = current_token.substring(0, current_token.length()-chars_to_buffer);
 
-            System.out.println("current_token antes de quitar chars: " + current_token);
+            //System.out.println("current_token antes de quitar chars: " + current_token);
                 
                 for(int i=chars_to_buffer; i>0; i--){
                     volverAtras();
@@ -277,7 +276,7 @@ private void volverAtras(){
     char prevChar;
     do{
         prevChar = fileSeekBack();
-        System.out.println("TIRA PATRAS");
+        //System.out.println("TIRA PATRAS");
     }while( prevChar == ' ' || prevChar == '\t' || prevChar == '\n' );
 }
 
@@ -286,14 +285,14 @@ private char fileSeekBack(){
         long file_pointer = entrada.getFilePointer();
         entrada.seek(file_pointer - 1);
         char prevChar = (char)entrada.readByte();
-        System.out.println("PREV CHAR: " + prevChar);
+        //System.out.println("PREV CHAR: " + prevChar);
         if(prevChar == ' ' || prevChar == '\t'){
-            System.out.println("ESPACIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+            
             columna_actual -= 1;
             entrada.seek(file_pointer-1);
         }
         else if(prevChar == '\n'){
-            System.out.println("SALTO DE LINEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            
             fila_actual -= 1;
             columna_actual = previous_col;
             entrada.seek(file_pointer-1);
