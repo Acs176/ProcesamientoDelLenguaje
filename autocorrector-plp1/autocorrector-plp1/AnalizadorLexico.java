@@ -129,7 +129,7 @@ public class AnalizadorLexico {
                 if(estado == 28){      // COMENTARIO
                     estado = 0;
                     current_token = "";
-                    fileSeekBack();
+                    volverAtras();
                     fila_token = fila_actual;
                     col_token = columna_actual;
                     c = leerCaracter(entrada);
@@ -159,7 +159,7 @@ public class AnalizadorLexico {
                     toReturn.tipo = getTipo(estado, lexema);
                     
     
-                    fileSeekBack(); // para que se tenga en cuenta el que acaba de leer
+                    volverAtras(); // para que se tenga en cuenta el que acaba de leer
                     
                     return toReturn;
                 }
@@ -178,7 +178,13 @@ public class AnalizadorLexico {
                 // DEFINIR ACCION PARA CADA ESTADO
                 if(c == Token.EOF){
                     //System.out.println("END OF FILE HEHE");
-                    if(current_token.length() > 0){
+                    if(estado == 26 || estado == 27){
+                        // estamos en comentario
+                        // LANZAR ERROR
+                        System.out.println("Error lexico: fin de fichero inesperado");
+                        System.exit(-1);
+                    }
+                    if(current_token.length() > 0 && estado != 28){
                         Token toReturn = new Token();
                         String lexema = devolverChars(estado, current_token);
                         toReturn.lexema = lexema;
@@ -258,35 +264,47 @@ public class AnalizadorLexico {
             //System.out.println("current_token antes de quitar chars: " + current_token);
                 
                 for(int i=chars_to_buffer; i>0; i--){
-                    fileSeekBack();
-                    
+                    volverAtras();
+
                 }
             return resultString;
         }
 
     }
 
-private void fileSeekBack(){
+private void volverAtras(){
+    char prevChar;
+    do{
+        prevChar = fileSeekBack();
+        //System.out.println("TIRA PATRAS");
+    }while( prevChar == ' ' || prevChar == '\t' || prevChar == '\n' );
+}
+
+private char fileSeekBack(){
     try {
         long file_pointer = entrada.getFilePointer();
         entrada.seek(file_pointer - 1);
-        char prevChar = (char)entrada.read();
+        char prevChar = (char)entrada.readByte();
         //System.out.println("PREV CHAR: " + prevChar);
         if(prevChar == ' ' || prevChar == '\t'){
-            columna_actual -= 2;
-            entrada.seek(file_pointer-2);
+            
+            columna_actual -= 1;
+            entrada.seek(file_pointer-1);
         }
         else if(prevChar == '\n'){
+            
             fila_actual -= 1;
-            columna_actual = previous_col-1;
-            entrada.seek(file_pointer-2);
+            columna_actual = previous_col;
+            entrada.seek(file_pointer-1);
         }
         else{
             columna_actual--;
             entrada.seek(file_pointer-1);
         }
+        return prevChar;
     } catch (IOException e) {
         e.printStackTrace();
+        return 'F';
     }
 }
 
