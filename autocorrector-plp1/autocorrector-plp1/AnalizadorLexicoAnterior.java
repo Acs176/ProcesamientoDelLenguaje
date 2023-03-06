@@ -97,9 +97,15 @@ public class AnalizadorLexico {
     public Token siguienteToken(){
         int estado = 0;
         String current_token = "";
-        int fila_token = fila_actual;
-        int col_token = columna_actual;
-        char c = leerCaracter(entrada);
+        char c;
+        int fila_token;
+        int col_token;
+        do{
+            fila_token = fila_actual;
+            col_token = columna_actual;
+
+            c = leerCaracter(entrada);
+        }while(c == ' ' || c == '\n' || c == '\t');
         //System.out.println("CHAR LEIDO: " + c);
         
         

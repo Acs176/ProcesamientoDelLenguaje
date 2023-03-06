@@ -174,9 +174,9 @@ Token: 24,5 o  -> (24,5): o es de tipo 23
 
 Token: 24,7 :=  -> (24,7): := es de tipo 8
 
-Token: 24,10 (2  -> (24,10): (2 es de tipo 0
+Token: 24,10 (  -> (24,10): ( es de tipo 0
 
-Token: 24,12 7  -> (24,12): 7 es de tipo 24
+Token: 24,11 27  -> (24,11): 27 es de tipo 24
 
 Token: 24,13 -  -> (24,13): - es de tipo 3
 
@@ -230,9 +230,9 @@ Token: 29,11 :=  -> (29,11): := es de tipo 8
 
 Token: 29,14 1  -> (29,14): 1 es de tipo 24
 
-Token: 30,7 si  -> (30,7): si es de tipo 16
+Token: 30,7 sino  -> (30,7): sino es de tipo 18
 
-Token: 30,9 nop  -> (30,9): nop es de tipo 23
+Token: 31,9 p  -> (31,9): p es de tipo 23
 
 Token: 31,11 :=  -> (31,11): := es de tipo 8
 

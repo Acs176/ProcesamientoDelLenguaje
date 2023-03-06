@@ -62,7 +62,11 @@ Token: 8,6 a  -> (8,6): a es de tipo 23
 
 Token: 8,8 <  -> (8,8): < es de tipo 4
 
-Token: 8,10 bentoncesc  -> (8,10): bentoncesc es de tipo 23
+Token: 8,10 b  -> (8,10): b es de tipo 23
+
+Token: 8,12 entonces  -> (8,12): entonces es de tipo 17
+
+Token: 9,5 c  -> (9,5): c es de tipo 23
 
 Token: 9,7 :=  -> (9,7): := es de tipo 8
 

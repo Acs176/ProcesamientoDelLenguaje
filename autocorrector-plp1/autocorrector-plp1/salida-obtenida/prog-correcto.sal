@@ -2,7 +2,7 @@ Token: 2,1 algoritmo  -> (2,1): algoritmo es de tipo 12
 
 Token: 2,11 programa  -> (2,11): programa es de tipo 23
 
-Token: 2,0 ;  -> (2,0): ; es de tipo 5
+Token: 2,19 ;  -> (2,19): ; es de tipo 5
 
 Token: 4,1 funcion  -> (4,1): funcion es de tipo 15
 
@@ -148,9 +148,15 @@ Token: 11,11 f  -> (11,11): f es de tipo 23
 
 Token: 11,13 <  -> (11,13): < es de tipo 4
 
-Token: 11,15 aentoncesescribir  -> (11,15): aentoncesescribir es de tipo 23
+Token: 11,15 a  -> (11,15): a es de tipo 23
 
-Token: 12,18 (a  -> (12,18): (a es de tipo 0
+Token: 11,17 entonces  -> (11,17): entonces es de tipo 17
+
+Token: 12,10 escribir  -> (12,10): escribir es de tipo 22
+
+Token: 12,18 (  -> (12,18): ( es de tipo 0
+
+Token: 12,19 a  -> (12,19): a es de tipo 23
 
 Token: 12,20 -  -> (12,20): - es de tipo 3
 
@@ -158,11 +164,13 @@ Token: 12,21 f  -> (12,21): f es de tipo 23
 
 Token: 12,22 )  -> (12,22): ) es de tipo 1
 
-Token: 13,8 si  -> (13,8): si es de tipo 16
+Token: 13,8 sino  -> (13,8): sino es de tipo 18
 
-Token: 13,10 noescribir  -> (13,10): noescribir es de tipo 23
+Token: 14,10 escribir  -> (14,10): escribir es de tipo 22
 
-Token: 14,18 (f  -> (14,18): (f es de tipo 0
+Token: 14,18 (  -> (14,18): ( es de tipo 0
+
+Token: 14,19 f  -> (14,19): f es de tipo 23
 
 Token: 14,20 -  -> (14,20): - es de tipo 3
 
@@ -228,9 +236,11 @@ Token: 22,10 a  -> (22,10): a es de tipo 23
 
 Token: 22,11 /  -> (22,11): / es de tipo 2
 
-Token: 22,12 bfblq  -> (22,12): bfblq es de tipo 23
+Token: 22,12 b  -> (22,12): b es de tipo 23
 
-Token: 23,0 ;  -> (23,0): ; es de tipo 5
+Token: 23,3 fblq  -> (23,3): fblq es de tipo 14
+
+Token: 23,7 ;  -> (23,7): ; es de tipo 5
 
 Token: 25,1 var  -> (25,1): var es de tipo 9
 
@@ -282,7 +292,9 @@ Token: 30,4 blq  -> (30,4): blq es de tipo 13
 
 Token: 31,5 escribir  -> (31,5): escribir es de tipo 22
 
-Token: 31,13 (i  -> (31,13): (i es de tipo 0
+Token: 31,13 (  -> (31,13): ( es de tipo 0
+
+Token: 31,14 i  -> (31,14): i es de tipo 23
 
 Token: 31,15 )  -> (31,15): ) es de tipo 1
 
@@ -290,7 +302,9 @@ Token: 31,16 ;  -> (31,16): ; es de tipo 5
 
 Token: 32,5 escribir  -> (32,5): escribir es de tipo 22
 
-Token: 32,13 (j  -> (32,13): (j es de tipo 0
+Token: 32,13 (  -> (32,13): ( es de tipo 0
+
+Token: 32,14 j  -> (32,14): j es de tipo 23
 
 Token: 32,15 )  -> (32,15): ) es de tipo 1
 
