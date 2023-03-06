@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +18,7 @@ public class AnalizadorLexico {
     RandomAccessFile entrada;
     List<Character> buffer;
     int columna_actual;
-    LinkedList<Integer> previous_cols;
+    int previous_col;
     int fila_actual;
     
     private void fillBufferTable(){
@@ -29,7 +28,6 @@ public class AnalizadorLexico {
         bufferTable.put(18, 1);
         bufferTable.put(22, 1);
         bufferTable.put(24, 1);
-        bufferTable.put(25, 1);
         bufferTable.put(29, 2);
         bufferTable.put(30, 2);
     }
@@ -59,7 +57,6 @@ public class AnalizadorLexico {
     public AnalizadorLexico(RandomAccessFile entrada) {
         this.entrada = entrada;
         buffer = new ArrayList<Character>();
-        previous_cols = new LinkedList<>();
         fillBufferTable();
         columna_actual = 1;
         fila_actual = 1;
@@ -88,7 +85,7 @@ public class AnalizadorLexico {
     private void actualizarFilasCols(char c){
         if(c == '\n'){
             fila_actual++;
-            previous_cols.addLast(columna_actual);
+            previous_col = columna_actual;
             columna_actual = 1;
             
         }
@@ -101,11 +98,9 @@ public class AnalizadorLexico {
         int estado = 0;
         String current_token = "";
         char c;
-        int fila_token;
-        int col_token;
         do{
-            fila_token = fila_actual;
-            col_token = columna_actual;
+            int fila_token = fila_actual;
+            int col_token = columna_actual;
 
             c = leerCaracter(entrada);
         }while(c == ' ' || c == '\n' || c == '\t');
@@ -303,8 +298,7 @@ private char fileSeekBack(){
         else if(prevChar == '\n'){
             
             fila_actual -= 1;
-            columna_actual = previous_cols.getLast();
-            previous_cols.removeLast();
+            columna_actual = previous_col;
             entrada.seek(file_pointer-1);
         }
         else{
@@ -414,17 +408,5 @@ private void errorLexico(char c, int fila_token, int col_token) {
             
         }
         return -2;
-    }
-
-    public int checkKeyword(int estado, String lexema){
-        int contador_chars = lexema.length();
-        for(int i=0; i<contador_chars; i++){
-            String posible_keyword = lexema.substring(i, lexema.length());
-            int tipo = getTipo(estado, posible_keyword);
-            if(tipo != 23)
-                return ESTADO_KEYWORD;
-        }
-
-        return 23;
     }
 }
