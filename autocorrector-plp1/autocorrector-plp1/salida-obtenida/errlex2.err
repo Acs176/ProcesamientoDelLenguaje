@@ -1,1 +1,1 @@
-autocorrector-plp1-solo-lexico.sh: line 155: /tmp/mata: No such file or directory
+Error lexico (6,13): caracter '.' incorrecto

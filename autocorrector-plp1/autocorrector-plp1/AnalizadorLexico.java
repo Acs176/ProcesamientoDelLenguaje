@@ -97,9 +97,15 @@ public class AnalizadorLexico {
     public Token siguienteToken(){
         int estado = 0;
         String current_token = "";
-        int fila_token = fila_actual;
-        int col_token = columna_actual;
-        char c = leerCaracter(entrada);
+        char c;
+        int fila_token;
+        int col_token;
+        do{
+            fila_token = fila_actual;
+            col_token = columna_actual;
+
+            c = leerCaracter(entrada);
+        }while(c == ' ' || c == '\n' || c == '\t');
         //System.out.println("CHAR LEIDO: " + c);
         
         
@@ -121,7 +127,7 @@ public class AnalizadorLexico {
             //System.out.println("Estado: " + estado + " | Nuevo estado: " + nuevoEstado);
 
             if(nuevoEstado == ERROR){
-                errorLexico(c);
+                errorLexico(c, fila_token, col_token);
                 return null;
             }
             if(nuevoEstado == FINAL){
@@ -181,7 +187,7 @@ public class AnalizadorLexico {
                     if(estado == 26 || estado == 27){
                         // estamos en comentario
                         // LANZAR ERROR
-                        System.out.println("Error lexico: fin de fichero inesperado");
+                        System.err.println("Error lexico: fin de fichero inesperado");
                         System.exit(-1);
                     }
                     if(current_token.length() > 0 && estado != 28){
@@ -309,8 +315,8 @@ private char fileSeekBack(){
 }
 
 
-private void errorLexico(char c) {
-    System.out.println("Error lexico (" + fila_actual + "," + columna_actual + "): caracter \'" + c + "\' incorrecto");
+private void errorLexico(char c, int fila_token, int col_token) {
+    System.err.println("Error lexico (" + fila_token + "," + col_token + "): caracter \'" + c + "\' incorrecto");
     System.exit(-1);
 }
 
