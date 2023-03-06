@@ -17,6 +17,7 @@ public class AnalizadorLexico {
     public static Map<Integer, Integer> typeTable = new HashMap<>();
 
     RandomAccessFile entrada;
+    String current_token;
     List<Character> buffer;
     int columna_actual;
     LinkedList<Integer> previous_cols;
@@ -99,7 +100,7 @@ public class AnalizadorLexico {
 
     public Token siguienteToken(){
         int estado = 0;
-        String current_token = "";
+        current_token = "";
         char c;
         int fila_token;
         int col_token;
@@ -389,9 +390,9 @@ private void errorLexico(char c, int fila_token, int col_token) {
             case 22: return -1;
             case 23:
                 // checkear si tenemos keyword
-                int tipo = getTipo(24, lexema);
+                int tipo = checkKeyword(24, lexema, c);
                 if(tipo != 23){
-                    return ESTADO_KEYWORD;                              // ESTADO DE KEYWORD
+                    return tipo;                              // ESTADO DE KEYWORD
                 }
                 if(Character.isAlphabetic(c) || Character.isDigit(c))
                     return 23;
@@ -404,6 +405,7 @@ private void errorLexico(char c, int fila_token, int col_token) {
                 else            return 26;
             case 27:
                 if(c == ')')    return 28;
+                if(c == '*')    return 27;
                 else            return 26;
             case 28: return -1;
             case 29: return -1;
@@ -416,15 +418,51 @@ private void errorLexico(char c, int fila_token, int col_token) {
         return -2;
     }
 
-    public int checkKeyword(int estado, String lexema){
+    public int checkKeyword(int estado, String lexema, char char_leido){
         int contador_chars = lexema.length();
+        int tipo = 23;
         for(int i=0; i<contador_chars; i++){
             String posible_keyword = lexema.substring(i, lexema.length());
-            int tipo = getTipo(estado, posible_keyword);
-            if(tipo != 23)
-                return ESTADO_KEYWORD;
+            tipo = getTipo(estado, posible_keyword);
+            if(tipo != 23){
+                // caso especial SI
+                if(tipo == 16){
+                    System.out.println("TENEMOS UN SI: LEXEMA " + lexema);
+                    // leer 2 chars más
+                    char c1 = leerCaracter(entrada);
+                    System.out.println("c1 " + char_leido + " c2 " + c1);
+                    boolean sino = false;
+                    if(char_leido == 'n' && c1 == 'o'){
+                        // NO HACEMOS NADA
+                        sino = true;
+                    }
+                    fileSeekBack();
+
+                    if(!sino){
+                        return ESTADO_KEYWORD;
+                    }
+                    else{
+                        // HAY UN SINO, POR LO QUE SEGUIMOS LEYENDO
+                        return 23;
+                    }
+                }
+
+                if(i==0)
+                    return ESTADO_KEYWORD;
+                else{
+                    //tirar atras y devolver estado de ID
+                    int chars_atras = posible_keyword.length();
+
+                    for(int j=0; j<chars_atras; j++){
+                        volverAtras();
+                    }
+                    current_token = current_token.substring(0, current_token.length()-posible_keyword.length());
+                    //System.out.println("ELIMINADA LA KEYWORD: " + current_token);
+                    return 24; // Tenemos el identificador
+                }
+            }
         }
 
-        return 23;
+        return tipo;
     }
 }
