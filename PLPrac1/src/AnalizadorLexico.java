@@ -12,6 +12,7 @@ public class AnalizadorLexico {
     public static int ERROR = -2;
     public static int FINAL = -1;
     public static int ESTADO_KEYWORD = -3;
+    public static int ESTADO_ID_ESPACIO = -4;
 
     public static Map<Integer, Integer> bufferTable = new HashMap<>();
     public static Map<Integer, Integer> typeTable = new HashMap<>();
@@ -50,6 +51,7 @@ public class AnalizadorLexico {
         typeTable.put(16,8);
         //typeTable.put(X, 9); FALTAN PALABRAS CLAVE
         typeTable.put(24,23);
+        typeTable.put(ESTADO_ID_ESPACIO, 23);
         typeTable.put(18,24);
         typeTable.put(28, 28);
         typeTable.put(29,24);
@@ -327,8 +329,13 @@ private void errorLexico(char c, int fila_token, int col_token) {
 
 
     private int delta(int estado, char c, String lexema) {
-        if( c == ' ' || c == '\n' || c == '\t')
-            return estado; 
+        if( c == ' ' || c == '\n' || c == '\t'){
+            if(estado == 23)
+                return ESTADO_ID_ESPACIO;
+            else
+                return estado; 
+        }
+
 
         switch(estado){
             case 0:
@@ -410,6 +417,7 @@ private void errorLexico(char c, int fila_token, int col_token) {
             case 28: return -1;
             case 29: return -1;
             case 30: return -1;
+            case -4: return -1;
             default:
                 return -2;
         
