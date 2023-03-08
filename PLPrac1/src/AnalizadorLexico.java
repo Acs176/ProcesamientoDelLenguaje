@@ -436,10 +436,10 @@ private void errorLexico(char c, int fila_token, int col_token) {
             if(tipo != 23){
                 // caso especial SI
                 if(tipo == 16){
-                    System.out.println("TENEMOS UN SI: LEXEMA " + lexema);
+                    //System.out.println("TENEMOS UN SI: LEXEMA " + lexema);
                     // leer 2 chars más
                     char c1 = leerCaracter(entrada);
-                    System.out.println("c1 " + char_leido + " c2 " + c1);
+                    //System.out.println("c1 " + char_leido + " c2 " + c1);
                     boolean sino = false;
                     if(char_leido == 'n' && c1 == 'o'){
                         // NO HACEMOS NADA

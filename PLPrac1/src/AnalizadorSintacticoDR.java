@@ -3,8 +3,13 @@ import java.util.TreeSet;
 public class AnalizadorSintacticoDR {
     AnalizadorLexico lexico;
     Token token;
+    
+    StringBuilder reglas;
+    boolean flag;
+
     public AnalizadorSintacticoDR(AnalizadorLexico al) {
         lexico = al;
+        reglas = new StringBuilder();
     }
 
     public void emparejar(int tokEsperado){
@@ -17,6 +22,17 @@ public class AnalizadorSintacticoDR {
         }            
     }
 
+    public void addRegla(String regla){
+        if(regla != "1")
+            reglas.append(" " + regla);
+        else
+            reglas.append(regla);
+    }
+
+    public void comprobarFinFichero(){
+        System.out.println(reglas);
+    }
+
     public void errorSintaxis(TreeSet<Integer> esperado){
         String esperado_string = "";
         for(Integer i : esperado){
@@ -27,7 +43,9 @@ public class AnalizadorSintacticoDR {
     }
 
     public void S(){
+        
         if(token.tipo == Token.ALGORITMO){
+            addRegla("1");
             emparejar(Token.ALGORITMO);
             emparejar(Token.ID);
             emparejar(Token.PYC);
@@ -40,6 +58,7 @@ public class AnalizadorSintacticoDR {
     }
     public void Vsp(){
         if(token.tipo == Token.FUNCION || token.tipo == Token.VAR){
+            addRegla("2");
             Unsp();
             Vspp();
         }
@@ -53,11 +72,13 @@ public class AnalizadorSintacticoDR {
     }
     public void Vspp(){
         if(token.tipo == Token.FUNCION || token.tipo == Token.VAR){
+            addRegla("3");
             Unsp();
             Vspp();
         }
         else if(token.tipo == Token.BLQ){
             // epsilon
+            addRegla("4");
         }
         else{
             errorSintaxis(new TreeSet<Integer>(){
@@ -70,6 +91,7 @@ public class AnalizadorSintacticoDR {
     }
     public void Unsp(){
         if(token.tipo == Token.FUNCION){
+            addRegla("5");
             emparejar(Token.FUNCION);
             emparejar(Token.ID);
             emparejar(Token.DOSP);
@@ -81,6 +103,7 @@ public class AnalizadorSintacticoDR {
 
         }
         else if(token.tipo == Token.VAR){
+            addRegla("6");
             emparejar(Token.VAR);
             LV();
         }
@@ -94,6 +117,7 @@ public class AnalizadorSintacticoDR {
     }
     public void LV(){
         if(token.tipo == Token.ID){
+            addRegla("7");
             V();
             LVp();
         }
@@ -106,11 +130,13 @@ public class AnalizadorSintacticoDR {
     }
     public void LVp(){
         if(token.tipo == Token.ID){
+            addRegla("8");
             V();
             LVp();
         }
         else if(token.tipo == Token.FUNCION || token.tipo == Token.VAR || token.tipo == Token.BLQ){
             // epsilon
+            addRegla("9");
         }
         else{
             errorSintaxis(new TreeSet<Integer>(){
@@ -124,6 +150,7 @@ public class AnalizadorSintacticoDR {
     }
     public void V(){
         if(token.tipo == Token.ID){
+            addRegla("10");
             emparejar(Token.ID);
             Lid();
             emparejar(Token.DOSP);
@@ -139,12 +166,14 @@ public class AnalizadorSintacticoDR {
     }
     public void Lid(){
         if(token.tipo == Token.COMA){
+            addRegla("11");
             emparejar(Token.COMA);
             emparejar(Token.ID);
             Lid();
         }
         else if(token.tipo == Token.DOSP){
             // epsilon
+            addRegla("12");
         }
         else{
             errorSintaxis(new TreeSet<Integer>(){
@@ -156,9 +185,11 @@ public class AnalizadorSintacticoDR {
     }
     public void Tipo(){
         if(token.tipo == Token.ENTERO){
+            addRegla("13");
             emparejar(Token.ENTERO);
         }
         else if(token.tipo == Token.REAL){
+            addRegla("14");
             emparejar(Token.REAL);
         }
         else{
@@ -171,6 +202,7 @@ public class AnalizadorSintacticoDR {
     }
     public void Bloque(){
         if(token.tipo == Token.BLQ){
+            addRegla("15");
             emparejar(Token.BLQ);
             SInstr();
             emparejar(Token.FBLQ);
@@ -184,6 +216,7 @@ public class AnalizadorSintacticoDR {
     }
     public void SInstr(){
         if(token.tipo == Token.ID || token.tipo == Token.SI || token.tipo == Token.MIENTRAS || token.tipo == Token.ESCRIBIR || token.tipo == Token.BLQ){
+            addRegla("16");
             Instr();
             SInstrp();
         }
@@ -200,12 +233,14 @@ public class AnalizadorSintacticoDR {
     }
     public void SInstrp(){
         if(token.tipo == Token.PYC){
+            addRegla("17");
             emparejar(Token.PYC);
             Instr();
             SInstrp();
         }
         else if(token.tipo == Token.FBLQ){
             // epsilon
+            addRegla("18");
         }
         else{
             errorSintaxis(new TreeSet<Integer>(){
@@ -217,14 +252,17 @@ public class AnalizadorSintacticoDR {
     }
     public void Instr(){
         if(token.tipo == Token.BLQ){
+            addRegla("19");
             Bloque();
         }
         else if(token.tipo == Token.ID){
+            addRegla("20");
             emparejar(Token.ID);
             emparejar(Token.ASIG);
             E();
         }
         else if(token.tipo == Token.SI){
+            addRegla("21");
             emparejar(Token.SI);
             E();
             emparejar(Token.ENTONCES);
@@ -232,12 +270,14 @@ public class AnalizadorSintacticoDR {
             Instrp();
         }
         else if(token.tipo == Token.MIENTRAS){
+            addRegla("24");
             emparejar(Token.MIENTRAS);
             E();
             emparejar(Token.HACER);
             Instr();
         }
         else if(token.tipo == Token.ESCRIBIR){
+            addRegla("25");
             emparejar(Token.ESCRIBIR);
             emparejar(Token.PARI);
             E();
@@ -256,16 +296,26 @@ public class AnalizadorSintacticoDR {
     }
     public void Instrp(){
         if(token.tipo == Token.FSI){
+            addRegla("22");
             emparejar(Token.FSI);
         }
         else if(token.tipo == Token.SINO){
+            addRegla("23");
             emparejar(Token.SINO);
             Instr();
             emparejar(Token.FSI);
         }
+        else{
+            errorSintaxis(new TreeSet<Integer>(){
+                {add(Token.FSI);
+                 add(Token.SINO);
+                }
+            });
+        }
     }
     public void E(){
         if(token.tipo == Token.ID || token.tipo == Token.NENTERO || token.tipo == Token.NREAL || token.tipo == Token.PARI){
+            addRegla("26");
             Expr();
             Ep();
         }
@@ -281,11 +331,13 @@ public class AnalizadorSintacticoDR {
     }
     public void Ep(){
         if(token.tipo == Token.OPREL){
+            addRegla("27");
             emparejar(Token.OPREL);
             Expr();
         }
         else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || token.tipo == Token.PARD || token.tipo == Token.FSI){
             // epsilon
+            addRegla("28");
         }
         else{
             errorSintaxis(new TreeSet<Integer>(){
@@ -300,6 +352,7 @@ public class AnalizadorSintacticoDR {
     }
     public void Expr(){
         if(token.tipo == Token.ID || token.tipo == Token.NENTERO || token.tipo == Token.NREAL || token.tipo == Token.PARI){
+            addRegla("29");
             Term();
             Exprp();
         }
@@ -315,12 +368,14 @@ public class AnalizadorSintacticoDR {
     }
     public void Exprp(){
         if(token.tipo == Token.OPAS){
+            addRegla("30");
             emparejar(Token.OPAS);
             Termp();
             Exprp();
         }
         else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || token.tipo == Token.PARD || token.tipo == Token.FSI || token.tipo == Token.OPREL){
             // epsilon
+            addRegla("31");
         }
         else{
             errorSintaxis(new TreeSet<Integer>(){
@@ -336,6 +391,7 @@ public class AnalizadorSintacticoDR {
     }
     public void Term(){
         if(token.tipo == Token.ID || token.tipo == Token.NENTERO || token.tipo == Token.NREAL || token.tipo == Token.PARI){
+            addRegla("32");
             Factor();
             Termp();
         }
@@ -351,6 +407,7 @@ public class AnalizadorSintacticoDR {
     }
     public void Termp(){
         if(token.tipo == Token.OPMD){
+            addRegla("33");
             emparejar(Token.OPMD);
             Factor();
             Termp();
@@ -358,6 +415,7 @@ public class AnalizadorSintacticoDR {
         else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || 
         token.tipo == Token.PARD || token.tipo == Token.FSI || token.tipo == Token.OPREL || token.tipo == Token.OPAS){
             // epsilon
+            addRegla("34");
         }
         else{
             errorSintaxis(new TreeSet<Integer>(){
@@ -374,15 +432,19 @@ public class AnalizadorSintacticoDR {
     }
     public void Factor(){
         if(token.tipo == Token.ID){
+            addRegla("35");
             emparejar(Token.ID);
         }
         else if(token.tipo == Token.NENTERO){
+            addRegla("36");
             emparejar(Token.NENTERO);
         }
         else if(token.tipo == Token.NREAL){
+            addRegla("37");
             emparejar(Token.NREAL);
         }
         else if(token.tipo == Token.PARI){
+            addRegla("38");
             emparejar(Token.PARI);
             Expr();
             emparejar(Token.PARD);
