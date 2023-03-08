@@ -156,7 +156,7 @@ public class AnalizadorLexico {
                 else{
                     Token toReturn = new Token();
                     String lexema;
-                    if(estado == ESTADO_KEYWORD){
+                    if(estado == ESTADO_KEYWORD || estado == ESTADO_ID_ESPACIO){
                         lexema = current_token;
                         estado = 24; // FIN DE IDENTIFICADOR PARA QUE COMPRUEBE PALABRAS CLAVE
                     }
@@ -330,10 +330,11 @@ private void errorLexico(char c, int fila_token, int col_token) {
 
     private int delta(int estado, char c, String lexema) {
         if( c == ' ' || c == '\n' || c == '\t'){
-            if(estado == 23)
+            if(estado != 23)
+                return estado; // quizas hay que usar el estado ESPACIO_ID 
+            else{
                 return ESTADO_ID_ESPACIO;
-            else
-                return estado; 
+            }
         }
 
 
