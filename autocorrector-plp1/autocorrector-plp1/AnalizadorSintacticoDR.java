@@ -37,9 +37,9 @@ public class AnalizadorSintacticoDR {
     public void errorSintaxis(TreeSet<Integer> esperado){
         String esperado_string = "";
         for(Integer i : esperado){
-            esperado_string += i.toString();
+            esperado_string += Token.nombreToken.get(i);
         }
-        System.out.println("Error sintactico (" + token.fila + "," + token.columna + "): encontrado \'" + token.lexema + "\', esperaba " + esperado_string);
+        System.err.println("Error sintactico (" + token.fila + "," + token.columna + "): encontrado \'" + token.lexema + "\', esperaba " + esperado_string);
         System.exit(-1);
     }
 
