@@ -159,6 +159,7 @@ public class AnalizadorLexico {
                     if(estado == ESTADO_KEYWORD || estado == ESTADO_ID_ESPACIO){
                         lexema = current_token;
                         estado = 24; // FIN DE IDENTIFICADOR PARA QUE COMPRUEBE PALABRAS CLAVE
+                        // cambia para el getTipo
                     }
                     else{
                         lexema = devolverChars(estado, current_token);
@@ -169,7 +170,9 @@ public class AnalizadorLexico {
                     toReturn.fila = fila_token;
                     toReturn.columna = col_token;
                     toReturn.tipo = getTipo(estado, lexema);
-                    
+                    if(toReturn.tipo == 23){
+                        toReturn.tipo = 19;
+                    }
     
                     volverAtras(); // para que se tenga en cuenta el que acaba de leer
                     
@@ -205,8 +208,12 @@ public class AnalizadorLexico {
                         //System.out.println("ESTADO AQUI " + estado);
                         if(estado == ESTADO_KEYWORD || estado == ESTADO_ID_ESPACIO){
                             estado = 24;
+                            // para el getTipo
                         }
                         toReturn.tipo = getTipo(estado, lexema);
+                        if(toReturn.tipo == 23){
+                            toReturn.tipo = 19;
+                        }
                         //System.out.println("TIPO DESPUES " + toReturn.tipo);
                         return toReturn;
                     }
@@ -354,7 +361,7 @@ private void errorLexico(char c, int fila_token, int col_token) {
                 if(c == ',')    return 13;
                 if(c == ':')    return 14;
                 if(Character.isDigit(c))        return 17;
-                if(Character.isAlphabetic(c))   return 23;
+                if(Character.isAlphabetic(c))   return 23; // estado 23
                 break;
             case 1: return -1; // final
             case 2:
