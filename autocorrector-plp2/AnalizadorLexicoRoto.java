@@ -38,11 +38,11 @@ public class AnalizadorLexico {
 
     private void fillTypeTable(){
         typeTable.put(25,0);
-        typeTable.put(1, 1);
-        typeTable.put(5, 2); // ojo
-        typeTable.put(4, 2); // ojo
-        typeTable.put(6, 2);
-        typeTable.put(9, 4); // ojo
+        typeTable.put(1,1);
+        typeTable.put(5,2); // ojo
+        typeTable.put(4,2); // ojo
+        typeTable.put(6,2);
+        typeTable.put(9,4); // ojo
         typeTable.put(10,4);// ojo
         typeTable.put(11,4);// ojo
         typeTable.put(12,3);
@@ -159,6 +159,7 @@ public class AnalizadorLexico {
                     if(estado == ESTADO_KEYWORD || estado == ESTADO_ID_ESPACIO){
                         lexema = current_token;
                         estado = 24; // FIN DE IDENTIFICADOR PARA QUE COMPRUEBE PALABRAS CLAVE
+                        // cambia para el getTipo
                     }
                     else{
                         lexema = devolverChars(estado, current_token);
@@ -169,12 +170,12 @@ public class AnalizadorLexico {
                     toReturn.fila = fila_token;
                     toReturn.columna = col_token;
                     toReturn.tipo = getTipo(estado, lexema);
-                    
-    
-                    volverAtras(); // para que se tenga en cuenta el que acaba de leer
                     if(toReturn.tipo == 23){
                         toReturn.tipo = 18;
                     }
+    
+                    volverAtras(); // para que se tenga en cuenta el que acaba de leer
+                    
                     return toReturn;
                 }
 
@@ -207,6 +208,7 @@ public class AnalizadorLexico {
                         //System.out.println("ESTADO AQUI " + estado);
                         if(estado == ESTADO_KEYWORD || estado == ESTADO_ID_ESPACIO){
                             estado = 24;
+                            // para el getTipo
                         }
                         toReturn.tipo = getTipo(estado, lexema);
                         if(toReturn.tipo == 23){
@@ -359,7 +361,7 @@ private void errorLexico(char c, int fila_token, int col_token) {
                 if(c == ',')    return 13;
                 if(c == ':')    return 14;
                 if(Character.isDigit(c))        return 17;
-                if(Character.isAlphabetic(c))   return 23;
+                if(Character.isAlphabetic(c))   return 23; // estado 23
                 break;
             case 1: return -1; // final
             case 2:
@@ -404,10 +406,10 @@ private void errorLexico(char c, int fila_token, int col_token) {
             case 22: return -1;
             case 23:
                 // checkear si tenemos keyword
-                // int tipo = checkKeyword(24, lexema, c);
-                // if(tipo != 23){
-                //     return tipo;                              // ESTADO DE KEYWORD
-                // }
+                int tipo = checkKeyword(24, lexema, c);
+                if(tipo != 23){
+                    return tipo;                              // ESTADO DE KEYWORD
+                }
                 if(Character.isAlphabetic(c) || Character.isDigit(c))
                     return 23;
                 else

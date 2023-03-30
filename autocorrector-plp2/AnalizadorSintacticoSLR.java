@@ -1,6 +1,6 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -18,23 +18,32 @@ public class AnalizadorSintacticoSLR {
     public void analizar(){
         Token a = al.siguienteToken();
         boolean fin = false;
+        pila_estados.push(1); // inicializar con el primer estado
+        
         do{
-            int estado = 1;
+
+            int estado = pila_estados.lastElement();
             System.out.println(estado + " " + a.tipo);
             char accion = Tabla.Accion[estado][a.tipo].charAt(0);
-            int estado_regla = Character.getNumericValue(Tabla.Accion[estado][a.tipo].charAt(1));
+            // el estado_regla es el resto del String
+            System.out.println("PILA ESTADOS: " + pila_estados);
+            int estado_regla = Integer.valueOf(Tabla.Accion[estado][a.tipo].substring(1));
             System.out.println("accion " + accion + " estado_regla " + estado_regla);
             if(accion == 'd'){
                 pila_estados.push(estado_regla);
                 a = al.siguienteToken();
+                System.out.println("TOKEN: " + a.lexema);
             }
             else if(accion == 'r'){
                 reglas_aplicadas.add(estado_regla);
-                for(int i=1; i< Tabla.longitudParteDerecha(estado_regla); i++){
+                for(int i=0; i< Tabla.longitudParteDerecha(estado_regla); i++){
                     pila_estados.pop();
+
                 }
+                System.out.println("DESPUES DEL POP: " + pila_estados);
                 int p = pila_estados.lastElement();
                 int izq = Tabla.parteIzq(estado_regla);
+                System.out.println("push de Ir_A " + p + " " + izq);
                 pila_estados.push(Tabla.Ir_A[p][izq]);
             }
             else if(Tabla.Accion[estado][a.tipo] == "aceptar")
@@ -43,6 +52,7 @@ public class AnalizadorSintacticoSLR {
                 // ERRROR
                 System.exit(-1);
             }
+
         } while(!fin);
 
         imprimirSalida();
