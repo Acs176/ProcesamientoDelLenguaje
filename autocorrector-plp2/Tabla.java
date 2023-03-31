@@ -1,3 +1,4 @@
+import javax.xml.transform.SourceLocator;
 
 public class Tabla {
     public static final int
@@ -35,9 +36,21 @@ public class Tabla {
     E = 31,
     Factor = 32;
 
-    public static String Accion[][] = new String [49][33];
+    public static String Accion[][] = new String [49][22];
     
     public static Integer Ir_A[][] = new Integer[46][33];
+
+
+
+    public static void imprimirTabla(){
+        System.out.println();
+        for(int i=0; i<Ir_A.length; i++){
+            for(int j=0; j<Ir_A[i].length; j++){
+                System.out.print(Ir_A[i][j] + ",");
+            }
+            System.out.println();
+        }
+    }
 
     public static int longitudParteDerecha(int regla){
        switch(regla){

@@ -52,11 +52,11 @@ public class AnalizadorLexico {
         //typeTable.put(X, 9); FALTAN PALABRAS CLAVE
         typeTable.put(24,23);
         typeTable.put(ESTADO_ID_ESPACIO, 23);
-        typeTable.put(18,24);
+        typeTable.put(18,19);
         typeTable.put(28, 28);
-        typeTable.put(29,24);
-        typeTable.put(30,24);
-        typeTable.put(22,25);
+        typeTable.put(29,19);
+        typeTable.put(30,19);
+        typeTable.put(22,20);
     }
 
     public AnalizadorLexico(RandomAccessFile entrada) {
@@ -348,15 +348,15 @@ private void errorLexico(char c, int fila_token, int col_token) {
             case 0:
                 if(c == ')')    return 1;
                 if(c == '(')    return 2;
-                if(c == '*')    return 4;
-                if(c == '/')    return 3;
-                if(c == '<')    return 7;
-                if(c == '>')    return 8;
+                if(c == '*')    return ERROR;
+                if(c == '/')    return ERROR;
+                if(c == '<')    return ERROR;
+                if(c == '>')    return ERROR;
                 if(c == '+')    return 6;
                 if(c == '-')    return 6;
-                if(c == '=')    return 9;
+                if(c == '=')    return ERROR;
                 if(c == ';')    return 12;
-                if(c == ',')    return 13;
+                if(c == ',')    return ERROR;
                 if(c == ':')    return 14;
                 if(Character.isDigit(c))        return 17;
                 if(Character.isAlphabetic(c))   return 23;
@@ -375,7 +375,7 @@ private void errorLexico(char c, int fila_token, int col_token) {
                 if(c == '>' || c == '=')    return 10;
                 else            return 11;
             case 8:
-                if(c == '=')    return 10;
+                if(c == '=')    return ERROR;
                 else            return 11;
             case 9: return -1;
             case 10: return -1;

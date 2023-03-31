@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,58 +11,89 @@ public class AnalizadorSintacticoSLR {
     Stack<Integer> pila_estados = new Stack<Integer>();
     public AnalizadorSintacticoSLR(AnalizadorLexico al) {
         this.al = al;
-        Arrays.stream(Tabla.Accion).forEach(row -> Arrays.fill(row, "o0"));
+        Arrays.stream(Tabla.Accion).forEach(row -> Arrays.fill(row, "-1"));
+        Arrays.stream(Tabla.Ir_A).forEach(row -> Arrays.fill(row, -1));
         rellenarIr_A();
         rellenarTablaAccion();
+        //Tabla.imprimirTabla();
     }
 
     public void analizar(){
         Token a = al.siguienteToken();
         boolean fin = false;
         pila_estados.push(1); // inicializar con el primer estado
-        
+        char accion;
         do{
 
             int estado = pila_estados.lastElement();
-            System.out.println(estado + " " + a.tipo);
-            char accion = Tabla.Accion[estado][a.tipo].charAt(0);
+            //System.out.println(estado + " " + a.tipo);
+            accion = Tabla.Accion[estado][a.tipo].charAt(0);
             // el estado_regla es el resto del String
-            System.out.println("PILA ESTADOS: " + pila_estados);
-            int estado_regla = Integer.valueOf(Tabla.Accion[estado][a.tipo].substring(1));
-            System.out.println("accion " + accion + " estado_regla " + estado_regla);
-            if(accion == 'd'){
-                pila_estados.push(estado_regla);
-                a = al.siguienteToken();
-                System.out.println("TOKEN: " + a.lexema);
-            }
-            else if(accion == 'r'){
-                reglas_aplicadas.add(estado_regla);
-                for(int i=0; i< Tabla.longitudParteDerecha(estado_regla); i++){
-                    pila_estados.pop();
-
-                }
-                System.out.println("DESPUES DEL POP: " + pila_estados);
-                int p = pila_estados.lastElement();
-                int izq = Tabla.parteIzq(estado_regla);
-                System.out.println("push de Ir_A " + p + " " + izq);
-                pila_estados.push(Tabla.Ir_A[p][izq]);
-            }
-            else if(Tabla.Accion[estado][a.tipo] == "aceptar")
+            //System.out.println("PILA ESTADOS: " + pila_estados);
+            if(Tabla.Accion[estado][a.tipo] == "aceptar")
                 fin = true;
             else{
-                // ERRROR
-                System.exit(-1);
+                int estado_regla = Integer.valueOf(Tabla.Accion[estado][a.tipo].substring(1));
+                //System.out.println("accion " + accion + " estado_regla " + estado_regla);
+                if(accion == 'd'){
+                    pila_estados.push(estado_regla);
+                    a = al.siguienteToken();
+                    //System.out.println("TOKEN: " + a.lexema);
+                }
+                else if(accion == 'r'){
+                    reglas_aplicadas.add(estado_regla);
+                    for(int i=0; i< Tabla.longitudParteDerecha(estado_regla); i++){
+                        pila_estados.pop();
+    
+                    }
+                    //System.out.println("DESPUES DEL POP: " + pila_estados);
+                    int p = pila_estados.lastElement();
+                    int izq = Tabla.parteIzq(estado_regla);
+                    //System.out.println("push de Ir_A " + p + " " + izq);
+                    pila_estados.push(Tabla.Ir_A[p][izq]);
+                }
+                else{
+                    // ERRROR
+                    TreeSet<Integer> esperados = new TreeSet<>();
+                    for(int i=0; i<Tabla.Accion[estado].length; i++){
+                        String celda = Tabla.Accion[estado][i];
+                        if(celda.charAt(0) == 'd' || celda.charAt(0) == 'r' || celda.charAt(0) == 'a'){
+                            esperados.add(i);
+                        }
+                    }
+                    errorSintaxis(esperados, a);
+
+                    System.exit(-1);
+                }
             }
+
 
         } while(!fin);
 
         imprimirSalida();
     }
 
-    public void imprimirSalida(){
-        for(int i = reglas_aplicadas.size()-1; i>=0; i--){
-            System.out.print(reglas_aplicadas.get(i) + ' ');
+    public void errorSintaxis(TreeSet<Integer> esperado, Token t){
+        String esperado_string = "";
+        for(Integer i : esperado){
+            esperado_string += Token.nombreToken.get(i);
         }
+        if(t.tipo == Token.EOF){
+            System.err.println("Error sintactico: encontrado fin de fichero, esperaba " + esperado_string);
+        }
+        else{
+            System.err.println("Error sintactico (" + t.fila + "," + t.columna + "): encontrado \'" + t.lexema + "\', esperaba " + esperado_string);
+        }
+        
+        System.exit(-1);
+    }
+
+    public void imprimirSalida(){
+            for(int i = reglas_aplicadas.size()-1; i>=0; i--){
+                System.out.print(reglas_aplicadas.get(i) + " ");
+                
+            }
+            System.out.println();
     }
     public void rellenarIr_A(){
         Tabla.Ir_A[1][Tabla.S]      =  2;
@@ -89,6 +121,7 @@ public class AnalizadorSintacticoSLR {
         Tabla.Ir_A[41][Tabla.Bloque]= 14;
         Tabla.Ir_A[41][Tabla.Instr] = 42;
         Tabla.Ir_A[43][Tabla.Factor]= 29;
+        Tabla.Ir_A[43][Tabla.E]     = 44;
         Tabla.Ir_A[45][Tabla.V]     = 47; // jjuraria que esta mal
     }
 
@@ -114,6 +147,7 @@ public class AnalizadorSintacticoSLR {
         Tabla.Accion[12][Tabla.PYC]         = "r10";
         Tabla.Accion[12][Tabla.FBLQ]        = "r10";
         Tabla.Accion[12][Tabla.FSI]         = "r10";
+        Tabla.Accion[12][Tabla.$]         = "r10";
         Tabla.Accion[13][Tabla.PYC]         = "r12";
         Tabla.Accion[13][Tabla.FBLQ]        = "r12";
         Tabla.Accion[14][Tabla.PYC]         = "r13";
@@ -130,9 +164,9 @@ public class AnalizadorSintacticoSLR {
         Tabla.Accion[18][Tabla.BLQ]         = "d10";
         Tabla.Accion[18][Tabla.SI]          = "d16";
         Tabla.Accion[18][Tabla.MIENTRAS]    = "d17";
+        Tabla.Accion[18][Tabla.ESCRIBIR]    = "d19";
 
         Tabla.Accion[19][Tabla.PARI]        = "d27";
-        Tabla.Accion[19][Tabla.$]           = "r1";
         Tabla.Accion[20][Tabla.ID]          = "r6";
         Tabla.Accion[20][Tabla.VAR]         = "r6";
         Tabla.Accion[20][Tabla.BLQ]         = "r6";
@@ -144,14 +178,14 @@ public class AnalizadorSintacticoSLR {
         Tabla.Accion[24][Tabla.VAR]         = "r7";
         Tabla.Accion[24][Tabla.BLQ]         = "r7";
         Tabla.Accion[25][Tabla.PYC]         = "r8";
-        Tabla.Accion[26][Tabla.PYC]         = "r8";
+        Tabla.Accion[26][Tabla.PYC]         = "r9";
         Tabla.Accion[27][Tabla.ID]          = "d32";
         Tabla.Accion[27][Tabla.NENTERO]     = "d33";
         Tabla.Accion[27][Tabla.NREAL]       = "d34";
         Tabla.Accion[28][Tabla.PARD]        = "d30";
         Tabla.Accion[28][Tabla.OPAS]        = "d31";
         Tabla.Accion[29][Tabla.PYC]         = "r19";
-        Tabla.Accion[29][Tabla.BLQ]         = "r19";
+        Tabla.Accion[29][Tabla.FBLQ]         = "r19";
         Tabla.Accion[29][Tabla.ENTONCES]    = "r19";
         Tabla.Accion[29][Tabla.FSI]         = "r19";
         Tabla.Accion[29][Tabla.HACER]       = "r19";
@@ -165,21 +199,21 @@ public class AnalizadorSintacticoSLR {
         Tabla.Accion[31][Tabla.NENTERO]     = "d33";
         Tabla.Accion[31][Tabla.NREAL]       = "d34";
         Tabla.Accion[32][Tabla.PYC]         = "r20";
-        Tabla.Accion[32][Tabla.BLQ]         = "r20";
+        Tabla.Accion[32][Tabla.FBLQ]         = "r20";
         Tabla.Accion[32][Tabla.ENTONCES]    = "r20";
         Tabla.Accion[32][Tabla.FSI]         = "r20";
         Tabla.Accion[32][Tabla.HACER]       = "r20";
         Tabla.Accion[32][Tabla.PARD]        = "r20";
         Tabla.Accion[32][Tabla.OPAS]        = "r20";
         Tabla.Accion[33][Tabla.PYC]         = "r21";
-        Tabla.Accion[33][Tabla.BLQ]         = "r21";
+        Tabla.Accion[33][Tabla.FBLQ]         = "r21";
         Tabla.Accion[33][Tabla.ENTONCES]    = "r21";
         Tabla.Accion[33][Tabla.FSI]         = "r21";
         Tabla.Accion[33][Tabla.HACER]       = "r21";
         Tabla.Accion[33][Tabla.PARD]        = "r21";
         Tabla.Accion[33][Tabla.OPAS]        = "r21";
         Tabla.Accion[34][Tabla.PYC]         = "r22";
-        Tabla.Accion[34][Tabla.BLQ]         = "r22";
+        Tabla.Accion[34][Tabla.FBLQ]         = "r22";
         Tabla.Accion[34][Tabla.ENTONCES]    = "r22";
         Tabla.Accion[34][Tabla.FSI]         = "r22";
         Tabla.Accion[34][Tabla.HACER]       = "r22";
@@ -216,13 +250,15 @@ public class AnalizadorSintacticoSLR {
         Tabla.Accion[44][Tabla.FSI]         = "r14";
         Tabla.Accion[44][Tabla.OPAS]        = "d31";
         Tabla.Accion[45][Tabla.ID]          = "d21";
-        Tabla.Accion[46][Tabla.PYC]         = "r22";
-        Tabla.Accion[46][Tabla.BLQ]         = "r22";
-        Tabla.Accion[46][Tabla.ENTONCES]    = "r22";
-        Tabla.Accion[46][Tabla.FSI]         = "r22";
-        Tabla.Accion[46][Tabla.HACER]       = "r22";
-        Tabla.Accion[46][Tabla.PARD]        = "r22";
-        Tabla.Accion[46][Tabla.OPAS]        = "r22";
+        Tabla.Accion[45][Tabla.VAR]          = "r4";
+        Tabla.Accion[45][Tabla.BLQ]          = "r4";
+        Tabla.Accion[46][Tabla.PYC]         = "r18";
+        Tabla.Accion[46][Tabla.FBLQ]         = "r18";
+        Tabla.Accion[46][Tabla.ENTONCES]    = "r18";
+        Tabla.Accion[46][Tabla.FSI]         = "r18";
+        Tabla.Accion[46][Tabla.HACER]       = "r18";
+        Tabla.Accion[46][Tabla.PARD]        = "r18";
+        Tabla.Accion[46][Tabla.OPAS]        = "r18";
         Tabla.Accion[47][Tabla.ID]          = "r5";
         Tabla.Accion[47][Tabla.VAR]         = "r5";
         Tabla.Accion[47][Tabla.BLQ]         = "r5";
