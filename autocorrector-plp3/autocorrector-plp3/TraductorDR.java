@@ -67,11 +67,39 @@ public class TraductorDR {
         System.out.println("Sale de " + s);
     }
 
+    public int traducirTipo(String tipo){
+        int tipoSimbolo;
+        switch(tipo){
+            case "int":
+                tipoSimbolo = 1;
+                break;
+            case "double":
+                tipoSimbolo = 2;
+                break;
+            default:
+                // ERROR
+                return -1;
+            
+        }
+        return tipoSimbolo;
+    }
+
+    public String traducirTipo(int tipo){
+        switch(tipo){
+            case 1:
+                return "int";
+            case 2:
+                return "double";
+            default:
+                return "";
+        }
+    }
+
     public String S(){
         debug("s");
         if(token.tipo == Token.ALGORITMO){
             TS = new TablaSimbolos(null);
-            TS.nuevoSimbolo(new Simbolo("main", "main", Simbolo.FUNCION));
+            TS.nuevoSimbolo(new Simbolo("main", "main", Simbolo.ENTERO));
             System.out.println("NUEVA FUNCION MAIN");
 
             addRegla("1");
@@ -145,29 +173,18 @@ public class TraductorDR {
             emparejar(Token.ID);
             emparejar(Token.DOSP);
 
-            String tipo_trad = Tipo();
-            int tipoSimbolo;
-            switch(tipo_trad){
-                case "int":
-                    tipoSimbolo = 1;
-                    break;
-                case "double":
-                    tipoSimbolo = 2;
-                    break;
-                default:
-                    // ERROR
-                    return "";
-            }
-            Simbolo nuevoSimb = new Simbolo(func_nombre, prefix + func_nombre, Simbolo.FUNCION);
+            String trad_tipo = Tipo();
+            
+            Simbolo nuevoSimb = new Simbolo(func_nombre, prefix + func_nombre, traducirTipo(trad_tipo));
             TS.nuevoSimbolo(nuevoSimb);
             System.out.println("NUEVO SIMBOLO " + nuevoSimb);
             TS = new TablaSimbolos(TS);
 
             emparejar(Token.PYC);
-            Vsp(prefix + func_nombre + "_");
-            Bloque();
+            String vsp_trad = Vsp(prefix + func_nombre + "_");
+            String bloque_trad = Bloque(true, func_nombre);
             emparejar(Token.PYC);
-
+            return vsp_trad + bloque_trad;
         }
         else if(token.tipo == Token.VAR){
             addRegla("6");
@@ -241,18 +258,8 @@ public class TraductorDR {
             String tipo_trad = Tipo();
             emparejar(Token.PYC);
 
-            int tipoSimbolo;
-            switch(tipo_trad){
-                case "int":
-                    tipoSimbolo = 1;
-                    break;
-                case "double":
-                    tipoSimbolo = 2;
-                    break;
-                default:
-                    // ERROR
-                    return "";
-            }
+            int tipoSimbolo = traducirTipo(tipo_trad);
+
             Simbolo nuevoSimb = new Simbolo(id, prefix + id, tipoSimbolo);
             TS.nuevoSimbolo(nuevoSimb);
             System.out.println("NUEVO SIMBOLO " + nuevoSimb);
@@ -338,9 +345,9 @@ public class TraductorDR {
             if(esFunc){
                 // ES POSIBLE QUE NO ESTE
                 Simbolo funcion = TS.buscar(nombreSimbolo);
-                parteFuncion = funcion.tipo + " " + funcion.nombre + "()\n";
+                parteFuncion = traducirTipo(funcion.tipo) + " " + funcion.nombre + "() ";
             }
-            return parteFuncion + "{\n\t" + sinstr_trad + "\n}";
+            return parteFuncion + "{\n" + sinstr_trad + "}\n";
             
         }
         else{
@@ -424,7 +431,7 @@ public class TraductorDR {
                         //error
                         return "";
                 }
-                return simbolo.nombreCompleto + " " + tipo_asignacion + " " + e_trad; 
+                return simbolo.nombreCompleto + " " + tipo_asignacion + " " + e_trad + ';'; 
 
             }
             else{
@@ -442,7 +449,7 @@ public class TraductorDR {
             String instr_trad = Instr();
             String instrp_trad = Instrp();
 
-            return "if ( " + e_trad + " )\n\t" + instr_trad + instrp_trad + '\n';
+            return "if ( " + e_trad + " )\n" + instr_trad + instrp_trad + '\n';
         }
         else if(token.tipo == Token.MIENTRAS){
             addRegla("24");
@@ -451,7 +458,7 @@ public class TraductorDR {
             emparejar(Token.HACER);
             String instr_trad = Instr();
 
-            return "while ( " + e_trad + " )\n" + instr_trad + "\n";
+            return "while ( " + e_trad + " )\n" + instr_trad;
         }
         else if(token.tipo == Token.ESCRIBIR){
             addRegla("25");
@@ -526,7 +533,7 @@ public class TraductorDR {
             String oprel = token.lexema;
             emparejar(Token.OPREL);
             String expr_trad = Expr(tipo);
-            return oprel + " " + tipo + " " + expr_trad; 
+            return oprel + tipo + " " + expr_trad; 
         }
         else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || token.tipo == Token.PARD || token.tipo == Token.FSI
                 || token.tipo == Token.PYC || token.tipo == Token.FBLQ || token.tipo == Token.SINO
@@ -576,7 +583,7 @@ public class TraductorDR {
             emparejar(Token.OPAS);
             String term_trad = Term(tipo);
             String exprp_trad = Exprp(tipo);
-            return opas + " " + tipo + " " + term_trad + exprp_trad;
+            return ' ' + opas + tipo + " " + term_trad + exprp_trad;
 
         }
         else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || token.tipo == Token.PARD || token.tipo == Token.FSI || token.tipo == Token.OPREL
@@ -607,7 +614,7 @@ public class TraductorDR {
             addRegla("32");
             String factor_trad = Factor(tipo);
             String termp_trad = Termp(tipo);
-            return factor_trad + " " + termp_trad;
+            return factor_trad + termp_trad;
         }
         else{
             errorSintaxis(new TreeSet<Integer>(){
@@ -629,7 +636,7 @@ public class TraductorDR {
             String factor_trad = Factor(tipo);
             String termp_trad = Termp(tipo);
 
-            return opmd + " " + tipo + " " + termp_trad + " " + factor_trad;
+            return ' ' + opmd + tipo + " " + factor_trad + termp_trad;
         }
         else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || 
         token.tipo == Token.PARD || token.tipo == Token.FSI || token.tipo == Token.OPREL 
@@ -658,19 +665,22 @@ public class TraductorDR {
     public String Factor(String tipo){
         //debug("Factor");
         if(token.tipo == Token.ID){
+            Simbolo s = TS.buscar(token.lexema);
             addRegla("35");
             emparejar(Token.ID);
-            return token.lexema;
+            return s.nombreCompleto;
         }
         else if(token.tipo == Token.NENTERO){
             addRegla("36");
+            String nentero = token.lexema;
             emparejar(Token.NENTERO);
-            return token.lexema;
+            return nentero;
         }
         else if(token.tipo == Token.NREAL){
             addRegla("37");
+            String nreal = token.lexema;
             emparejar(Token.NREAL);
-            return token.lexema;
+            return nreal;
         }
         else if(token.tipo == Token.PARI){
             addRegla("38");
