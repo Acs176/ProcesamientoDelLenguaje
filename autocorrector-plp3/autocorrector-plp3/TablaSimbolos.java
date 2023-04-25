@@ -49,8 +49,13 @@ public class TablaSimbolos {
     * @return true si ha podido añadirlo, false si ya existía
     */
    public boolean nuevoSimbolo(Simbolo s) {
-     if (buscarAmbito(s.nombre)!=null)  // repetido en el ámbito
-       return false;
+     if (buscarAmbito(s.nombre)!=null){  // repetido en el ámbito
+      for(Simbolo sim : simbolos){
+        System.out.println(sim);
+      }
+      return false;
+     }
+
      simbolos.add(s);
      return true;
    }
