@@ -76,7 +76,7 @@ public class TraductorDR {
     }
 
     public void debug2(String s){
-        System.out.println("Sale de " + s);
+        //System.out.println("Sale de " + s);
     }
 
     public int traducirTipo(String tipo){
@@ -127,7 +127,7 @@ public class TraductorDR {
         if(token.tipo == Token.ALGORITMO){
             TS = new TablaSimbolos(null);
             TS.nuevoSimbolo(new Simbolo("main", "main", Simbolo.ENTERO));
-            System.out.println("NUEVA FUNCION MAIN");
+            
 
             addRegla("1");
             emparejar(Token.ALGORITMO);
@@ -202,7 +202,6 @@ public class TraductorDR {
             emparejar(Token.DOSP);
 
             String trad_tipo = Tipo();
-            System.out.println("DEBUG NOMBRE FUNCION (prefix func_nombre) -> (" + prefix + " " + func_nombre + ")" );
             Simbolo nuevoSimb = new Simbolo(func_nombre, prefix + func_nombre, traducirTipo(trad_tipo));
             if(!TS.nuevoSimbolo(nuevoSimb)){
                 System.err.println("Error semantico (" + infoToken.fila + "," + infoToken.columna + "): \'" + infoToken.lexema + "\' ya existe en este ambito");
@@ -323,7 +322,7 @@ public class TraductorDR {
             addRegla("11");
             emparejar(Token.COMA);
             String id = token.lexema;
-            System.out.println("DEBUG " + id);
+            
             Token infoToken = token;
             Simbolo nuevoSimb = new Simbolo(id, prefix + id, -1);
             if(!TS.nuevoSimbolo(nuevoSimb)){
@@ -331,7 +330,6 @@ public class TraductorDR {
                 //System.err.println("Error semantico (" + infoToken.fila + "," + infoToken.columna + "): \'" + infoToken.lexema + "\' ya existe en este ambito");
                 System.exit(-1);
             }
-            System.out.println("NUEVO SIMBOLO " + nuevoSimb);
             emparejar(Token.ID);
             String lid_trad = Lid(prefix);
             return "," + nuevoSimb.nombreCompleto + lid_trad; 
@@ -386,7 +384,6 @@ public class TraductorDR {
             if(esFunc){
                 // ES POSIBLE QUE NO ESTE
                 //Simbolo funcion = TS.buscar(nombreSimbolo);
-                //System.out.println("DEBUG SIMBOLO FUNCION " + funcion);
                 parteFuncion = tipo_trad + " " + nombreSimbolo + "() ";
             }
             return parteFuncion + "{\n" + sinstr_trad + "}\n";
@@ -431,7 +428,6 @@ public class TraductorDR {
         }
         else if(token.tipo == Token.FBLQ){
             // epsilon
-            System.out.println("YEPA");
             addRegla("18");
             return "";
         }
@@ -460,15 +456,15 @@ public class TraductorDR {
                 emparejar(Token.ASIG);
                 TipoCompuesto e_trad;
                 String tipo_asignacion;
-                String string_tipo;
+                String tipo_variable;
                 switch(simbolo.tipo){
                     case 1:
-                        string_tipo = "i";
+                        tipo_variable = "i";
                         e_trad = E("i");
                         tipo_asignacion = "=i";
                         break;
                     case 2:
-                        string_tipo = "r";
+                        tipo_variable = "r";
                         e_trad = E("r");
                         tipo_asignacion = "=r";
                         break;
@@ -479,8 +475,8 @@ public class TraductorDR {
                 if(e_trad.isBool){
                     errorSemantico(ERR_NO_BOOL, id.fila, id.columna, id.lexema);
                 }
-                if(string_tipo != e_trad.tipo){
-                    errorSemantico(ERR_ASIG_REAL, id.fila, id.columna, id.lexema);
+                if(tipo_variable == "i" && e_trad.tipo == "r"){
+                    errorSemantico(ERR_ASIG_REAL, token.fila, token.columna, token.lexema);
                 }
                 return simbolo.nombreCompleto + " " + tipo_asignacion + " " + e_trad.trad + ';'; 
 
@@ -585,7 +581,7 @@ public class TraductorDR {
 
             if(!ep_trad.trad.equals("")){
                 toReturn.setBool();
-                System.out.println("TETONERS");
+               
             }
                 
             String tipoFinal = expr_trad.tipo;
