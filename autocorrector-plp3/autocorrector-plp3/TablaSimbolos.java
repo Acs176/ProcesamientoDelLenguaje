@@ -50,9 +50,6 @@ public class TablaSimbolos {
     */
    public boolean nuevoSimbolo(Simbolo s) {
      if (buscarAmbito(s.nombre)!=null){  // repetido en el ámbito
-      for(Simbolo sim : simbolos){
-        System.out.println(sim);
-      }
       return false;
      }
 

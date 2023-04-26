@@ -51,9 +51,7 @@ public class TraductorDR {
                 add(Token.EOF);
             }});
         }
-        else{
-            System.out.println(reglas);
-        }
+
     }
 
     public void errorSintaxis(TreeSet<Integer> esperado){
@@ -202,7 +200,7 @@ public class TraductorDR {
             emparejar(Token.DOSP);
 
             String trad_tipo = Tipo();
-            Simbolo nuevoSimb = new Simbolo(func_nombre, prefix + func_nombre, traducirTipo(trad_tipo));
+            Simbolo nuevoSimb = new Simbolo(func_nombre, prefix + func_nombre, Simbolo.FUNCION);
             if(!TS.nuevoSimbolo(nuevoSimb)){
                 System.err.println("Error semantico (" + infoToken.fila + "," + infoToken.columna + "): \'" + infoToken.lexema + "\' ya existe en este ambito");
                 System.exit(-1);
@@ -293,7 +291,7 @@ public class TraductorDR {
 
             Simbolo nuevoSimb = new Simbolo(id, prefix + id, tipoSimbolo);
             if(!TS.nuevoSimbolo(nuevoSimb)){
-                System.err.println("Error semantico tetonas (" + infoToken.fila + "," + infoToken.columna + "): \'" + infoToken.lexema + "\' ya existe en este ambito");
+                errorSemantico(ERR_YA_EXISTE, infoToken.fila, infoToken.columna, infoToken.lexema);
                 System.exit(-1);
             }
             
@@ -451,8 +449,13 @@ public class TraductorDR {
             Token id = token;
             Simbolo simbolo = TS.buscar(token.lexema);
             if(simbolo != null){
+                if(simbolo.tipo == Simbolo.FUNCION){
+                    errorSemantico(ERR_NO_VARIABLE, id.fila, id.columna, id.lexema);
+                    System.exit(-1);
+                }
                 addRegla("20");
                 emparejar(Token.ID);
+                Token infoTokenAsig = token;
                 emparejar(Token.ASIG);
                 TipoCompuesto e_trad;
                 String tipo_asignacion;
@@ -472,8 +475,9 @@ public class TraductorDR {
                         //error
                         return "";
                 }
+
                 if(e_trad.isBool){
-                    errorSemantico(ERR_NO_BOOL, id.fila, id.columna, id.lexema);
+                    errorSemantico(ERR_NO_BOOL, infoTokenAsig.fila, infoTokenAsig.columna, infoTokenAsig.lexema);
                 }
                 if(tipo_variable == "i" && e_trad.tipo == "r"){
                     errorSemantico(ERR_ASIG_REAL, token.fila, token.columna, token.lexema);
@@ -503,10 +507,11 @@ public class TraductorDR {
         }
         else if(token.tipo == Token.MIENTRAS){
             addRegla("24");
+            Token infoTokenMientras = token;
             emparejar(Token.MIENTRAS);
             TipoCompuesto e_trad = E("");
             if(!e_trad.isBool){
-                errorSemantico(ERR_SIMIENTRAS, token.fila, token.columna, e_trad.trad);
+                errorSemantico(ERR_SIMIENTRAS, infoTokenMientras.fila, infoTokenMientras.columna, infoTokenMientras.lexema);
             }
             emparejar(Token.HACER);
             String instr_trad = Instr();
@@ -617,6 +622,13 @@ public class TraductorDR {
                 expr_trad.trad = "itor(" + expr_trad.trad + ")";
             }
 
+            if(oprel.equals("=")){
+                oprel = "==";
+            }
+            else if(oprel.equals("<>")){
+                oprel = "!=";
+            }
+
             String traduccion = " " + oprel + tipoFinal + " " + expr_trad.trad;
             return new TipoCompuesto(traduccion, tipoFinal); 
         }
@@ -714,9 +726,10 @@ public class TraductorDR {
             addRegla("32");
             TipoCompuesto factor_trad = Factor(tipo_variable);
             String tipoFinal = comprobarTipos(tipo_variable, factor_trad.tipo);
-            TipoCompuesto termp_trad = Termp(tipoFinal);
+            //System.out.println("DEBUG: " + factor_trad.trad + " " + factor_trad.tipo + " TIPO FINAL>" + tipoFinal);
+            TipoCompuesto termp_trad = Termp(tipoFinal, factor_trad.tipo);
             
-            tipoFinal = comprobarTipos(factor_trad.tipo, termp_trad.tipo);
+            tipoFinal = comprobarTipos(tipoFinal, termp_trad.tipo);
             if(factor_trad.tipo != tipoFinal){
                 factor_trad.trad = "itor(" + factor_trad.trad + ")";
             }
@@ -735,6 +748,10 @@ public class TraductorDR {
         return new TipoCompuesto("", "");
     }
     public TipoCompuesto Termp(String tipo_anterior){
+        return Termp(tipo_anterior, "");
+    }
+
+    public TipoCompuesto Termp(String tipo_anterior, String tipo_fact_anterior){
         //debug("Termp");
         if(token.tipo == Token.OPMD){
             addRegla("33");
@@ -748,12 +765,11 @@ public class TraductorDR {
 
             if(opmd.equals("//")){
                 opmd = "/"; // cambiamos al lenguaje objeto
-                if(tipo_anterior.equals("r") || tipo_factor.equals("r")){
+                if(tipo_fact_anterior.equals("r") || tipo_factor.equals("r")){
                     //ERROR
                     errorSemantico(ERR_DIVENTERA, infoToken.fila, infoToken.columna, infoToken.lexema);
                 }
             }
-
 
             String tipo_final = comprobarTipos(tipo_anterior, tipo_factor);
 
