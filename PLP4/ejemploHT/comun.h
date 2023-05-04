@@ -12,6 +12,7 @@ typedef struct {
    string nombre;
    string trad;
    string cod;
+   bool esBool;
 } MITIPO;
 
 #define YYSTYPE MITIPO
