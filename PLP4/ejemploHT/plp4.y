@@ -31,6 +31,9 @@ extern FILE *yyin;
 int yyerror(char *s);
 int traducirTipo(string tipo);
 string traducirTipo(int tipo);
+string tipoAsig(int tipo);
+MITIPO opera(string op, MITIPO izq, MITIPO der);
+void rellenarTipos(int tipoSimbolo);
 
 
 string operador, s1, s2;  // string auxiliares
@@ -41,7 +44,7 @@ TablaSimbolos *tsa;
 
 S       : {std::cout<< "YEPA" << std::endl;tsa = new TablaSimbolos(NULL);} algoritmo id pyc {$$.isMain = true; $$.esFunc = true; $$.pre=""; $$.tipo=1; $$.nombre="main";} Vsp Bloque {
         string l3($3.lexema);
-        $$.trad = "//algoritmo " + l3 + "\n\n" + $6.trad + "\n" + $7.trad; 
+        $$.trad = "//algoritmo " + l3 + "\n\n" + $6.trad + $7.trad; 
         int token = yylex();
         if (token == 0) // si es fin de fichero, yylex() devuelve 0
         {
@@ -75,11 +78,11 @@ Unsp    : funcion id dosp Tipo pyc { Simbolo s;
         | var {$$.pre = $0.isMain ? "main_" : $0.pre;} LV {$$.trad = $3.trad + "\n"; cout << "LA TRADUCCION DE UNSP: " + $$.trad;}
         ;
 
-LV      : LV {$$.pre = $0.pre;} V {$$.trad = $1.trad + $3.trad;} // ESTA MAL
+LV      : LV {$$.pre = $0.pre;} V {$$.trad = $1.trad + "\n" + $3.trad;} // ESTA MAL
         | {} {$$.pre = $0.pre;} V {$$.trad = $3.trad;}
         ;
 
-V       : {$$.pre = $0.pre;} Lid dosp Tipo {} pyc {
+V       : {$$.pre = $0.pre;} Lid dosp Tipo {rellenarTipos(traducirTipo($4.trad));} pyc {
             $$.trad = $4.trad + " " + $2.trad + ";";
         }
         ; 
@@ -87,8 +90,9 @@ V       : {$$.pre = $0.pre;} Lid dosp Tipo {} pyc {
 Lid     : Lid coma id{  Simbolo s;
                         s.nombre = $3.lexema;
                         s.tipo = -1;
-                        s.nomtrad = $1.pre + $3.lexema;
+                        s.nomtrad = $0.pre + $3.lexema;
                         tsa->nuevoSimbolo(s);
+                        cout << "NUEVA VARIABLE: " + s.nomtrad + "\n";
                         $$.trad = $1.trad + "," + $0.pre + $3.lexema;
                         
                     }
@@ -97,6 +101,7 @@ Lid     : Lid coma id{  Simbolo s;
                 s.tipo = -1;
                 s.nomtrad = $0.pre + $1.lexema;
                 tsa->nuevoSimbolo(s);
+                cout << "NUEVA VARIABLE: " + s.nomtrad + "\n";
                 $$.trad = $0.pre + $1.lexema;
              }
         ;
@@ -106,8 +111,8 @@ Tipo    : entero {$$.trad = "int";}
         ;
 
 Bloque  : blq SInstr fblq   {   $$.esFunc=$-1.esFunc; $$.nombre = $-1.nombre; $$.tipo = $-1.tipo;}
-                            {$$.trad = $4.esFunc ? traducirTipo($4.tipo) + " " + $4.nombre + "(){\n" + $2.trad + "\n}\n"
-                                                 : "{\n" + $2.trad + "\n}\n";                        
+                            {$$.trad = $4.esFunc ? traducirTipo($4.tipo) + " " + $4.nombre + "(){\n" + $2.trad + "}\n"
+                                                 : "{\n" + $2.trad + "}\n";                        
                             }
         ;
 
@@ -117,8 +122,10 @@ SInstr  : SInstr pyc Instr {$$.trad = $1.trad + $3.trad;}
 
 Instr   : id asig   {
                         Simbolo s = *tsa->buscar($1.lexema);
+                        $$.nombre = s.nomtrad;
                         $$.tipo = s.tipo;
-                    } E {string l1($1.lexema); string l2($2.lexema); $$.trad = l1 + l2 + $4.trad + "\n";}
+                    } E {MITIPO simbolo; simbolo.trad = $3.nombre; simbolo.tipo=$3.tipo;
+                        MITIPO result = opera("=", simbolo, $4); $$.trad = result.trad + ";\n";}
         | {$$.esFunc=false; $$.nombre = "";} {} Bloque {$$.trad = $3.trad;}
         | si {$$.tipo = -1;} E entonces Instr ColaIf { $$.trad = "if (" + $3.trad + ")\n" + $5.trad + "\n" + $6.trad; }
         | mientras {$$.tipo=-1;} E hacer Instr {$$.trad="while( " + $3.trad + ")\n" + $5.trad;}
@@ -127,18 +134,18 @@ Instr   : id asig   {
         ;
 
 ColaIf  : fsi {$$.trad = "";}
-        | sino Instr fsi {$$.trad = "else\n" + $2.trad;}
+        | sino Instr fsi {$$.trad = "else\n" + $2.trad +"\n";}
         ;
 
-E       : Expr oprel Expr {$$.trad = $1.trad + $2.lexema + $3.trad;}
-        | Expr {$$.trad = $1.trad;}
+E       : Expr oprel Expr {MITIPO result = opera($2.lexema, $1, $3); $$.tipo = result.tipo; $$.trad = result.trad;}
+        | Expr {$$.tipo = $1.tipo; $$.trad = $1.trad;}
         ;
 
-Expr    : Expr opas Term {$$.trad = $1.trad + $2.lexema + $3.trad;}
-        | Term {$$.trad = $1.trad;}
+Expr    : Expr opas Term {MITIPO result = opera($2.lexema, $1, $3); $$.tipo = result.tipo; $$.trad = result.trad;}
+        | Term {$$.tipo = $1.tipo; $$.trad = $1.trad;}
 
-Term    : Term opmd Factor {$$.trad = $1.trad + $2.lexema + $3.trad;}
-        | Factor {$$.trad = $1.trad;}
+Term    : Term opmd Factor {MITIPO result = opera($2.lexema, $1, $3); $$.tipo = result.tipo; $$.trad = result.trad;}
+        | Factor {$$.tipo = $1.tipo; $$.trad = $1.trad;}
 
 Factor  : id { 
                 Simbolo s = *tsa->buscar($1.lexema);
@@ -188,6 +195,71 @@ string traducirTipo(int tipo){
         return "";
     }
     return tipoSimbolo;
+}
+
+string tipoAsig(int tipo){
+    string tipoSimbolo;
+    if(tipo == 1){
+        tipoSimbolo = "i";
+    }
+    else if(tipo == 2){
+        tipoSimbolo = "r";
+    }
+    else{
+        return "";
+    }
+    return tipoSimbolo;
+}
+
+void rellenarTipos(int tipoSimbolo){
+    for(int i=0; i < tsa->simbolos.size(); i++){
+        Simbolo s = tsa->simbolos[i];
+        if(s.tipo == -1){
+            s.tipo = tipoSimbolo;
+            tsa->simbolos[i] = s;
+        }
+    }
+}
+
+MITIPO opera(string op, MITIPO izq, MITIPO der) {
+    int tipo = 0;
+    string trad = "";
+    bool eraDobleBarra = false;
+    if (op == "//") {
+        op = "/";
+        eraDobleBarra = true;
+    }
+    if (izq.tipo == 1 && der.tipo == 1) {
+        if (op == "/" && !eraDobleBarra) {
+            tipo = 2;
+            trad = "itor(" + izq.trad + ") " + op + tipoAsig(tipo) + " itor(" + der.trad + ")";
+        }
+        else {
+            tipo = 1;
+            trad = izq.trad + " " + op + tipoAsig(tipo) + " " + der.trad;
+        }
+    }
+    else if (izq.tipo == 1 && der.tipo == 2) {
+        tipo = 2;
+        trad = "itor(" + izq.trad + ") " + op + tipoAsig(tipo) + " " + der.trad;
+    }
+    else if (izq.tipo == 2 && der.tipo == 1) {
+        tipo = 2;
+        trad = izq.trad + " " + op + tipoAsig(tipo) + " itor(" + der.trad + ")";
+    }
+    else if (izq.tipo == 2 && der.tipo == 2) {
+        tipo = 2;
+        trad = izq.trad + " " + op + tipoAsig(tipo) + " " + der.trad;
+    }
+    else{
+        cout << "CHEEE QUE PELOTUDO!" << endl;
+    }
+
+    // falta arreglar esto
+    MITIPO toReturn;
+    toReturn.trad = trad;
+    toReturn.tipo = tipo;
+    return toReturn;
 }
 
 void msgError(int nerror,int nlin,int ncol,const char *s)
