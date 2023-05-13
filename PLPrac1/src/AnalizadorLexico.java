@@ -202,7 +202,12 @@ public class AnalizadorLexico {
                         toReturn.lexema = lexema;
                         toReturn.fila = fila_token;
                         toReturn.columna = col_token;
+                        //System.out.println("ESTADO AQUI " + estado);
+                        if(estado == ESTADO_KEYWORD || estado == ESTADO_ID_ESPACIO){
+                            estado = 24;
+                        }
                         toReturn.tipo = getTipo(estado, lexema);
+                        //System.out.println("TIPO DESPUES " + toReturn.tipo);
                         return toReturn;
                     }
                     else{

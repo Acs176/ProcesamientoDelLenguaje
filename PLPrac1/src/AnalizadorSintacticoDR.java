@@ -10,6 +10,7 @@ public class AnalizadorSintacticoDR {
     public AnalizadorSintacticoDR(AnalizadorLexico al) {
         lexico = al;
         reglas = new StringBuilder();
+        token = al.siguienteToken();
     }
 
     public void emparejar(int tokEsperado){
@@ -23,6 +24,7 @@ public class AnalizadorSintacticoDR {
     }
 
     public void addRegla(String regla){
+        //System.out.println("ESTOY EN REGLA " + regla);
         if(regla != "1")
             reglas.append(" " + regla);
         else
@@ -30,15 +32,22 @@ public class AnalizadorSintacticoDR {
     }
 
     public void comprobarFinFichero(){
+        //System.out.println("EYEEEEE");
         System.out.println(reglas);
     }
 
     public void errorSintaxis(TreeSet<Integer> esperado){
         String esperado_string = "";
         for(Integer i : esperado){
-            esperado_string += i.toString();
+            esperado_string += Token.nombreToken.get(i);
         }
-        System.out.println("Error sintactico (" + token.fila + "," + token.columna + "): encontrado \'" + token.lexema + "\', esperaba " + esperado_string);
+        if(token.tipo == Token.EOF){
+            System.err.println("Error sintactico: encontrado fin de fichero, esperaba " + esperado_string);
+        }
+        else{
+            System.err.println("Error sintactico (" + token.fila + "," + token.columna + "): encontrado \'" + token.lexema + "\', esperaba " + esperado_string);
+        }
+        
         System.exit(-1);
     }
 
@@ -335,7 +344,9 @@ public class AnalizadorSintacticoDR {
             emparejar(Token.OPREL);
             Expr();
         }
-        else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || token.tipo == Token.PARD || token.tipo == Token.FSI){
+        else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || token.tipo == Token.PARD || token.tipo == Token.FSI
+                || token.tipo == Token.PYC || token.tipo == Token.FBLQ || token.tipo == Token.SINO
+        ){
             // epsilon
             addRegla("28");
         }
@@ -346,6 +357,9 @@ public class AnalizadorSintacticoDR {
                  add(Token.HACER);
                  add(Token.PARD);
                  add(Token.FSI);
+                 add(Token.PYC);
+                 add(Token.FBLQ);
+                 add(Token.SINO);
                 }
             });
         }
@@ -370,10 +384,11 @@ public class AnalizadorSintacticoDR {
         if(token.tipo == Token.OPAS){
             addRegla("30");
             emparejar(Token.OPAS);
-            Termp();
+            Term();
             Exprp();
         }
-        else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || token.tipo == Token.PARD || token.tipo == Token.FSI || token.tipo == Token.OPREL){
+        else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || token.tipo == Token.PARD || token.tipo == Token.FSI || token.tipo == Token.OPREL
+                || token.tipo == Token.PYC || token.tipo == Token.FBLQ || token.tipo == Token.SINO){
             // epsilon
             addRegla("31");
         }
@@ -385,6 +400,9 @@ public class AnalizadorSintacticoDR {
                  add(Token.PARD);
                  add(Token.FSI);
                  add(Token.OPREL);
+                 add(Token.PYC);
+                 add(Token.FBLQ);
+                 add(Token.SINO);
                 }
             });
         }
@@ -413,7 +431,9 @@ public class AnalizadorSintacticoDR {
             Termp();
         }
         else if(token.tipo == Token.ENTONCES || token.tipo == Token.HACER || 
-        token.tipo == Token.PARD || token.tipo == Token.FSI || token.tipo == Token.OPREL || token.tipo == Token.OPAS){
+        token.tipo == Token.PARD || token.tipo == Token.FSI || token.tipo == Token.OPREL 
+        || token.tipo == Token.OPAS || token.tipo == Token.PYC || token.tipo == Token.FBLQ 
+        || token.tipo == Token.SINO){
             // epsilon
             addRegla("34");
         }
@@ -426,6 +446,9 @@ public class AnalizadorSintacticoDR {
                  add(Token.FSI);
                  add(Token.OPREL);
                  add(Token.OPAS);
+                 add(Token.PYC);
+                 add(Token.FBLQ);
+                 add(Token.SINO);
                 }
             });
         }

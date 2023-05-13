@@ -1,1 +1,1 @@
-Error sintactico (5,11): encontrado ';', esperaba )* / //+ -< > <= >= = <>'entonces''fsi''hacer'
+Error lexico (6,13): caracter '.' incorrecto
