@@ -5,11 +5,12 @@
 typedef struct {
    char *lexema;
    int nlin,ncol;
-   int tipo;
+   MITIPO tipo;
    string nombre;
    string trad;
    string cod;
-   long dir;
+   int tipoPos;
+   int dir;
 } MITIPO;
 
 #define YYSTYPE MITIPO

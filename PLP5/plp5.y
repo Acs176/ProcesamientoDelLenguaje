@@ -3,7 +3,7 @@
 %token opas opmd oprel opasig
 %token nentero nreal pari pard
 %token pyc coma dosp
-%token var real entero algoritmo blq fblq funcion si entonces sino fsi mientras hacer escribir
+%token var real entero algoritmo blq fblq funcion si entonces sino fsi mientras hacer escribe lee
 %token cori cord ybool obool nobool
 
 %{
@@ -29,12 +29,17 @@ extern FILE *yyin;
 
 
 int yyerror(char *s);
+int newTemp();
+int newVar();
 int traducirTipo(string tipo);
 string traducirTipo(int tipo);
 string tipoAsig(int tipo);
 MITIPO opera(string op, MITIPO izq, MITIPO der);
 void rellenarTipos(int tipoSimbolo);
 void errorSemantico(int nerr,int fila,int columna,char *lexema);
+
+int ctemp = 16000;
+int cvars = 0;
 
 const int ERR_YA_EXISTE=1,
           ERR_NO_VARIABLE=2,
@@ -45,155 +50,60 @@ const int ERR_YA_EXISTE=1,
           ERR_DIVENTERA=7;
 string operador, s1, s2;  // string auxiliares
 TablaSimbolos *tsa;
+TablaTipos *tt;
 %}
 
 %%
 
-S       : {tsa = new TablaSimbolos(NULL);} algoritmo id pyc {$$.isMain = true; $$.esFunc = true; $$.pre=""; $$.tipo=1; $$.nombre="main";} Vsp Bloque {
-        string l3($3.lexema);
-        $$.trad = "//algoritmo " + l3 + "\n\n" + $6.trad + $7.trad; 
-        int token = yylex();
-        if (token == 0) // si es fin de fichero, yylex() devuelve 0
-        {
-            std::cout << $$.trad << std::endl;
-        }
-        else{
-            yyerror("");
-        } }
+S       : {tsa = new TablaSimbolos(NULL); tt = new TablaTipos();} algoritmo dospto id SDec SInstr falgoritmo
+          { $$.cod = $6.cod;}
         ;
 
-Vsp     : Vsp {$$.isMain = $0.isMain; $$.pre = $0.pre;} Unsp {$$.trad = $1.trad + $3.trad;} // ESTA MAL
-        | {} {$$.pre = $0.pre; $$.isMain = $0.isMain;} Unsp {$$.trad = $3.trad;}
+SDec    : Dec
+        |
         ;
 
-Unsp    : funcion id dosp Tipo pyc { Simbolo s;
-                                     s.nombre = $2.lexema;
-                                     s.tipo = FUNCION;
-                                     s.nomtrad = $0.pre + $2.lexema;
-                                     if(!tsa->nuevoSimbolo(s))
-                                        errorSemantico(ERR_YA_EXISTE, $2.nlin, $2.ncol, $2.lexema);                                     tsa = new TablaSimbolos(tsa);
-                                     $$.pre = $0.pre + $2.lexema + "_";
-                                     $$.tipo = traducirTipo($4.trad);
-                                     $$.nombre = $0.pre + $2.lexema;
-                                     $$.esFunc = true;
-                                     //cout << "FUNCION NUEVA: " + s.nomtrad << endl;
-                                    } Vsp Bloque pyc {
-                                        $$.trad = $7.trad + $8.trad;
-                                        tsa = tsa->getAmbitoAnterior();
-                                    }
-        | var {$$.pre = $0.isMain ? "main_" : $0.pre;} LV {$$.trad = $3.trad + "\n"; }
+Dec     : var DVar MDVar fvar
         ;
 
-LV      : LV {$$.pre = $0.pre;} V {$$.trad = $1.trad + "\n" + $3.trad;} // ESTA MAL
-        | {} {$$.pre = $0.pre;} V {$$.trad = $3.trad;}
+DVar    : Tipo dospto id {
+                            Simbolo s = new Simbolo();
+                            s.nombre = $3.lexema;
+                            s.tipo = $1.trad;
+                            s.dir = newVar();
+                            s.tam = $1.tam;
+                            if(!tsa->newSymb(s))    //ERROR
+                            $$.tipo = $1;} Lid pyc
         ;
 
-V       : {$$.pre = $0.pre;} Lid dosp Tipo {rellenarTipos(traducirTipo($4.trad));} pyc {
-            $$.trad = $4.trad + " " + $2.trad + ";";
-        }
-        ; 
-
-Lid     : Lid coma id{  Simbolo s;
-                        s.nombre = $3.lexema;
-                        s.tipo = -1;
-                        s.nomtrad = $0.pre + $3.lexema;
-                        if(!tsa->nuevoSimbolo(s))
-                            errorSemantico(ERR_YA_EXISTE, $3.nlin, $3.ncol, $3.lexema);
-                        //cout << "NUEVA VARIABLE: " + s.nomtrad + "\n";
-                        $$.trad = $1.trad + "," + $0.pre + $3.lexema;
-                        
-                    }
-        | id {  Simbolo s;
-                s.nombre = $1.lexema;
-                s.tipo = -1;
-                s.nomtrad = $0.pre + $1.lexema;
-                if(!tsa->nuevoSimbolo(s))
-                    errorSemantico(ERR_YA_EXISTE, $1.nlin, $1.ncol, $1.lexema);
-                //cout << "NUEVA VARIABLE: " + s.nomtrad + "\n";
-                $$.trad = $0.pre + $1.lexema;
-             }
+MDVar   : DVar MDVar
+        |
         ;
 
-Tipo    : entero {$$.trad = "int";}
-        | real   {$$.trad = "double";}
+Lid     : coma id {
+                    Simbolo s = new Simbolo();
+                    s.nombre = $2.lexema;
+                    s.tipo = $0.tipo.trad;
+                    s.dir = newVar();
+                    s.tam = tt->getTipo($0.tipo.tipoPos).tam;
+                    if(!tsa->newSymb(s))    //ERROR
+                    $$.tipo = $0.tipo;
+                  } Lid
+        |
         ;
 
-Bloque  : blq SInstr fblq   {   $$.esFunc=$-1.esFunc; $$.nombre = $-1.nombre; $$.tipo = $-1.tipo;}
-                            {$$.trad = $4.esFunc ? traducirTipo($-1.tipo) + " " + $4.nombre + "(){\n" + $2.trad + "}\n"
-                                                 : "{\n" + $2.trad + "}\n";                        
-                            }
+Tipo    : entero {$$.trad="entero"; $$.tipoPos=0; $$.lexema="i"; }
+        | real   {$$.trad="real"; $$.tipoPos=1; $$.lexema="r"; }
+        | logico {$$.trad="logico"; $$.tipoPos=2; $$.lexema="l"; }
+        | tabla nentero de Tipo {tt.nuevoTipoArray(stoi($2.lexema), $4.tipoPos);}
         ;
 
-SInstr  : SInstr pyc Instr {$$.trad = $1.trad + $3.trad + "\n" ;}
-        | Instr {$$.trad = $1.trad + "\n"; }
+SInstr  : SInstr pyc {$$.dir=ctemp;} Instr {ctemp = $3.dir; $$.cod = $1.cod + $4.cod;}
+        | {$$.dir=ctemp;} Instr {ctemp=$1.dir; $$.cod = $2.cod;}
         ;
 
-Instr   : id asig   {
-                        Simbolo* s = tsa->buscar($1.lexema);
-                        if(s == NULL){
-                            errorSemantico(ERR_NO_DECL, $1.nlin, $1.ncol, $1.lexema);
-                        }
-                        if(s->tipo == FUNCION)
-                            errorSemantico(ERR_NO_VARIABLE, $1.nlin, $1.ncol, $1.lexema);
-                        $$.nombre = s->nomtrad;
-                        $$.tipo = s->tipo;
-                    } E { if($4.esBool) errorSemantico(ERR_NO_BOOL, $2.nlin, $2.ncol, $2.lexema);
-                          if($3.tipo == 1 && $4.tipo == 2)  errorSemantico(ERR_ASIG_REAL, $1.nlin, $1.ncol, $1.lexema);
-                        MITIPO simbolo; simbolo.trad = $3.nombre; simbolo.tipo=$3.tipo;
-                        MITIPO result = opera("=", simbolo, $4); $$.trad = result.trad + ";";}
-        | {$$.esFunc=false; $$.nombre = "";} {} Bloque {$$.trad = $3.trad;}
-        | si {$$.tipo = -1;} E entonces Instr ColaIf {  if(!$3.esBool)  errorSemantico(ERR_SIMIENTRAS, $1.nlin, $1.ncol, $1.lexema);
-                                                        $$.trad = "if (" + $3.trad + ")\n" + $5.trad + "\n" + $6.trad; }
-        | mientras {$$.tipo=-1;} E hacer Instr {    if(!$3.esBool)  errorSemantico(ERR_SIMIENTRAS, $1.nlin, $1.ncol, $1.lexema);
-                                                    $$.trad="while( " + $3.trad + ")\n" + $5.trad;}
-        | escribir pari {$$.tipo = -1;} E {if($4.esBool)    errorSemantico(ERR_NO_BOOL, $1.nlin, $1.ncol, $1.lexema);} pard {$$.trad = $4.tipo == 1 ? "printf(\"%d\\n\"," + $4.trad + ");"
-                                                                         : "printf(\"%g\\n\"," + $4.trad + ");";}
-        ;
-
-ColaIf  : fsi {$$.trad = "";}
-        | sino Instr fsi {$$.trad = "else\n" + $2.trad;}
-        ;
-
-E       : Expr oprel Expr { string op($2.lexema);
-			     if(op == "=")    op = "==";
-                            else if(op == "<>")   op = "!=";
-                            else	op = $2.lexema;
-                            MITIPO result = opera(op, $1, $3); $$.tipo = result.tipo; $$.trad = result.trad; $$.esBool = true;}
-        | Expr {$$.tipo = $1.tipo; $$.trad = $1.trad;}
-        ;
-
-Expr    : Expr opas Term {MITIPO result = opera($2.lexema, $1, $3); $$.tipo = result.tipo; $$.trad = result.trad;}
-        | Term {$$.tipo = $1.tipo; $$.trad = $1.trad;}
-
-Term    : Term opmd Factor {string op($2.lexema); if(op == "//" && ($1.tipo == 2 || $3.tipo == 2)) errorSemantico(ERR_DIVENTERA, $2.nlin, $2.ncol, $2.lexema);
-                            MITIPO result = opera($2.lexema, $1, $3); $$.tipo = result.tipo; $$.trad = result.trad;}
-        | Factor {$$.tipo = $1.tipo; $$.trad = $1.trad;}
-
-Factor  : id { 
-                Simbolo* s = tsa->buscar($1.lexema);
-                if(s == NULL){
-                            errorSemantico(ERR_NO_DECL, $1.nlin, $1.ncol, $1.lexema);
-                }
-                if(s->tipo == FUNCION)
-                    errorSemantico(ERR_NO_VARIABLE, $1.nlin, $1.ncol, $1.lexema);
-                $$.nombre = s->nomtrad;
-                $$.tipo = s->tipo;
-                $$.trad = s->nomtrad;
-             }
-        | nentero {
-            $$.nombre = $1.lexema;
-            $$.tipo = 1;
-            $$.trad = $1.lexema;
-            }
-        | nreal {
-            $$.nombre = $1.lexema;
-            $$.tipo = 2;
-            $$.trad = $1.lexema;
-        }
-        | pari Expr pard {$$.tipo = $2.tipo; $$.trad = "(" + $2.trad + ")";}
-        ;
-
-
+Instr   : escribe Expr {$$.cod = $2.cod + $1.lexema + Expr.tipo.lexema + " " + Expr.dir;}
+        | lee Ref {}
 %%
 
 int traducirTipo(string tipo){
@@ -253,6 +163,21 @@ void errorSemantico(int nerr,int fila,int columna,char *lexema)
 	exit(-1);
 }
 
+int newTemp(){
+    ctemp++;
+    if(ctemp > 16383){
+        // ERROR()
+    }
+    return ctemp;
+}
+
+int newVar(){
+    cvars++;
+    if(cvars > 16000){
+        // ERROR();
+    }
+    return cvars;
+}
 
 string tipoAsig(int tipo){
     string tipoSimbolo;
@@ -267,6 +192,8 @@ string tipoAsig(int tipo){
     }
     return tipoSimbolo;
 }
+
+
 
 void rellenarTipos(int tipoSimbolo){
     for(int i=0; i < tsa->simbolos.size(); i++){

@@ -33,6 +33,7 @@ class TablaTipos {
      
      TablaTipos();
      unsigned nuevoTipoArray(unsigned tam,unsigned tbase);
+     unTipo getTipo(int i);
 
 };
 

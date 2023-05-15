@@ -30,3 +30,7 @@ unsigned TablaTipos::nuevoTipoArray(unsigned tam,unsigned tbase)
   return tipos.size()-1;
 }
 
+unTipo TablaTipos::getTipo(int i){
+  return tipos[i];
+}
+
