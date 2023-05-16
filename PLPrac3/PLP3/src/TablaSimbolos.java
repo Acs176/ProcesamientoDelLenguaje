@@ -12,7 +12,7 @@ public class TablaSimbolos {
    /**
     * vector de símbolos
     */
-   private ArrayList<Simbolo> simbolos;
+   public ArrayList<Simbolo> simbolos;
    
    /**
     * constructor

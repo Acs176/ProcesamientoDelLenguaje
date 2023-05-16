@@ -31,6 +31,8 @@ extern FILE *yyin;
 int yyerror(char *s);
 int newTemp();
 int newVar();
+int newLabel();
+void comprobarTipos(MITIPO t1, MITIPO t2);
 int traducirTipo(string tipo);
 string traducirTipo(int tipo);
 string tipoAsig(int tipo);
@@ -40,6 +42,7 @@ void errorSemantico(int nerr,int fila,int columna,char *lexema);
 
 int ctemp = 16000;
 int cvars = 0;
+int clabel = 0;
 
 const int ERR_YA_EXISTE=1,
           ERR_NO_VARIABLE=2,
@@ -102,8 +105,106 @@ SInstr  : SInstr pyc {$$.dir=ctemp;} Instr {ctemp = $3.dir; $$.cod = $1.cod + $4
         | {$$.dir=ctemp;} Instr {ctemp=$1.dir; $$.cod = $2.cod;}
         ;
 
-Instr   : escribe Expr {$$.cod = $2.cod + $1.lexema + Expr.tipo.lexema + " " + Expr.dir;}
-        | lee Ref {}
+Instr   : escribe Expr {$$.cod = $2.cod + $1.lexema + $2.tipo.lexema + " " + $2.dir;}
+        | lee Ref {$$.cod = $2.cod + $1.lexema + $2.tipo.lexema + " " + $2.dir;}
+        | si Expr entonces Instr {if($2.tipo.trad != "logico") error();
+                                    string l1 = newLabel(); 
+                                    $$.cod = $2.cod + "mov " + $2.dir + " A\n"
+                                            + "jz L" + l1 + "\n"
+                                            + $4.cod + "\n L" + l1 + ":\n";
+                                 }
+        | si Expr entonces Instr sino Instr {if($2.tipo.trad != "logico") error();
+                                            string l1 = newLabel();
+                                            string l2 = newLabel(); 
+                                            $$.cod = $2.cod + "mov " + $2.dir + " A\n"
+                                                    + "jz L" + l1 + "\n"
+                                                    + $4.cod + "\njmp L" + l2 +"\nL" + l1 + ":\n"
+                                                    + "$6.cod + "\nL" + l2 + ":\n";
+                                        }
+        | mientras Expr hacer Instr {
+                                        if($2.tipo.trad != "logico") error();
+                                        string l1 = newLabel();
+                                        string l2 = newLabel();
+                                        $$.cod = "L" + l1 + ":\n" + $2.cod + "mov " + $2.dir + " A\n"
+                                                + "jz L" + l2 + "\n"
+                                                + $4.cod + "jmp L" + l1 + "\n";
+                                                + "L" + l2 + ":\n";
+                                    }
+        | repetir Instr hasta Expr {
+                                        if($4.tipo.trad != "logico") error();
+                                        string l1 = newLabel();
+                                        
+                                        $$.cod = "L" + l1 + ":\n" + $2.cod + "\n" 
+                                                + $4.cod +"mov " + $4.dir + " A\n"
+                                                + "jz L" + l1 + "\n"
+                                    }
+        | Ref opasig Expr {comprobarTipos($1.tipo, $3.tipo);
+                            $$.cod = $1.cod + $3.cod + "mov " + $3.dir + " A\n";
+                                    + "mov A " + $1.dir + "\n";
+                            }
+        | blq SDec SInstr fblq {$$.cod = $3.cod;}
+        ;
+
+Expr    : Expr obool Econj {tmp = newTemp(); $$.dir = tmp;
+                            $$.cod = $1.cod + $3.cod + 
+                            "mov " + $1.dir + " A\n" +
+                            $2.lexema + $1.tipo.trad + " " + $3.dir + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "mov A " + tmp + "\n";}
+        | Econj {$$.dir = $1.dir; $$.cod = $1.cod;}
+        ;
+
+Econj   : Econj ybool Ecomp {tmp = newTemp(); $$.dir = tmp;
+                             $$.cod = $1.cod + $3.cod + 
+                            "mov " + $1.dir + " A\n" +
+                            $2.lexema + $1.tipo.trad + " " + $3.dir + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "mov A " + tmp + "\n";}
+        | Ecomp {$$.dir = $1.dir; $$.cod = $1.cod;}
+        ;
+
+Ecomp   : Econj oprel Esimple {tmp = newTemp(); $$.dir = tmp;
+                             $$.cod = $1.cod + $3.cod + 
+                            "mov " + $1.dir + " A\n" +
+                            $2.lexema + $1.tipo.trad + " " + $3.dir + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "mov A " + tmp + "\n";}
+        | Esimple {$$.dir = $1.dir; $$.cod = $1.cod;}
+        ;
+
+Esimple : Esimple opas Term {tmp = newTemp(); $$.dir = tmp;
+                             $$.cod = $1.cod + $3.cod + 
+                            "mov " + $1.dir + " A\n" +
+                            $2.lexema + $1.tipo.trad + " " + $3.dir + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "mov A " + tmp + "\n";}
+        | Term {$$.dir = $1.dir; $$.cod = $1.cod;}
+        ;
+
+Term    : Term opmd Factor {tmp = newTemp(); $$.dir = tmp;
+                             $$.cod = $1.cod + $3.cod + 
+                            "mov " + $1.dir + " A\n" +
+                            $2.lexema + $1.tipo.trad + " " + $3.dir + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "mov A " + tmp + "\n";}
+        | Factor {$$.dir = $1.dir; $$.cod = $1.cod;}
+        ;
+
+Factor  : Ref {$$.dir = $1.dir; $$.tipo = $1.tipo; $$.cod = $1.cod;}
+        | nentero {tmp = newTemp(); $$.dir = tmp;
+                   MITIPO tipo;
+                   tipo.trad = "entero"; tipo.tipoPos=0; tipo.lexema="i"; $$.tipo = tipo;
+                   $$.cod = "mov " + nentero.lexema + " " + tmp + "\n";}
+        | nreal {tmp = newTemp(); $$.dir = tmp;
+                   MITIPO tipo;
+                   tipo.trad = "real"; tipo.tipoPos=1; tipo.lexema="r"; $$.tipo = tipo;
+                   $$.cod = "mov " + nreal.lexema + " " + tmp + "\n";}
+        | pari Expr pard {$$.dir = $2.dir; $$.cod = $2.cod;}
+        | nobool Factor {}
+        | cierto {}
+        | falso {}
+        ;
+
+Ref     : id {}
+        | Ref cori Esimple cord {}
+        ;
+
+
 %%
 
 int traducirTipo(string tipo){
@@ -177,6 +278,15 @@ int newVar(){
         // ERROR();
     }
     return cvars;
+}
+
+string newLabel(){
+    clabel++;
+    return std::to_string(clabel); 
+}
+
+void comprobarTipos(MITIPO t1, MITIPO t2){
+    // POR IMPLEMENTAR
 }
 
 string tipoAsig(int tipo){
