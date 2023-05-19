@@ -100,7 +100,7 @@ string traducirTipo(int tipo);
 string tipoAsig(int tipo);
 MITIPO opera(string op, MITIPO izq, MITIPO der);
 void rellenarTipos(int tipoSimbolo);
-void errorSemantico(int nerr,int fila,int columna,char *lexema);
+void errorSemantico(int nerr,int fila,int columna,const char *lexema);
 
 int ctemp = 16000;
 int cvars = 0;
@@ -533,11 +533,11 @@ union yyalloc
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  45
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  22
+#define YYNNTS  23
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  48
+#define YYNRULES  49
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  94
+#define YYNSTATES  95
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   299
@@ -592,7 +592,7 @@ static const yytype_uint8 yyrline[] =
       86,    89,    89,    98,   101,   102,   103,   104,   107,   107,
      108,   108,   111,   112,   113,   119,   127,   136,   144,   148,
      151,   156,   159,   164,   167,   172,   175,   180,   183,   188,
-     191,   192,   197,   202,   203,   204,   205,   208,   209
+     191,   192,   197,   202,   203,   209,   211,   215,   226,   226
 };
 #endif
 
@@ -609,7 +609,7 @@ static const char *const yytname[] =
   "repetir", "hasta", "cori", "cord", "ybool", "obool", "nobool",
   "$accept", "S", "$@1", "SDec", "Dec", "DVar", "@2", "MDVar", "Lid", "@3",
   "Tipo", "SInstr", "@4", "@5", "Instr", "Expr", "Econj", "Ecomp",
-  "Esimple", "Term", "Factor", "Ref", YY_NULLPTR
+  "Esimple", "Term", "Factor", "Ref", "$@6", YY_NULLPTR
 };
 #endif
 
@@ -626,7 +626,7 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-34)
+#define YYPACT_NINF (-41)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -640,16 +640,16 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -34,    10,   -11,   -34,     9,    25,    15,    47,   -34,   -34,
-     -34,   -34,   -34,    23,    47,    27,     2,    28,    21,    47,
-      29,    45,   -34,   -34,   -34,    15,    12,    12,    12,    50,
-      28,   -34,    -3,    47,   -34,   -34,   -34,    28,   -34,   -34,
-     -34,   -34,   -34,    12,    12,   -16,     0,   -34,    52,    53,
-     -34,    20,     8,    31,    20,    24,    12,    12,   -34,    55,
-     -34,    -9,    -5,   -34,    28,    12,    12,    12,    12,    12,
-      28,    12,    31,    -1,    68,    60,   -34,   -34,    44,     0,
-      52,     0,   -34,    53,   -34,   -34,    31,   -34,   -34,   -34,
-      28,    55,   -34,   -34
+     -41,    10,   -11,   -41,    13,    25,    16,    47,   -41,   -41,
+     -41,   -41,   -41,    33,    47,    22,     2,    28,    21,    47,
+      29,    45,   -41,   -41,   -41,    16,    12,    12,    12,    50,
+      28,   -41,    -3,    47,   -41,   -41,   -41,    28,   -41,   -41,
+     -41,   -41,   -41,    12,    12,   -16,     0,   -41,    52,    53,
+     -41,    20,     8,    31,    20,    24,    12,   -41,   -41,    55,
+     -41,    -9,    -5,   -41,    28,    12,    12,    12,    12,    12,
+      28,    12,    31,    12,    68,    60,   -41,   -41,    44,     0,
+      52,     0,   -41,    53,   -41,   -41,    31,    -1,   -41,   -41,
+      28,   -41,    55,   -41,   -41
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -662,27 +662,27 @@ static const yytype_int8 yydefact[] =
        0,     0,    18,     3,    47,     5,     0,     0,     0,     0,
        0,    21,     0,     0,     9,     6,     7,     0,    20,    45,
       46,    41,    42,     0,     0,     0,    31,    33,    35,    37,
-      39,    40,     0,    22,    23,     0,     0,     0,    17,    13,
+      39,    40,     0,    22,    23,     0,     0,    48,    17,    13,
       19,     0,     0,    44,     0,     0,     0,     0,     0,     0,
        0,     0,    28,     0,     0,     0,    29,    43,    24,    30,
-      34,     0,    32,    36,    38,    26,    27,    48,    11,     8,
-       0,    13,    25,    12
+      34,     0,    32,    36,    38,    26,    27,     0,    11,     8,
+       0,    49,    13,    25,    12
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -34,   -34,   -34,    54,   -34,    70,   -34,    59,   -10,   -34,
-      49,    42,   -34,   -34,   -29,   -25,   -15,    16,   -27,    17,
-     -33,   -17
+     -41,   -41,   -41,    54,   -41,    70,   -41,    59,   -12,   -41,
+      48,    46,   -41,   -41,   -29,   -25,   -15,    15,   -40,    17,
+     -33,   -17,   -41
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     2,     8,     9,    19,    59,    20,    75,    91,
+      -1,     1,     2,     8,     9,    19,    59,    20,    75,    92,
       15,    16,    37,    17,    31,    45,    46,    47,    48,    49,
-      50,    51
+      50,    51,    73
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -692,26 +692,26 @@ static const yytype_int8 yytable[] =
 {
       32,    55,    52,    53,    68,    56,    22,    66,    60,    77,
        3,    63,    54,    32,     4,    64,    24,    22,    62,    76,
-      32,    39,    40,    41,    42,    43,     5,    65,    23,     6,
-      73,    72,    24,     7,    18,    78,    84,    57,    65,    80,
-      87,    85,    67,    70,    21,    33,    86,    32,    35,    36,
+      32,    39,    40,    41,    42,    43,    80,    65,    23,     6,
+       5,    72,    24,    87,     7,    78,    84,    57,    65,    21,
+      91,    85,    67,    70,    18,    33,    86,    32,    35,    36,
       79,    65,    81,    32,    24,    25,    44,    68,    26,    69,
-      57,    92,    27,    71,    28,    29,    30,    10,    11,    12,
+      57,    93,    27,    71,    28,    29,    30,    10,    11,    12,
       13,    74,    88,    32,    65,    89,    90,    14,    34,    38,
-      61,    93,    58,    82,     0,    83
+      94,    58,    82,     0,    61,    83
 };
 
 static const yytype_int8 yycheck[] =
 {
       17,    30,    27,    28,     5,     8,    15,     7,    37,    14,
        0,    44,    29,    30,    25,    31,     4,    15,    43,    28,
-      37,     9,    10,    11,    12,    13,    17,    43,    26,     4,
-      57,    56,     4,    18,    11,    64,    69,    40,    43,    66,
-      41,    70,    42,    35,    17,    24,    71,    64,    19,     4,
+      37,     9,    10,    11,    12,    13,    66,    43,    26,     4,
+      17,    56,     4,    73,    18,    64,    69,    40,    43,    17,
+      41,    70,    42,    35,    11,    24,    71,    64,    19,     4,
       65,    43,    67,    70,     4,    27,    44,     5,    30,     6,
       40,    90,    34,    39,    36,    37,    38,    20,    21,    22,
       23,    16,     4,    90,    43,    15,    32,     7,    19,    25,
-      38,    91,    33,    67,    -1,    68
+      92,    33,    67,    -1,    38,    68
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -725,9 +725,9 @@ static const yytype_int8 yystos[] =
       10,    11,    12,    13,    44,    60,    61,    62,    63,    64,
       65,    66,    60,    60,    66,    59,     8,    40,    55,    51,
       59,    56,    60,    65,    31,    43,     7,    42,     5,     6,
-      35,    39,    60,    63,    16,    53,    28,    14,    59,    61,
-      63,    61,    62,    64,    65,    59,    60,    41,     4,    15,
-      32,    54,    59,    53
+      35,    39,    60,    67,    16,    53,    28,    14,    59,    61,
+      63,    61,    62,    64,    65,    59,    60,    63,     4,    15,
+      32,    41,    54,    59,    53
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -737,7 +737,7 @@ static const yytype_int8 yyr1[] =
       52,    54,    53,    53,    55,    55,    55,    55,    57,    56,
       58,    56,    59,    59,    59,    59,    59,    59,    59,    59,
       60,    60,    61,    61,    62,    62,    63,    63,    64,    64,
-      65,    65,    65,    65,    65,    65,    65,    66,    66
+      65,    65,    65,    65,    65,    65,    65,    66,    67,    66
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -747,7 +747,7 @@ static const yytype_int8 yyr2[] =
        0,     0,     4,     0,     1,     1,     1,     4,     0,     4,
        0,     2,     2,     2,     4,     6,     4,     4,     3,     4,
        3,     1,     3,     1,     3,     1,     3,     1,     3,     1,
-       1,     1,     1,     3,     2,     1,     1,     1,     4
+       1,     1,     1,     3,     2,     1,     1,     1,     0,     5
 };
 
 
@@ -1543,7 +1543,7 @@ yyreduce:
 
   case 24:
 #line 113 "plp5.y"
-                                 {if(yyvsp[-2].tipo->trad != "logico") error();
+                                 {if(yyvsp[-2].tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, yyvsp[-3].nlin, yyvsp[-3].ncol, yyvsp[-3].lexema);
                                     string l1 = newLabel(); 
                                     yyval.cod = yyvsp[-2].cod + "mov " + std::to_string(yyvsp[-2].dir) + " A\n"
                                             + "jz L" + l1 + "\n"
@@ -1554,7 +1554,7 @@ yyreduce:
 
   case 25:
 #line 119 "plp5.y"
-                                            {if(yyvsp[-4].tipo->trad != "logico") error();
+                                            {if(yyvsp[-4].tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, yyvsp[-5].nlin, yyvsp[-5].ncol, yyvsp[-5].lexema);
                                             string l1 = newLabel();
                                             string l2 = newLabel(); 
                                             yyval.cod = yyvsp[-4].cod + "mov " + std::to_string(yyvsp[-4].dir) + " A\n"
@@ -1568,7 +1568,7 @@ yyreduce:
   case 26:
 #line 127 "plp5.y"
                                     {
-                                        if(yyvsp[-2].tipo->trad != "logico") error();
+                                        if(yyvsp[-2].tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, yyvsp[-3].nlin, yyvsp[-3].ncol, yyvsp[-3].lexema);
                                         string l1 = newLabel();
                                         string l2 = newLabel();
                                         yyval.cod = "L" + l1 + ":\n" + yyvsp[-2].cod + "mov " + std::to_string(yyvsp[-2].dir) + " A\n"
@@ -1582,7 +1582,7 @@ yyreduce:
   case 27:
 #line 136 "plp5.y"
                                    {
-                                        if(yyvsp[0].tipo->trad != "logico") error();
+                                        if(yyvsp[0].tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, yyvsp[-3].nlin, yyvsp[-3].ncol, yyvsp[-3].lexema);
                                         string l1 = newLabel();
                                         
                                         yyval.cod = "L" + l1 + ":\n" + yyvsp[-2].cod + "\n" 
@@ -1721,36 +1721,74 @@ yyreduce:
 
   case 44:
 #line 203 "plp5.y"
-                        {}
-#line 1726 "plp5.tab.c"
+                        {
+                            yyval.tipo = yyvsp[0].tipo; int tmp = newTemp(); yyval.dir = tmp;
+                            yyval.cod = "mov " + std::to_string(yyvsp[0].dir) + "A\n"
+                                   + "not" + yyvsp[0].tipo->lexema + "\n"
+                                   + "mov A " + std::to_string(tmp) + "\n";
+                        }
+#line 1731 "plp5.tab.c"
     break;
 
   case 45:
-#line 204 "plp5.y"
-                 {}
-#line 1732 "plp5.tab.c"
-    break;
-
-  case 46:
-#line 205 "plp5.y"
-                {}
+#line 209 "plp5.y"
+                 {int tmp = newTemp(); yyval.dir = tmp;
+                 yyval.cod = "mov #1 " + std::to_string(tmp) + "\n";}
 #line 1738 "plp5.tab.c"
     break;
 
+  case 46:
+#line 211 "plp5.y"
+                {int tmp = newTemp(); yyval.dir = tmp;
+                 yyval.cod = "mov #0 " + std::to_string(tmp) + "\n";}
+#line 1745 "plp5.tab.c"
+    break;
+
   case 47:
-#line 208 "plp5.y"
-             {}
-#line 1744 "plp5.tab.c"
+#line 215 "plp5.y"
+             {
+                Simbolo* s = tsa->searchSymb(yyvsp[0].lexema);
+                if( s == NULL )
+                    errorSemantico(ERR_NO_DECL, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);
+                int tmp = newTemp(); yyval.dir = tmp;
+                yyval.cod = "mov #0 " + std::to_string(tmp) + "\n";
+                unTipo t = tt->getTipo(s->tipo);
+                MITIPO tipo;
+                 // rellanar tipo y asignarlo a $$
+                yyval.dbase = s->dir;
+            }
+#line 1761 "plp5.tab.c"
     break;
 
   case 48:
-#line 209 "plp5.y"
-                                {}
-#line 1750 "plp5.tab.c"
+#line 226 "plp5.y"
+                   {
+                        if(yyvsp[-1].tipo->tipoPos<=2)
+                            errorSemantico(ERR_SOBRAN, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);
+                    }
+#line 1770 "plp5.tab.c"
+    break;
+
+  case 49:
+#line 229 "plp5.y"
+                                   {
+                                        if(yyvsp[-1].tipo->tipoPos!=0)
+                                            errorSemantico(ERR_INDICE_ENTERO, yyvsp[-1].nlin, yyvsp[-1].ncol, yyvsp[-1].lexema);
+                                        //$$.tipo = tt->getTipo($1.tipo->tipoPos).tipoBase
+                                        yyval.dbase = yyvsp[-4].dbase;
+                                        int tmp = newTemp(); yyval.dir = tmp;
+                                        yyval.cod = yyvsp[-4].cod + yyvsp[-1].cod +
+                                                "mov " + std::to_string(yyvsp[-4].dir) + " A\n" +
+                                                "muli #" + std::to_string(tt->getTipo(yyvsp[-4].tipo->tipoPos).tamanyo) + "\n" +
+                                                "addi " + std::to_string(yyvsp[-1].dir) + "\n" +
+                                                "mov A " + std::to_string(tmp) + "\n";
+                                                
+                                    }
+#line 1788 "plp5.tab.c"
     break;
 
 
-#line 1754 "plp5.tab.c"
+#line 1792 "plp5.tab.c"
 
       default: break;
     }
@@ -1982,7 +2020,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 213 "plp5.y"
+#line 245 "plp5.y"
 
 
 int traducirTipo(string tipo){

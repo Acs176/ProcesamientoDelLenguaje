@@ -41,7 +41,7 @@ string traducirTipo(int tipo);
 string tipoAsig(int tipo);
 MITIPO opera(string op, MITIPO izq, MITIPO der);
 void rellenarTipos(int tipoSimbolo);
-void errorSemantico(int nerr,int fila,int columna,char *lexema);
+void errorSemantico(int nerr,int fila,int columna,const char *lexema);
 
 int ctemp = 16000;
 int cvars = 0;
@@ -110,13 +110,13 @@ SInstr  : SInstr pyc {$$.dir=ctemp;} Instr {ctemp = $3.dir; $$.cod = $1.cod + $4
 
 Instr   : escribe Expr {$$.cod = $2.cod + $1.lexema + $2.tipo->lexema + " " + std::to_string($2.dir);}
         | lee Ref {$$.cod = $2.cod + $1.lexema + $2.tipo->lexema + " " + std::to_string($2.dir);}
-        | si Expr entonces Instr {if($2.tipo->trad != "logico") error();
+        | si Expr entonces Instr {if($2.tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
                                     string l1 = newLabel(); 
                                     $$.cod = $2.cod + "mov " + std::to_string($2.dir) + " A\n"
                                             + "jz L" + l1 + "\n"
                                             + $4.cod + "\n L" + l1 + ":\n";
                                  }
-        | si Expr entonces Instr sino Instr {if($2.tipo->trad != "logico") error();
+        | si Expr entonces Instr sino Instr {if($2.tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
                                             string l1 = newLabel();
                                             string l2 = newLabel(); 
                                             $$.cod = $2.cod + "mov " + std::to_string($2.dir) + " A\n"
@@ -125,7 +125,7 @@ Instr   : escribe Expr {$$.cod = $2.cod + $1.lexema + $2.tipo->lexema + " " + st
                                                     + $6.cod + "\nL" + l2 + ":\n";
                                         }
         | mientras Expr hacer Instr {
-                                        if($2.tipo->trad != "logico") error();
+                                        if($2.tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
                                         string l1 = newLabel();
                                         string l2 = newLabel();
                                         $$.cod = "L" + l1 + ":\n" + $2.cod + "mov " + std::to_string($2.dir) + " A\n"
@@ -134,7 +134,7 @@ Instr   : escribe Expr {$$.cod = $2.cod + $1.lexema + $2.tipo->lexema + " " + st
                                                 + "L" + l2 + ":\n";
                                     }
         | repetir Instr hasta Expr {
-                                        if($4.tipo->trad != "logico") error();
+                                        if($4.tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
                                         string l1 = newLabel();
                                         
                                         $$.cod = "L" + l1 + ":\n" + $2.cod + "\n" 
@@ -200,13 +200,45 @@ Factor  : Ref {$$.dir = $1.dir; $$.tipo = $1.tipo; $$.cod = $1.cod;}
                    string real_string($1.lexema);
                    $$.cod = "mov " + real_string + " " + std::to_string(tmp) + "\n";}
         | pari Expr pard {$$.dir = $2.dir; $$.cod = $2.cod;}
-        | nobool Factor {}
-        | cierto {}
-        | falso {}
+        | nobool Factor {
+                            $$.tipo = $2.tipo; int tmp = newTemp(); $$.dir = tmp;
+                            $$.cod = "mov " + std::to_string($2.dir) + "A\n"
+                                   + "not" + $2.tipo->lexema + "\n"
+                                   + "mov A " + std::to_string(tmp) + "\n";
+                        }
+        | cierto {int tmp = newTemp(); $$.dir = tmp;
+                 $$.cod = "mov #1 " + std::to_string(tmp) + "\n";}
+        | falso {int tmp = newTemp(); $$.dir = tmp;
+                 $$.cod = "mov #0 " + std::to_string(tmp) + "\n";}
         ;
 
-Ref     : id {}
-        | Ref cori Esimple cord {}
+Ref     : id {
+                Simbolo* s = tsa->searchSymb($1.lexema);
+                if( s == NULL )
+                    errorSemantico(ERR_NO_DECL, $1.nlin, $1.ncol, $1.lexema);
+                int tmp = newTemp(); $$.dir = tmp;
+                $$.cod = "mov #0 " + std::to_string(tmp) + "\n";
+                unTipo t = tt->getTipo(s->tipo);
+                MITIPO tipo;
+                 // rellanar tipo y asignarlo a $$
+                $$.dbase = s->dir;
+            }
+        | Ref cori {
+                        if($1.tipo->tipoPos<=2)
+                            errorSemantico(ERR_SOBRAN, $2.nlin, $2.ncol, $2.lexema);
+                    } Esimple cord {
+                                        if($4.tipo->tipoPos!=0)
+                                            errorSemantico(ERR_INDICE_ENTERO, $4.nlin, $4.ncol, $4.lexema);
+                                        //$$.tipo = tt->getTipo($1.tipo->tipoPos).tipoBase
+                                        $$.dbase = $1.dbase;
+                                        int tmp = newTemp(); $$.dir = tmp;
+                                        $$.cod = $1.cod + $4.cod +
+                                                "mov " + std::to_string($1.dir) + " A\n" +
+                                                "muli #" + std::to_string(tt->getTipo($1.tipo->tipoPos).tamanyo) + "\n" +
+                                                "addi " + std::to_string($4.dir) + "\n" +
+                                                "mov A " + std::to_string(tmp) + "\n";
+                                                
+                                    }
         ;
 
 

@@ -33,6 +33,7 @@ struct MITIPO {
    string cod;
    int tipoPos;
    int dir;
+   int dbase;
 };
 
 
