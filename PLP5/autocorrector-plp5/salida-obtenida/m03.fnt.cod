@@ -1,0 +1,21 @@
+ Error semantico (6,5): la expresion a la derecha de ':=' debe ser de tipo enteromov #0 16001
+mov #3 16002
+mov #4 16003
+mov 16002 A
+*i 16003mov A 16004
+mov #5 16005
+mov #9 16006
+mov 16005 A
+*i 16006mov A 16007
+mov #2 16008
+mov #1.2 16009
+mov 16008 A
+subr 16009
+mov A 16010
+mov 16007 A
+/ 16010mov A 16011
+mov 16004 A
+sub 16011
+mov A 16012
+mov 16012 A
+halt

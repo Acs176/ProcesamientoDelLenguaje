@@ -1,0 +1,17 @@
+ Debe salir "c" (cierto)mov #0 16001
+mov 16002A
+notl
+mov A 16003
+mov 16001 A
+&&logico 16003mov A 16004
+mov #1 16005
+mov #1 16006
+mov 16005 A
+&&logico 16006mov A 16007
+mov #1 16008
+mov 16007 A
+&&logico 16008mov A 16009
+mov 16004 A
+orlogico 16009mov A 16010
+wr 16010
+halt

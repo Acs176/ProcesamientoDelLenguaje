@@ -1,0 +1,22 @@
+ La salida es "0.5"mov #0 16001
+mov #6 16002
+mov #2 16003
+mov 16002 A
+subi 16003
+mov A 16004
+mov #2 16005
+mov 16004 A
+subi 16005
+mov A 16006
+mov #1 16007
+mov 16006 A
+subi 16007
+mov A 16008
+mov #0.5 16009
+mov 16008 A
+subr 16009
+mov A 16010
+mov 16010 A
+mov #0 16001
+wrr 16001
+halt

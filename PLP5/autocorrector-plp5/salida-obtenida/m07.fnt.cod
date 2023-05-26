@@ -1,0 +1,10 @@
+ Error semantico (8,4): la expresion a la derecha de ':=' debe ser de tipo real o enteromov #0 16001
+mov #0 16002
+mov #0 16003
+mov #3 16004
+mov 16003 A
+*i 16004mov A 16005
+mov 16002 A
+>= 16005mov A 16006
+mov 16006 A
+halt

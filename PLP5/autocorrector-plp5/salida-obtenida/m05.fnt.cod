@@ -1,0 +1,21 @@
+ Error semantico (3,18): la expresion a la derecha de '&&' debe ser de tipo logicomov #1 16001
+mov #2 16002
+mov #7.5 16003
+mov 16002 A
+*r 16003mov A 16004
+mov #8.32 16005
+mov 16004 A
+subr 16005
+mov A 16006
+mov #10.345 16007
+mov 16006 A
+addr 16007
+mov A 16008
+mov 16001 A
+&&real 16008mov A 16009
+mov #2 16010
+mov 16009 A
+subi 16010
+mov A 16011
+wr 16011
+halt

@@ -1,0 +1,9 @@
+ Error semantico (3,12): la expresion a la derecha de '*' debe ser de tipo real o enteromov #2 16001
+mov #3 16002
+mov #4.5 16003
+mov 16002 A
+lssr 16003mov A 16004
+mov 16001 A
+* 16004mov A 16005
+wr 16005
+halt

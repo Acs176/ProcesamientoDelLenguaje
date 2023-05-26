@@ -35,13 +35,15 @@ int yyerror(char *s);
 int newTemp();
 int newVar();
 string newLabel();
-void comprobarTipos(MITIPO t1, MITIPO t2);
+void comprobarTipos(MITIPO& t1, MITIPO& t2);
 int traducirTipo(string tipo);
 string traducirTipo(int tipo);
 string tipoAsig(int tipo);
 MITIPO opera(string op, MITIPO izq, MITIPO der);
 void rellenarTipos(int tipoSimbolo);
 void errorSemantico(int nerr,int fila,int columna,const char *lexema);
+MITIPO recuperarTipo(int posTipo);
+string getOperator(string op);
 
 int ctemp = 16000;
 int cvars = 0;
@@ -62,14 +64,14 @@ TablaTipos *tt;
 %%
 
 S       : {tsa = new TablaSimbolos(NULL); tt = new TablaTipos();} algoritmo dospto id SDec SInstr falgoritmo
-          { $$.cod = $6.cod;}
+          { $$.cod = $6.cod + "halt"; cout << $$.cod << endl; }
         ;
 
-SDec    : Dec
+SDec    : Dec 
         |
         ;
 
-Dec     : var DVar MDVar fvar
+Dec     : var DVar MDVar fvar 
         ;
 
 DVar    : Tipo dospto id {
@@ -78,43 +80,45 @@ DVar    : Tipo dospto id {
                             s.tipo = $1.tipoPos;
                             s.dir = newVar();
                             s.tam = tt->getTipo($1.tipoPos).tamanyo; // es objeto Tipo
-                            if(!tsa->newSymb(s))    //ERROR
-                            $$.tipo = &($1);} Lid pyc
+                            $$.tipo = &($1); if(!tsa->newSymb(s)){errorSemantico(ERR_YADECL, $3.nlin, $3.ncol, $3.lexema);}    //ERROR
+
+                            } Lid pyc
         ;
 
-MDVar   : DVar MDVar
+MDVar   : DVar MDVar 
         |
         ;
 
 Lid     : coma id {
                     Simbolo s;
                     s.nombre = $2.lexema;
-                    s.tipo = $0.tipo->tipoPos;
+                    s.tipo = 1;
                     s.dir = newVar();
-                    s.tam = tt->getTipo($0.tipo->tipoPos).tamanyo; // hereda tipo en DVar
-                    if(!tsa->newSymb(s))    //ERROR
+                    s.tam = tt->getTipo(1).tamanyo; // hereda tipo en DVar
+                    if(!tsa->newSymb(s)){errorSemantico(ERR_YADECL, $2.nlin, $2.ncol, $2.lexema);}    //ERROR
                     $$.tipo = $0.tipo;
-                  } Lid
+                  } Lid 
         |
         ;
 
 Tipo    : entero {$$.trad="entero"; $$.tipoPos=0; $$.lexema="i"; }
         | real   {$$.trad="real"; $$.tipoPos=1; $$.lexema="r"; }
         | logico {$$.trad="logico"; $$.tipoPos=2; $$.lexema="l"; }
-        | tabla nentero de Tipo {tt->nuevoTipoArray(stoi($2.lexema), $4.tipoPos);}
+        | tabla nentero de Tipo {tt->nuevoTipoArray(stoi($2.lexema), $4.tipoPos); }
         ;
 
-SInstr  : SInstr pyc {$$.dir=ctemp;} Instr {ctemp = $3.dir; $$.cod = $1.cod + $4.cod;}
+SInstr  : SInstr pyc {$$.dir=ctemp; } Instr {ctemp = $3.dir; $$.cod = $1.cod + $4.cod;}
         | {$$.dir=ctemp;} Instr {ctemp=$1.dir; $$.cod = $2.cod;}
         ;
 
-Instr   : escribe Expr {$$.cod = $2.cod + $1.lexema + $2.tipo->lexema + " " + std::to_string($2.dir);}
-        | lee Ref {$$.cod = $2.cod + $1.lexema + $2.tipo->lexema + " " + std::to_string($2.dir);}
+Instr   : escribe Expr {$$.cod = $2.cod + getOperator($1.lexema) + $2.tipo->lexema + " " + std::to_string($2.dir) + "\n";}
+        | lee Ref {$$.cod = $2.cod + getOperator($1.lexema) + $2.tipo->lexema + " " + std::to_string($2.dir) + "\n"; }
         | si Expr entonces Instr {if($2.tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
                                     string l1 = newLabel(); 
                                     $$.cod = $2.cod + "mov " + std::to_string($2.dir) + " A\n"
                                             + "jz L" + l1 + "\n"
-                                            + $4.cod + "\n L" + l1 + ":\n";
+                                            + $4.cod + "\n L" + l1 + ":\n";;
+                                            
                                  }
         | si Expr entonces Instr sino Instr {if($2.tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
                                             string l1 = newLabel();
@@ -122,7 +126,7 @@ Instr   : escribe Expr {$$.cod = $2.cod + $1.lexema + $2.tipo->lexema + " " + st
                                             $$.cod = $2.cod + "mov " + std::to_string($2.dir) + " A\n"
                                                     + "jz L" + l1 + "\n"
                                                     + $4.cod + "\njmp L" + l2 +"\nL" + l1 + ":\n"
-                                                    + $6.cod + "\nL" + l2 + ":\n";
+                                                    + $6.cod + "\nL" + l2 + ":\n";;
                                         }
         | mientras Expr hacer Instr {
                                         if($2.tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
@@ -151,23 +155,24 @@ Instr   : escribe Expr {$$.cod = $2.cod + $1.lexema + $2.tipo->lexema + " " + st
 Expr    : Expr obool Econj {int tmp = newTemp(); $$.dir = tmp;
                             $$.cod = $1.cod + $3.cod + 
                             "mov " + std::to_string($1.dir) + " A\n" +
-                            $2.lexema + $1.tipo->trad + " " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n";}
-        | Econj {$$.dir = $1.dir; $$.cod = $1.cod;}
+                            getOperator($2.lexema) + $1.tipo->trad + " " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "mov A " + std::to_string(tmp) + "\n";
+                            $$.tipo = $1.tipo;}
+        | Econj {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipo = $1.tipo;}
         ;
 
 Econj   : Econj ybool Ecomp {int tmp = newTemp(); $$.dir = tmp;
                              $$.cod = $1.cod + $3.cod + 
                             "mov " + std::to_string($1.dir) + " A\n" +
-                            $2.lexema + $1.tipo->trad + " " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            getOperator($2.lexema) + $1.tipo->trad + " " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
                             "mov A " + std::to_string(tmp) + "\n";}
-        | Ecomp {$$.dir = $1.dir; $$.cod = $1.cod;}
+        | Ecomp {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipo = $1.tipo;}
         ;
 
-Ecomp   : Econj oprel Esimple {int tmp = newTemp(); $$.dir = tmp;
+Ecomp   : Esimple oprel Esimple {int tmp = newTemp(); $$.dir = tmp;
                              $$.cod = $1.cod + $3.cod + 
                             "mov " + std::to_string($1.dir) + " A\n" +
-                            $2.lexema + $1.tipo->lexema + " " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            getOperator($2.lexema) + $1.tipo->lexema + " " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
                             "mov A " + std::to_string(tmp) + "\n";}
         | Esimple {$$.dir = $1.dir; $$.cod = $1.cod;}
         ;
@@ -175,31 +180,39 @@ Ecomp   : Econj oprel Esimple {int tmp = newTemp(); $$.dir = tmp;
 Esimple : Esimple opas Term {int tmp = newTemp(); $$.dir = tmp;
                              $$.cod = $1.cod + $3.cod + 
                             "mov " + std::to_string($1.dir) + " A\n" +
-                            $2.lexema + $1.tipo->lexema + " " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n";}
-        | Term {$$.dir = $1.dir; $$.cod = $1.cod;}
+                            getOperator($2.lexema) + $1.tipo->lexema + " " + std::to_string($3.dir) + "\n" + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "mov A " + std::to_string(tmp) + "\n";
+                            $$.tipo = $1.tipo;}
+        | Term {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipo = $1.tipo;}
+        | opas Term {int tmp = newTemp(); $$.dir = tmp;
+                                $$.cod = $2.cod +
+                                "mov #0 A\n" +
+                                getOperator($1.lexema) + $2.tipo->lexema + " " + std::to_string($2.dir) +
+                                "mov A " + std::to_string(tmp) + "\n";
+                                $$.tipo = $2.tipo;
+                            }
         ;
 
 Term    : Term opmd Factor {int tmp = newTemp(); $$.dir = tmp;
                              $$.cod = $1.cod + $3.cod + 
                             "mov " + std::to_string($1.dir) + " A\n" +
                             $2.lexema + $1.tipo->lexema + " " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n";}
-        | Factor {$$.dir = $1.dir; $$.cod = $1.cod;}
+                            "mov A " + std::to_string(tmp) + "\n"; $$.tipo = $1.tipo;}
+        | Factor {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipo = $1.tipo;}
         ;
 
 Factor  : Ref {$$.dir = $1.dir; $$.tipo = $1.tipo; $$.cod = $1.cod;}
         | nentero {int tmp = newTemp(); $$.dir = tmp;
-                   MITIPO tipo;
-                   tipo.trad = "entero"; tipo.tipoPos=0; tipo.lexema="i"; $$.tipo = &tipo;
+                   MITIPO tipo = recuperarTipo(0);
+                   $$.tipo = &tipo;
                    string entero_string($1.lexema);
-                   $$.cod = "mov " + entero_string + " " + std::to_string(tmp) + "\n";}
+                   $$.cod = "mov #" + entero_string + " " + std::to_string(tmp) + "\n";}
         | nreal {int tmp = newTemp(); $$.dir = tmp;
-                   MITIPO tipo;
-                   tipo.trad = "real"; tipo.tipoPos=1; tipo.lexema="r"; $$.tipo = &tipo;
+                   MITIPO tipo = recuperarTipo(1);
+                   $$.tipo = &tipo;
                    string real_string($1.lexema);
-                   $$.cod = "mov " + real_string + " " + std::to_string(tmp) + "\n";}
-        | pari Expr pard {$$.dir = $2.dir; $$.cod = $2.cod;}
+                   $$.cod = "mov #" + real_string + " " + std::to_string(tmp) + "\n";}
+        | pari Expr pard {$$.dir = $2.dir; $$.cod = $2.cod; $$.tipo = $2.tipo;}
         | nobool Factor {
                             $$.tipo = $2.tipo; int tmp = newTemp(); $$.dir = tmp;
                             $$.cod = "mov " + std::to_string($2.dir) + "A\n"
@@ -207,20 +220,25 @@ Factor  : Ref {$$.dir = $1.dir; $$.tipo = $1.tipo; $$.cod = $1.cod;}
                                    + "mov A " + std::to_string(tmp) + "\n";
                         }
         | cierto {int tmp = newTemp(); $$.dir = tmp;
+                 MITIPO tipo = recuperarTipo(2);
+                 $$.tipo = &tipo;
                  $$.cod = "mov #1 " + std::to_string(tmp) + "\n";}
         | falso {int tmp = newTemp(); $$.dir = tmp;
+                 MITIPO tipo = recuperarTipo(2);
+                 $$.tipo = &tipo;
                  $$.cod = "mov #0 " + std::to_string(tmp) + "\n";}
         ;
 
 Ref     : id {
+                
                 Simbolo* s = tsa->searchSymb($1.lexema);
                 if( s == NULL )
                     errorSemantico(ERR_NO_DECL, $1.nlin, $1.ncol, $1.lexema);
                 int tmp = newTemp(); $$.dir = tmp;
                 $$.cod = "mov #0 " + std::to_string(tmp) + "\n";
-                unTipo t = tt->getTipo(s->tipo);
-                MITIPO tipo;
-                 // rellanar tipo y asignarlo a $$
+                
+                MITIPO tipo = recuperarTipo(s->tipo);
+                $$.tipo = &tipo;
                 $$.dbase = s->dir;
             }
         | Ref cori {
@@ -229,7 +247,8 @@ Ref     : id {
                     } Esimple cord {
                                         if($4.tipo->tipoPos!=0)
                                             errorSemantico(ERR_INDICE_ENTERO, $4.nlin, $4.ncol, $4.lexema);
-                                        //$$.tipo = tt->getTipo($1.tipo->tipoPos).tipoBase
+                                        MITIPO tipo = recuperarTipo(tt->getTipo($1.tipo->tipoPos).tipoBase); // tipoBase es igual que tipoPos???
+                                        $$.tipo = &tipo;
                                         $$.dbase = $1.dbase;
                                         int tmp = newTemp(); $$.dir = tmp;
                                         $$.cod = $1.cod + $4.cod +
@@ -344,8 +363,70 @@ string newLabel(){
     return std::to_string(clabel); 
 }
 
-void comprobarTipos(MITIPO t1, MITIPO t2){
+MITIPO recuperarTipo(int posTipo){
+    MITIPO tipo;
+    if(posTipo == 1){
+        tipo.trad = "real"; tipo.tipoPos=1; tipo.lexema="r";
+    }
+    else if(posTipo == 0){
+        tipo.trad = "entero"; tipo.tipoPos=0; tipo.lexema="i";
+    }
+    else if(posTipo == 2){
+        tipo.trad = "logico"; tipo.tipoPos=2; tipo.lexema="l";
+    }
+    else if(posTipo > 2){
+        tipo.trad = "array"; tipo.tipoPos=posTipo; tipo.lexema="a";
+    }
+    return tipo;
+    
+}
+
+void comprobarTipos(MITIPO& t1, MITIPO& t2){
     // POR IMPLEMENTAR
+}
+
+string getOperator(string op){
+    string oper = op;
+    if(op == "+"){
+        oper = "add";
+    }
+    else if(op == "-"){
+        oper = "sub";
+    }
+    else if(op == "*"){
+        oper = "mul";
+    }
+    else if(op == "/"){
+        oper = "div";
+    }
+    else if(op == "&&"){
+        oper == "and";
+    }
+    else if(op == "||"){
+        oper = "or";
+    }
+    else if(op == "!"){
+        oper = "not";
+    }
+    else if(op == "="){
+        oper = "eql";
+    }
+    else if(op == "<>"){
+        oper = "neq";
+    }
+    else if(op == ">"){
+        oper = "gtr";
+    }
+    else if(op == "<"){
+        oper = "lss";
+    }
+    else if(op == "escribe"){
+        oper = "wr";
+    }
+    else if(op == "lee"){
+        oper = "rd";
+    }
+    return oper;
 }
 
 string tipoAsig(int tipo){
