@@ -103,6 +103,7 @@ void rellenarTipos(int tipoSimbolo);
 void errorSemantico(int nerr,int fila,int columna,const char *lexema);
 MITIPO recuperarTipo(int posTipo);
 string getOperator(string op);
+string getLetraTipo(int tipo);
 
 int ctemp = 16000;
 int cvars = 0;
@@ -119,7 +120,7 @@ string operador, s1, s2;  // string auxiliares
 TablaSimbolos *tsa;
 TablaTipos *tt;
 
-#line 123 "plp5.tab.c"
+#line 124 "plp5.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -530,16 +531,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   94
+#define YYLAST   95
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  45
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  23
+#define YYNNTS  24
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  50
+#define YYNRULES  51
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  96
+#define YYNSTATES  97
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   299
@@ -588,14 +589,14 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    66,    66,    66,    70,    71,    74,    77,    77,    88,
-      89,    92,    92,   101,   104,   105,   106,   107,   110,   110,
-     111,   111,   114,   115,   116,   123,   131,   140,   148,   152,
-     155,   161,   164,   169,   172,   177,   180,   186,   187,   196,
-     201,   204,   205,   210,   215,   216,   222,   226,   232,   244,
-     244
+       0,    67,    67,    67,    71,    72,    75,    78,    78,    89,
+      90,    93,    93,   102,   105,   106,   107,   108,   111,   111,
+     112,   112,   115,   116,   117,   128,   139,   148,   156,   160,
+     160,   163,   177,   180,   193,   196,   232,   235,   271,   272,
+     283,   321,   324,   325,   329,   334,   335,   341,   344,   349,
+     360,   360
 };
 #endif
 
@@ -611,8 +612,8 @@ static const char *const yytname[] =
   "entonces", "sino", "fsi", "mientras", "hacer", "escribe", "lee",
   "repetir", "hasta", "cori", "cord", "ybool", "obool", "nobool",
   "$accept", "S", "$@1", "SDec", "Dec", "DVar", "@2", "MDVar", "Lid", "@3",
-  "Tipo", "SInstr", "@4", "@5", "Instr", "Expr", "Econj", "Ecomp",
-  "Esimple", "Term", "Factor", "Ref", "$@6", YY_NULLPTR
+  "Tipo", "SInstr", "@4", "@5", "Instr", "$@6", "Expr", "Econj", "Ecomp",
+  "Esimple", "Term", "Factor", "Ref", "$@7", YY_NULLPTR
 };
 #endif
 
@@ -643,16 +644,16 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -65,     7,   -15,   -65,    -3,    24,    11,    46,   -65,   -65,
-     -65,   -65,   -65,    19,    46,    17,    39,    23,    27,    46,
-      45,    43,   -65,   -65,   -65,    11,    12,    12,    12,    71,
-      23,   -65,    -4,    46,   -65,   -65,   -65,    23,   -65,    29,
-     -65,   -65,   -65,   -65,    12,    29,    15,    34,   -65,    65,
-      72,   -65,    37,    28,    36,    37,    41,    12,   -65,   -65,
-      66,   -65,     3,    72,     1,   -65,    23,    12,    12,    29,
-      12,    29,    23,    12,    36,    12,    77,    68,   -65,   -65,
-      52,    34,   -65,    72,    80,   -65,   -65,    36,     4,   -65,
-     -65,    23,   -65,    66,   -65,   -65
+     -65,     7,   -15,   -65,    -3,    24,    11,    47,   -65,   -65,
+     -65,   -65,   -65,    19,    47,    17,    36,    23,    30,    47,
+      28,    60,   -65,   -65,   -65,   -65,    12,    12,    12,    61,
+      23,   -65,    -4,    47,   -65,   -65,   -65,    23,    11,    29,
+     -65,   -65,   -65,   -65,    12,    29,    15,    35,   -65,    71,
+      65,   -65,    32,    31,    37,    32,    40,    12,   -65,   -65,
+      66,   -65,   -65,    65,     1,   -65,    23,    12,    12,    29,
+      12,    29,    23,    12,    37,    12,    77,    68,     3,   -65,
+      52,    35,   -65,    65,    80,   -65,   -65,    37,     4,   -65,
+     -65,   -65,    23,   -65,    66,   -65,   -65
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -662,30 +663,30 @@ static const yytype_int8 yydefact[] =
 {
        2,     0,     0,     1,     0,     0,     5,     0,    20,     4,
       15,    14,    16,     0,    10,     0,     0,     0,     0,    10,
-       0,     0,    18,     3,    48,     5,     0,     0,     0,     0,
-       0,    21,     0,     0,     9,     6,     7,     0,    20,     0,
-      46,    47,    42,    43,     0,     0,     0,    31,    33,    35,
-      37,    40,    41,     0,    22,    23,     0,     0,    49,    17,
-      13,    19,     0,    38,     0,    45,     0,     0,     0,     0,
-       0,     0,     0,     0,    28,     0,     0,     0,    29,    44,
-      24,    30,    32,    36,    34,    39,    26,    27,     0,    11,
-       8,     0,    50,    13,    25,    12
+       0,     0,    18,     3,    49,    29,     0,     0,     0,     0,
+       0,    21,     0,     0,     9,     6,     7,     0,     5,     0,
+      47,    48,    43,    44,     0,     0,     0,    32,    34,    36,
+      38,    41,    42,     0,    22,    23,     0,     0,    50,    17,
+      13,    19,    20,    39,     0,    46,     0,     0,     0,     0,
+       0,     0,     0,     0,    28,     0,     0,     0,     0,    45,
+      24,    31,    33,    37,    35,    40,    26,    27,     0,    11,
+       8,    30,     0,    51,    13,    25,    12
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -65,   -65,   -65,    61,   -65,    81,   -65,    70,    -6,   -65,
-      57,    53,   -65,   -65,   -29,   -25,    25,    26,   -64,   -34,
-     -19,   -17,   -65
+     -65,   -65,   -65,    48,   -65,    81,   -65,    70,    -7,   -65,
+      57,    33,   -65,   -65,   -29,   -65,   -25,    25,    26,   -64,
+     -34,   -19,   -17,   -65
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     2,     8,     9,    19,    60,    20,    77,    93,
-      15,    16,    37,    17,    31,    46,    47,    48,    49,    50,
-      51,    52,    75
+      -1,     1,     2,     8,     9,    19,    60,    20,    77,    94,
+      15,    16,    37,    17,    31,    38,    46,    47,    48,    49,
+      50,    51,    52,    75
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -696,13 +697,13 @@ static const yytype_int8 yytable[] =
       32,    56,    53,    54,    57,    63,    84,     3,    61,    69,
        4,    88,    55,    32,     5,    79,    24,    39,    22,    64,
       32,    40,    41,    42,    43,    44,    65,    24,     6,     7,
-      18,    78,    74,    24,    21,    83,    58,    80,    40,    41,
-      42,    43,    44,    86,    67,    92,    66,    36,    87,    32,
-      25,    33,    85,    26,    22,    32,    45,    27,    67,    28,
-      29,    30,    94,    72,    35,    23,    10,    11,    12,    13,
-      69,    67,    70,    45,    32,    24,    68,    58,    71,    67,
-      73,    89,    76,    90,    91,    69,    38,    95,    14,    34,
-      59,    62,    81,     0,    82
+      18,    91,    74,    24,    21,    83,    58,    80,    40,    41,
+      42,    43,    44,    86,    67,    93,    66,    35,    87,    32,
+      25,    22,    85,    26,    33,    32,    45,    27,    67,    28,
+      29,    30,    23,    95,    36,    24,    72,    10,    11,    12,
+      13,    71,    58,    45,    67,    32,    69,    68,    70,    73,
+      67,    89,    76,    90,    92,    69,    62,    96,    14,    34,
+      59,     0,    81,     0,    82,    78
 };
 
 static const yytype_int8 yycheck[] =
@@ -711,12 +712,12 @@ static const yytype_int8 yycheck[] =
       25,    75,    29,    30,    17,    14,     4,     5,    15,    44,
       37,     9,    10,    11,    12,    13,    45,     4,     4,    18,
       11,    28,    57,     4,    17,    69,    40,    66,     9,    10,
-      11,    12,    13,    72,    43,    41,    31,     4,    73,    66,
-      27,    24,    71,    30,    15,    72,    44,    34,    43,    36,
-      37,    38,    91,    35,    19,    26,    20,    21,    22,    23,
-       5,    43,     7,    44,    91,     4,    42,    40,     6,    43,
-      39,     4,    16,    15,    32,     5,    25,    93,     7,    19,
-      33,    38,    67,    -1,    68
+      11,    12,    13,    72,    43,    41,    31,    19,    73,    66,
+      27,    15,    71,    30,    24,    72,    44,    34,    43,    36,
+      37,    38,    26,    92,     4,     4,    35,    20,    21,    22,
+      23,     6,    40,    44,    43,    92,     5,    42,     7,    39,
+      43,     4,    16,    15,    32,     5,    38,    94,     7,    19,
+      33,    -1,    67,    -1,    68,    62
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -726,13 +727,13 @@ static const yytype_int8 yystos[] =
        0,    46,    47,     0,    25,    17,     4,    18,    48,    49,
       20,    21,    22,    23,    50,    55,    56,    58,    11,    50,
       52,    17,    15,    26,     4,    27,    30,    34,    36,    37,
-      38,    59,    66,    24,    52,    19,     4,    57,    48,     5,
-       9,    10,    11,    12,    13,    44,    60,    61,    62,    63,
-      64,    65,    66,    60,    60,    66,    59,     8,    40,    55,
-      51,    59,    56,    64,    60,    65,    31,    43,    42,     5,
-       7,     6,    35,    39,    60,    67,    16,    53,    28,    14,
-      59,    61,    62,    64,    63,    65,    59,    60,    63,     4,
-      15,    32,    41,    54,    59,    53
+      38,    59,    67,    24,    52,    19,     4,    57,    60,     5,
+       9,    10,    11,    12,    13,    44,    61,    62,    63,    64,
+      65,    66,    67,    61,    61,    67,    59,     8,    40,    55,
+      51,    59,    48,    65,    61,    66,    31,    43,    42,     5,
+       7,     6,    35,    39,    61,    68,    16,    53,    56,    14,
+      59,    62,    63,    65,    64,    66,    59,    61,    64,     4,
+      15,    28,    32,    41,    54,    59,    53
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -740,10 +741,10 @@ static const yytype_int8 yyr1[] =
 {
        0,    45,    47,    46,    48,    48,    49,    51,    50,    52,
       52,    54,    53,    53,    55,    55,    55,    55,    57,    56,
-      58,    56,    59,    59,    59,    59,    59,    59,    59,    59,
-      60,    60,    61,    61,    62,    62,    63,    63,    63,    64,
-      64,    65,    65,    65,    65,    65,    65,    65,    66,    67,
-      66
+      58,    56,    59,    59,    59,    59,    59,    59,    59,    60,
+      59,    61,    61,    62,    62,    63,    63,    64,    64,    64,
+      65,    65,    66,    66,    66,    66,    66,    66,    66,    67,
+      68,    67
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -751,10 +752,10 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     0,     7,     1,     0,     4,     0,     6,     2,
        0,     0,     4,     0,     1,     1,     1,     4,     0,     4,
-       0,     2,     2,     2,     4,     6,     4,     4,     3,     4,
-       3,     1,     3,     1,     3,     1,     3,     1,     2,     3,
-       1,     1,     1,     1,     3,     2,     1,     1,     1,     0,
-       5
+       0,     2,     2,     2,     4,     6,     4,     4,     3,     0,
+       5,     3,     1,     3,     1,     3,     1,     3,     1,     2,
+       3,     1,     1,     1,     1,     3,     2,     1,     1,     1,
+       0,     5
 };
 
 
@@ -1450,33 +1451,33 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 66 "plp5.y"
+#line 67 "plp5.y"
           {tsa = new TablaSimbolos(NULL); tt = new TablaTipos();}
-#line 1456 "plp5.tab.c"
+#line 1457 "plp5.tab.c"
     break;
 
   case 3:
-#line 67 "plp5.y"
+#line 68 "plp5.y"
           { yyval.cod = yyvsp[-1].cod + "halt"; cout << yyval.cod << endl; }
-#line 1462 "plp5.tab.c"
+#line 1463 "plp5.tab.c"
     break;
 
   case 7:
-#line 77 "plp5.y"
+#line 78 "plp5.y"
                          {
                             Simbolo s;
                             s.nombre = yyvsp[0].lexema;
                             s.tipo = yyvsp[-2].tipoPos;
                             s.dir = newVar();
                             s.tam = tt->getTipo(yyvsp[-2].tipoPos).tamanyo; // es objeto Tipo
-                            yyval.tipo = &(yyvsp[-2]); if(!tsa->newSymb(s)){errorSemantico(ERR_YADECL, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);}    //ERROR
+                            yyval.tipoPos = yyvsp[-2].tipoPos; if(!tsa->newSymb(s)){errorSemantico(ERR_YADECL, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);}    //ERROR
 
                             }
-#line 1476 "plp5.tab.c"
+#line 1477 "plp5.tab.c"
     break;
 
   case 11:
-#line 92 "plp5.y"
+#line 93 "plp5.y"
                   {
                     Simbolo s;
                     s.nombre = yyvsp[0].lexema;
@@ -1484,86 +1485,93 @@ yyreduce:
                     s.dir = newVar();
                     s.tam = tt->getTipo(1).tamanyo; // hereda tipo en DVar
                     if(!tsa->newSymb(s)){errorSemantico(ERR_YADECL, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);}    //ERROR
-                    yyval.tipo = yyvsp[-2].tipo;
+                    yyval.tipoPos = yyvsp[-2].tipoPos;
                   }
-#line 1490 "plp5.tab.c"
+#line 1491 "plp5.tab.c"
     break;
 
   case 14:
-#line 104 "plp5.y"
+#line 105 "plp5.y"
                  {yyval.trad="entero"; yyval.tipoPos=0; yyval.lexema="i"; }
-#line 1496 "plp5.tab.c"
+#line 1497 "plp5.tab.c"
     break;
 
   case 15:
-#line 105 "plp5.y"
+#line 106 "plp5.y"
                  {yyval.trad="real"; yyval.tipoPos=1; yyval.lexema="r"; }
-#line 1502 "plp5.tab.c"
+#line 1503 "plp5.tab.c"
     break;
 
   case 16:
-#line 106 "plp5.y"
+#line 107 "plp5.y"
                  {yyval.trad="logico"; yyval.tipoPos=2; yyval.lexema="l"; }
-#line 1508 "plp5.tab.c"
+#line 1509 "plp5.tab.c"
     break;
 
   case 17:
-#line 107 "plp5.y"
+#line 108 "plp5.y"
                                 {tt->nuevoTipoArray(stoi(yyvsp[-2].lexema), yyvsp[0].tipoPos); }
-#line 1514 "plp5.tab.c"
+#line 1515 "plp5.tab.c"
     break;
 
   case 18:
-#line 110 "plp5.y"
+#line 111 "plp5.y"
                      {yyval.dir=ctemp; }
-#line 1520 "plp5.tab.c"
+#line 1521 "plp5.tab.c"
     break;
 
   case 19:
-#line 110 "plp5.y"
+#line 111 "plp5.y"
                                             {ctemp = yyvsp[-1].dir; yyval.cod = yyvsp[-3].cod + yyvsp[0].cod;}
-#line 1526 "plp5.tab.c"
+#line 1527 "plp5.tab.c"
     break;
 
   case 20:
-#line 111 "plp5.y"
+#line 112 "plp5.y"
           {yyval.dir=ctemp;}
-#line 1532 "plp5.tab.c"
+#line 1533 "plp5.tab.c"
     break;
 
   case 21:
-#line 111 "plp5.y"
+#line 112 "plp5.y"
                                 {ctemp=yyvsp[-1].dir; yyval.cod = yyvsp[0].cod;}
-#line 1538 "plp5.tab.c"
+#line 1539 "plp5.tab.c"
     break;
 
   case 22:
-#line 114 "plp5.y"
-                       {yyval.cod = yyvsp[0].cod + getOperator(yyvsp[-1].lexema) + yyvsp[0].tipo->lexema + " " + std::to_string(yyvsp[0].dir) + "\n";}
-#line 1544 "plp5.tab.c"
+#line 115 "plp5.y"
+                       {yyval.cod = yyvsp[0].cod + getOperator(yyvsp[-1].lexema) + getLetraTipo(yyvsp[0].tipoPos) + " " + std::to_string(yyvsp[0].dir) + "\n";}
+#line 1545 "plp5.tab.c"
     break;
 
   case 23:
-#line 115 "plp5.y"
-                  {yyval.cod = yyvsp[0].cod + getOperator(yyvsp[-1].lexema) + yyvsp[0].tipo->lexema + " " + std::to_string(yyvsp[0].dir) + "\n"; }
-#line 1550 "plp5.tab.c"
+#line 116 "plp5.y"
+                  {yyval.cod = yyvsp[0].cod + getOperator(yyvsp[-1].lexema) + getLetraTipo(yyvsp[0].tipoPos) + " " + std::to_string(yyvsp[0].dir) + "\n"; }
+#line 1551 "plp5.tab.c"
     break;
 
   case 24:
-#line 116 "plp5.y"
-                                 {if(yyvsp[-2].tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, yyvsp[-3].nlin, yyvsp[-3].ncol, yyvsp[-3].lexema);
+#line 117 "plp5.y"
+                                 {if(yyvsp[-2].tipoPos != 2){
+                                    cerr << yyvsp[-2].tipoPos << endl;
+                                    errorSemantico(ERR_EXP_LOG, yyvsp[-3].nlin, yyvsp[-3].ncol, yyvsp[-3].lexema);
+                                    
+                                 }
                                     string l1 = newLabel(); 
                                     yyval.cod = yyvsp[-2].cod + "mov " + std::to_string(yyvsp[-2].dir) + " A\n"
                                             + "jz L" + l1 + "\n"
                                             + yyvsp[0].cod + "\n L" + l1 + ":\n";;
                                             
                                  }
-#line 1562 "plp5.tab.c"
+#line 1567 "plp5.tab.c"
     break;
 
   case 25:
-#line 123 "plp5.y"
-                                            {if(yyvsp[-4].tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, yyvsp[-5].nlin, yyvsp[-5].ncol, yyvsp[-5].lexema);
+#line 128 "plp5.y"
+                                            {if(yyvsp[-4].tipoPos != 2){
+                                            cerr << yyvsp[-4].tipoPos << endl;
+                                            errorSemantico(ERR_EXP_LOG, yyvsp[-5].nlin, yyvsp[-5].ncol, yyvsp[-5].lexema);
+                                        } 
                                             string l1 = newLabel();
                                             string l2 = newLabel(); 
                                             yyval.cod = yyvsp[-4].cod + "mov " + std::to_string(yyvsp[-4].dir) + " A\n"
@@ -1571,13 +1579,13 @@ yyreduce:
                                                     + yyvsp[-2].cod + "\njmp L" + l2 +"\nL" + l1 + ":\n"
                                                     + yyvsp[0].cod + "\nL" + l2 + ":\n";;
                                         }
-#line 1575 "plp5.tab.c"
+#line 1583 "plp5.tab.c"
     break;
 
   case 26:
-#line 131 "plp5.y"
+#line 139 "plp5.y"
                                     {
-                                        if(yyvsp[-2].tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, yyvsp[-3].nlin, yyvsp[-3].ncol, yyvsp[-3].lexema);
+                                        if(yyvsp[-2].tipoPos != 2) errorSemantico(ERR_EXP_LOG, yyvsp[-3].nlin, yyvsp[-3].ncol, yyvsp[-3].lexema);
                                         string l1 = newLabel();
                                         string l2 = newLabel();
                                         yyval.cod = "L" + l1 + ":\n" + yyvsp[-2].cod + "mov " + std::to_string(yyvsp[-2].dir) + " A\n"
@@ -1585,239 +1593,351 @@ yyreduce:
                                                 + yyvsp[0].cod + "jmp L" + l1 + "\n";
                                                 + "L" + l2 + ":\n";
                                     }
-#line 1589 "plp5.tab.c"
+#line 1597 "plp5.tab.c"
     break;
 
   case 27:
-#line 140 "plp5.y"
+#line 148 "plp5.y"
                                    {
-                                        if(yyvsp[0].tipo->trad != "logico") errorSemantico(ERR_EXP_LOG, yyvsp[-3].nlin, yyvsp[-3].ncol, yyvsp[-3].lexema);
+                                        if(yyvsp[0].tipoPos != 2) errorSemantico(ERR_EXP_LOG, yyvsp[-3].nlin, yyvsp[-3].ncol, yyvsp[-3].lexema);
                                         string l1 = newLabel();
                                         
                                         yyval.cod = "L" + l1 + ":\n" + yyvsp[-2].cod + "\n" 
                                                 + yyvsp[0].cod +"mov " + std::to_string(yyvsp[0].dir) + " A\n"
                                                 + "jz L" + l1 + "\n";
                                     }
-#line 1602 "plp5.tab.c"
+#line 1610 "plp5.tab.c"
     break;
 
   case 28:
-#line 148 "plp5.y"
-                          {comprobarTipos(*yyvsp[-2].tipo, *yyvsp[0].tipo);
+#line 156 "plp5.y"
+                          {//comprobarTipos(*$1.tipo, *$3.tipo);
                             yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + "mov " + std::to_string(yyvsp[0].dir) + " A\n";
                                     + "mov A " + std::to_string(yyvsp[-2].dir) + "\n";
                             }
-#line 1611 "plp5.tab.c"
+#line 1619 "plp5.tab.c"
     break;
 
   case 29:
-#line 152 "plp5.y"
-                               {yyval.cod = yyvsp[-1].cod;}
-#line 1617 "plp5.tab.c"
+#line 160 "plp5.y"
+              {tsa = new TablaSimbolos(tsa);}
+#line 1625 "plp5.tab.c"
     break;
 
   case 30:
-#line 155 "plp5.y"
-                           {int tmp = newTemp(); yyval.dir = tmp;
-                            yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
-                            "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
-                            getOperator(yyvsp[-1].lexema) + yyvsp[-2].tipo->trad + " " + std::to_string(yyvsp[0].dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n";
-                            yyval.tipo = yyvsp[-2].tipo;}
-#line 1628 "plp5.tab.c"
+#line 160 "plp5.y"
+                                                               {yyval.cod = yyvsp[-1].cod; tsa = tsa->padre;}
+#line 1631 "plp5.tab.c"
     break;
 
   case 31:
-#line 161 "plp5.y"
-                {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod; yyval.tipo = yyvsp[0].tipo;}
-#line 1634 "plp5.tab.c"
-    break;
-
-  case 32:
-#line 164 "plp5.y"
-                            {int tmp = newTemp(); yyval.dir = tmp;
-                             yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+#line 163 "plp5.y"
+                           {int tmp = newTemp(); yyval.dir = tmp;
+                             if(yyvsp[-2].tipoPos != 2){
+                                errorSemantico(ERR_EXIZQ_LOG, yyvsp[-1].nlin, yyvsp[-1].ncol, "||");
+                             }
+                             else if(yyvsp[0].tipoPos != 2){
+                                errorSemantico(ERR_EXDER_LOG, yyvsp[-1].nlin, yyvsp[-1].ncol, "||");
+                             }
+                            yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
                             "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
-                            getOperator(yyvsp[-1].lexema) + yyvsp[-2].tipo->trad + " " + std::to_string(yyvsp[0].dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n";}
-#line 1644 "plp5.tab.c"
-    break;
+                            getOperator(yyvsp[-1].lexema) + getLetraTipo(yyvsp[-2].tipoPos) + " " + std::to_string(yyvsp[0].dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "mov A " + std::to_string(tmp) + "\n";
 
-  case 33:
-#line 169 "plp5.y"
-                {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod; yyval.tipo = yyvsp[0].tipo;}
+                            yyval.tipoPos = 2;
+                            cout << "TIPO EXPR " << yyval.tipoPos << endl;}
 #line 1650 "plp5.tab.c"
     break;
 
-  case 34:
-#line 172 "plp5.y"
-                                {int tmp = newTemp(); yyval.dir = tmp;
+  case 32:
+#line 177 "plp5.y"
+                {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod; yyval.tipoPos = yyvsp[0].tipoPos; cout << "TIPO EXPR " << yyval.tipoPos << endl;}
+#line 1656 "plp5.tab.c"
+    break;
+
+  case 33:
+#line 180 "plp5.y"
+                            {int tmp = newTemp(); yyval.dir = tmp;
+                             if(yyvsp[-2].tipoPos != 2){
+                                errorSemantico(ERR_EXIZQ_LOG, yyvsp[-1].nlin, yyvsp[-1].ncol, "&&");
+                             }
+                             else if(yyvsp[0].tipoPos != 2){
+                                errorSemantico(ERR_EXDER_LOG, yyvsp[-1].nlin, yyvsp[-1].ncol, "&&");
+                             }
                              yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
                             "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
-                            getOperator(yyvsp[-1].lexema) + yyvsp[-2].tipo->lexema + " " + std::to_string(yyvsp[0].dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n";}
-#line 1660 "plp5.tab.c"
+                            getOperator(yyvsp[-1].lexema)  + "i " + std::to_string(yyvsp[0].dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "mov A " + std::to_string(tmp) + "\n";
+                            yyval.tipoPos = 2;
+                            cout << "TIPO ECONJ " << yyval.tipoPos << endl;}
+#line 1674 "plp5.tab.c"
+    break;
+
+  case 34:
+#line 193 "plp5.y"
+                {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod; yyval.tipoPos = yyvsp[0].tipoPos;cout << "TIPO ECONJ " << yyval.tipoPos << endl;}
+#line 1680 "plp5.tab.c"
     break;
 
   case 35:
-#line 177 "plp5.y"
-                  {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod;}
-#line 1666 "plp5.tab.c"
+#line 196 "plp5.y"
+                                {int tmp = newTemp(); yyval.dir = tmp;
+                                cout << "OPREL\nCOD1\n" << yyvsp[-2].cod << "COD3\n" << yyvsp[0].cod << endl;
+                                cout << yyvsp[-2].tipoPos << "||" << yyvsp[0].tipoPos << endl;
+                             if(yyvsp[-2].tipoPos == 0 && yyvsp[0].tipoPos == 1){
+                                yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+                                "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
+                                "itor\n" +
+                                getOperator(yyvsp[-1].lexema) + "r " + std::to_string(yyvsp[0].dir) + "\n" + 
+                                "mov A " + std::to_string(tmp) + "\n";
+
+                             }
+                             else if(yyvsp[-2].tipoPos == 1 && yyvsp[0].tipoPos == 0){
+                                yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+                                "mov " + std::to_string(yyvsp[0].dir) + " A\n" +
+                                "itor\n" +
+                                "mov A " + std::to_string(tmp) + "\n" +
+                                "mov " + std::to_string(yyvsp[-2].dir) + "\n" +
+                                getOperator(yyvsp[-1].lexema) + "r " + std::to_string(tmp) + "\n" + 
+                                "mov A " + std::to_string(tmp) + "\n";
+
+                             }
+                             else if(yyvsp[-2].tipoPos == 2){
+                                errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].nlin, yyvsp[-1].ncol, yyvsp[-1].lexema);
+                             }
+                             else if(yyvsp[0].tipoPos == 2){
+                                errorSemantico(ERR_EXDER_RE, yyvsp[-1].nlin, yyvsp[-1].ncol, yyvsp[-1].lexema);
+                             }
+                             else{
+                                yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+                                "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
+                                getOperator(yyvsp[-1].lexema) + getLetraTipo(yyvsp[-2].tipoPos) + " " + std::to_string(yyvsp[0].dir) + "\n" + 
+                                "mov A " + std::to_string(tmp) + "\n";
+
+                             }
+                             yyval.tipoPos = 2;
+                             cout << "TIPO ECOMP NORMAL" << yyval.tipoPos << endl;}
+#line 1721 "plp5.tab.c"
     break;
 
   case 36:
-#line 180 "plp5.y"
-                            {int tmp = newTemp(); yyval.dir = tmp;
-                             yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
-                            "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
-                            getOperator(yyvsp[-1].lexema) + yyvsp[-2].tipo->lexema + " " + std::to_string(yyvsp[0].dir) + "\n" + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n";
-                            yyval.tipo = yyvsp[-2].tipo;}
-#line 1677 "plp5.tab.c"
-    break;
-
-  case 37:
-#line 186 "plp5.y"
-               {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod; yyval.tipo = yyvsp[0].tipo;}
-#line 1683 "plp5.tab.c"
-    break;
-
-  case 38:
-#line 187 "plp5.y"
-                    {int tmp = newTemp(); yyval.dir = tmp;
-                                yyval.cod = yyvsp[0].cod +
-                                "mov #0 A\n" +
-                                getOperator(yyvsp[-1].lexema) + yyvsp[0].tipo->lexema + " " + std::to_string(yyvsp[0].dir) +
-                                "mov A " + std::to_string(tmp) + "\n";
-                                yyval.tipo = yyvsp[0].tipo;
-                            }
-#line 1695 "plp5.tab.c"
-    break;
-
-  case 39:
-#line 196 "plp5.y"
-                           {int tmp = newTemp(); yyval.dir = tmp;
-                             yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
-                            "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
-                            yyvsp[-1].lexema + yyvsp[-2].tipo->lexema + " " + std::to_string(yyvsp[0].dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n"; yyval.tipo = yyvsp[-2].tipo;}
-#line 1705 "plp5.tab.c"
-    break;
-
-  case 40:
-#line 201 "plp5.y"
-                 {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod; yyval.tipo = yyvsp[0].tipo;}
-#line 1711 "plp5.tab.c"
-    break;
-
-  case 41:
-#line 204 "plp5.y"
-              {yyval.dir = yyvsp[0].dir; yyval.tipo = yyvsp[0].tipo; yyval.cod = yyvsp[0].cod;}
-#line 1717 "plp5.tab.c"
-    break;
-
-  case 42:
-#line 205 "plp5.y"
-                  {int tmp = newTemp(); yyval.dir = tmp;
-                   MITIPO tipo = recuperarTipo(0);
-                   yyval.tipo = &tipo;
-                   string entero_string(yyvsp[0].lexema);
-                   yyval.cod = "mov #" + entero_string + " " + std::to_string(tmp) + "\n";}
+#line 232 "plp5.y"
+                  {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod; yyval.tipoPos = yyvsp[0].tipoPos;cout << "TIPO ECOMP(ESIMPLE)" << yyval.tipoPos << endl;}
 #line 1727 "plp5.tab.c"
     break;
 
+  case 37:
+#line 235 "plp5.y"
+                            {int tmp = newTemp(); yyval.dir = tmp;
+
+                             if(yyvsp[-2].tipoPos == 0 && yyvsp[0].tipoPos == 1){
+                                yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+                                "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
+                                "itor\n" +
+                                getOperator(yyvsp[-1].lexema) + "r " + std::to_string(yyvsp[0].dir) + "\n" + 
+                                "mov A " + std::to_string(tmp) + "\n";
+                                yyval.tipoPos = 1;
+                             }
+                             else if(yyvsp[-2].tipoPos == 1 && yyvsp[0].tipoPos == 0){
+                                yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+                                "mov " + std::to_string(yyvsp[0].dir) + " A\n" +
+                                "itor\n" +
+                                "mov A " + std::to_string(tmp) + "\n" +
+                                "mov " + std::to_string(yyvsp[-2].dir) + "\n" +
+                                getOperator(yyvsp[-1].lexema) + "r " + std::to_string(tmp) + "\n" + 
+                                "mov A " + std::to_string(tmp) + "\n";
+                                yyval.tipoPos = 1;
+                             }
+                             else if(yyvsp[-2].tipoPos == 2){
+                                errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].nlin, yyvsp[-1].ncol, yyvsp[-1].lexema);
+                             }
+                             else if(yyvsp[0].tipoPos == 2){
+                                errorSemantico(ERR_EXDER_RE, yyvsp[-1].nlin, yyvsp[-1].ncol, yyvsp[-1].lexema);
+                             }
+                             else{
+                                yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+                                "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
+                                getOperator(yyvsp[-1].lexema) + getLetraTipo(yyvsp[-2].tipoPos) + " " + std::to_string(yyvsp[0].dir) + "\n" + 
+                                "mov A " + std::to_string(tmp) + "\n";
+                                yyval.tipoPos = yyvsp[-2].tipoPos;
+                                cout << "TIPO ESIMPLE " << yyval.tipoPos << endl;
+                             }
+                             
+                            }
+#line 1768 "plp5.tab.c"
+    break;
+
+  case 38:
+#line 271 "plp5.y"
+               {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod; yyval.tipoPos = yyvsp[0].tipoPos; cout << "TIPO ESIMPLE (TERM) " << yyval.tipoPos << endl;}
+#line 1774 "plp5.tab.c"
+    break;
+
+  case 39:
+#line 272 "plp5.y"
+                    {           if(yyvsp[0].tipoPos == 2)   errorSemantico(ERR_EXDER_RE, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);
+                                int tmp = newTemp(); yyval.dir = tmp;
+                                yyval.cod = yyvsp[0].cod +
+                                "mov " + std::to_string(yyvsp[0].dir) + " A\n" +
+                                getOperator(yyvsp[-1].lexema) + getLetraTipo(yyvsp[0].tipoPos) + " " + std::to_string(yyvsp[0].dir) +
+                                "mov A " + std::to_string(tmp) + "\n";
+                                yyval.tipoPos = yyvsp[0].tipoPos;
+                                cout << "TIPO ESIMPLE (OPAS TERM) " << yyval.tipoPos << endl;
+                            }
+#line 1788 "plp5.tab.c"
+    break;
+
+  case 40:
+#line 283 "plp5.y"
+                           {int tmp = newTemp(); yyval.dir = tmp;
+                             cout << "COD1\n" << yyvsp[-2].cod << "COD3\n" << yyvsp[0].cod << endl;
+                             if(yyvsp[-2].tipoPos == 0 && yyvsp[0].tipoPos == 1){
+                                yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+                                "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
+                                "itor\n" +
+                                getOperator(yyvsp[-1].lexema) + "r " + std::to_string(yyvsp[0].dir) + "\n" + 
+                                "mov A " + std::to_string(tmp) + "\n";
+                                
+                                yyval.tipoPos = 1;
+                             }
+                             else if(yyvsp[-2].tipoPos == 1 && yyvsp[0].tipoPos == 0){
+                                yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+                                "mov " + std::to_string(yyvsp[0].dir) + " A\n" +
+                                "itor\n" +
+                                "mov A " + std::to_string(tmp) + "\n" +
+                                "mov " + std::to_string(yyvsp[-2].dir) + "\n" +
+                                getOperator(yyvsp[-1].lexema) + "r " + std::to_string(tmp) + "\n" + 
+                                "mov A " + std::to_string(tmp) + "\n";
+
+                                yyval.tipoPos = 1;
+                             }
+                             else if(yyvsp[-2].tipoPos == 2){
+                                cout << yyvsp[-2].tipoPos << " " << yyvsp[0].tipoPos << endl;
+                                errorSemantico(ERR_EXIZQ_RE, yyvsp[-1].nlin, yyvsp[-1].ncol, yyvsp[-1].lexema);
+                             }
+                             else if(yyvsp[0].tipoPos == 2){
+                                errorSemantico(ERR_EXDER_RE, yyvsp[-1].nlin, yyvsp[-1].ncol, yyvsp[-1].lexema);
+                             }
+                             else{
+                                yyval.cod = yyvsp[-2].cod + yyvsp[0].cod + 
+                                "mov " + std::to_string(yyvsp[-2].dir) + " A\n" +
+                                getOperator(yyvsp[-1].lexema) + getLetraTipo(yyvsp[-2].tipoPos) + " " + std::to_string(yyvsp[0].dir) + "\n" +// OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                                "mov A " + std::to_string(tmp) + "\n"; yyval.tipoPos = yyvsp[-2].tipoPos;
+                                }
+                                cout << "TIPO TERM " << yyval.tipoPos << endl;
+                             }
+#line 1830 "plp5.tab.c"
+    break;
+
+  case 41:
+#line 321 "plp5.y"
+                 {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod; yyval.tipoPos = yyvsp[0].tipoPos; cout << "TIPO TERM (FACTOR)" << yyval.tipoPos << endl;}
+#line 1836 "plp5.tab.c"
+    break;
+
+  case 42:
+#line 324 "plp5.y"
+              {yyval.dir = yyvsp[0].dir; yyval.cod = yyvsp[0].cod;}
+#line 1842 "plp5.tab.c"
+    break;
+
   case 43:
-#line 210 "plp5.y"
-                {int tmp = newTemp(); yyval.dir = tmp;
-                   MITIPO tipo = recuperarTipo(1);
-                   yyval.tipo = &tipo;
-                   string real_string(yyvsp[0].lexema);
-                   yyval.cod = "mov #" + real_string + " " + std::to_string(tmp) + "\n";}
-#line 1737 "plp5.tab.c"
+#line 325 "plp5.y"
+                  {int tmp = newTemp(); yyval.dir = tmp;
+                   yyval.tipoPos = 0;
+                   string entero_string(yyvsp[0].lexema);
+                   yyval.cod = "mov #" + entero_string + " " + std::to_string(tmp) + "\n";}
+#line 1851 "plp5.tab.c"
     break;
 
   case 44:
-#line 215 "plp5.y"
-                         {yyval.dir = yyvsp[-1].dir; yyval.cod = yyvsp[-1].cod; yyval.tipo = yyvsp[-1].tipo;}
-#line 1743 "plp5.tab.c"
+#line 329 "plp5.y"
+                {int tmp = newTemp(); yyval.dir = tmp;
+                   
+                   yyval.tipoPos = 1;
+                   string real_string(yyvsp[0].lexema);
+                   yyval.cod = "mov $" + real_string + " " + std::to_string(tmp) + "\n";}
+#line 1861 "plp5.tab.c"
     break;
 
   case 45:
-#line 216 "plp5.y"
-                        {
-                            yyval.tipo = yyvsp[0].tipo; int tmp = newTemp(); yyval.dir = tmp;
-                            yyval.cod = "mov " + std::to_string(yyvsp[0].dir) + "A\n"
-                                   + "not" + yyvsp[0].tipo->lexema + "\n"
-                                   + "mov A " + std::to_string(tmp) + "\n";
-                        }
-#line 1754 "plp5.tab.c"
+#line 334 "plp5.y"
+                         {yyval.dir = yyvsp[-1].dir; yyval.cod = yyvsp[-1].cod; yyval.tipoPos = yyvsp[-1].tipoPos;}
+#line 1867 "plp5.tab.c"
     break;
 
   case 46:
-#line 222 "plp5.y"
-                 {int tmp = newTemp(); yyval.dir = tmp;
-                 MITIPO tipo = recuperarTipo(2);
-                 yyval.tipo = &tipo;
-                 yyval.cod = "mov #1 " + std::to_string(tmp) + "\n";}
-#line 1763 "plp5.tab.c"
+#line 335 "plp5.y"
+                        {
+                            yyval.tipoPos = yyvsp[0].tipoPos; int tmp = newTemp(); yyval.dir = tmp;
+                            yyval.cod = "mov " + std::to_string(yyvsp[0].dir) + "A\n"
+                                   + "not" + getLetraTipo(yyvsp[0].tipoPos) + "\n"
+                                   + "mov A " + std::to_string(tmp) + "\n";
+                        }
+#line 1878 "plp5.tab.c"
     break;
 
   case 47:
-#line 226 "plp5.y"
-                {int tmp = newTemp(); yyval.dir = tmp;
-                 MITIPO tipo = recuperarTipo(2);
-                 yyval.tipo = &tipo;
-                 yyval.cod = "mov #0 " + std::to_string(tmp) + "\n";}
-#line 1772 "plp5.tab.c"
+#line 341 "plp5.y"
+                 {int tmp = newTemp(); yyval.dir = tmp;
+                 yyval.tipoPos = 2;
+                 yyval.cod = "mov #1 " + std::to_string(tmp) + "\n";}
+#line 1886 "plp5.tab.c"
     break;
 
   case 48:
-#line 232 "plp5.y"
+#line 344 "plp5.y"
+                {int tmp = newTemp(); yyval.dir = tmp;
+                 yyval.tipoPos = 2;
+                 yyval.cod = "mov #0 " + std::to_string(tmp) + "\n";}
+#line 1894 "plp5.tab.c"
+    break;
+
+  case 49:
+#line 349 "plp5.y"
              {
                 
                 Simbolo* s = tsa->searchSymb(yyvsp[0].lexema);
                 if( s == NULL )
-                    errorSemantico(ERR_NO_DECL, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);
+                    errorSemantico(ERR_NODECL, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);
                 int tmp = newTemp(); yyval.dir = tmp;
                 yyval.cod = "mov #0 " + std::to_string(tmp) + "\n";
                 
-                MITIPO tipo = recuperarTipo(s->tipo);
-                yyval.tipo = &tipo;
+                yyval.tipoPos = s->tipo;
                 yyval.dbase = s->dir;
             }
-#line 1789 "plp5.tab.c"
-    break;
-
-  case 49:
-#line 244 "plp5.y"
-                   {
-                        if(yyvsp[-1].tipo->tipoPos<=2)
-                            errorSemantico(ERR_SOBRAN, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);
-                    }
-#line 1798 "plp5.tab.c"
+#line 1910 "plp5.tab.c"
     break;
 
   case 50:
-#line 247 "plp5.y"
+#line 360 "plp5.y"
+                   {
+                        if(yyvsp[-1].tipoPos<=2)
+                            errorSemantico(ERR_SOBRAN, yyvsp[0].nlin, yyvsp[0].ncol, yyvsp[0].lexema);
+                    }
+#line 1919 "plp5.tab.c"
+    break;
+
+  case 51:
+#line 363 "plp5.y"
                                    {
-                                        if(yyvsp[-1].tipo->tipoPos!=0)
+                                        if(yyvsp[-1].tipoPos!=0)
                                             errorSemantico(ERR_INDICE_ENTERO, yyvsp[-1].nlin, yyvsp[-1].ncol, yyvsp[-1].lexema);
-                                        MITIPO tipo = recuperarTipo(tt->getTipo(yyvsp[-4].tipo->tipoPos).tipoBase); // tipoBase es igual que tipoPos???
-                                        yyval.tipo = &tipo;
+                                        yyval.tipoPos = tt->getTipo(yyvsp[-4].tipoPos).tipoBase; // tipoBase es igual que tipoPos???
                                         yyval.dbase = yyvsp[-4].dbase;
                                         int tmp = newTemp(); yyval.dir = tmp;
                                         yyval.cod = yyvsp[-4].cod + yyvsp[-1].cod +
                                                 "mov " + std::to_string(yyvsp[-4].dir) + " A\n" +
-                                                "muli #" + std::to_string(tt->getTipo(yyvsp[-4].tipo->tipoPos).tamanyo) + "\n" +
+                                                "muli #" + std::to_string(tt->getTipo(yyvsp[-4].tipoPos).tamanyo) + "\n" +
                                                 "addi " + std::to_string(yyvsp[-1].dir) + "\n" +
                                                 "mov A " + std::to_string(tmp) + "\n";
                                                 
                                     }
-#line 1817 "plp5.tab.c"
+#line 1937 "plp5.tab.c"
     break;
 
 
-#line 1821 "plp5.tab.c"
+#line 1941 "plp5.tab.c"
 
       default: break;
     }
@@ -2049,7 +2169,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 264 "plp5.y"
+#line 379 "plp5.y"
 
 
 int traducirTipo(string tipo){
@@ -2171,7 +2291,20 @@ MITIPO recuperarTipo(int posTipo){
 }
 
 void comprobarTipos(MITIPO& t1, MITIPO& t2){
-    // POR IMPLEMENTAR
+    if(t1.tipoPos == 1 && t2.tipoPos == 0){
+
+    }
+}
+
+string getLetraTipo(int tipo){
+    if(tipo == 0)
+        return "i";
+    else if(tipo == 1)
+        return "r";
+    else if(tipo == 2)
+        return "l";
+    else
+        return "error";
 }
 
 string getOperator(string op){

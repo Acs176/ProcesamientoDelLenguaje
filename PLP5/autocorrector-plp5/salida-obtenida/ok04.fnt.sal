@@ -1,1 +1,3 @@
-AVISO: el programa debe terminar con la instrucción 'halt'
+ERROR(m2r) en linea 1: nombre de instruccion incorrecto (TIPO)
+Línea 1: TIPO TERM (FACTOR)1
+

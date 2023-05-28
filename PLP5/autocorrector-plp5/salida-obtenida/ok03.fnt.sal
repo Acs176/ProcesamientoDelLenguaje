@@ -1,1 +1,3 @@
-ERROR(m2r) en la línea 1: despues de 'L' debe ir un numero
+ERROR(m2r) en linea 1: nombre de instruccion incorrecto (TIPO)
+Línea 1: TIPO TERM (FACTOR)0
+

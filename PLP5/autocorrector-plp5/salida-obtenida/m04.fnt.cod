@@ -1,9 +1,25 @@
- Error semantico (3,12): la expresion a la derecha de '*' debe ser de tipo real o enteromov #2 16001
+TIPO TERM (FACTOR)0
+TIPO TERM (FACTOR)0
+TIPO ESIMPLE (TERM) 0
+TIPO TERM (FACTOR)1
+TIPO ESIMPLE (TERM) 1
+OPREL
+COD1
 mov #3 16002
-mov #4.5 16003
+COD3
+mov $4.5 16003
+
+0||1
+TIPO ECOMP NORMAL2
+TIPO ECONJ 2
+TIPO EXPR 2
+COD1
+mov #2 16001
+COD3
+mov #3 16002
+mov $4.5 16003
 mov 16002 A
-lssr 16003mov A 16004
-mov 16001 A
-* 16004mov A 16005
-wr 16005
-halt
+itor
+lssr 16003
+mov A 16004
+

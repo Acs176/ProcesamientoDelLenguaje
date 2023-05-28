@@ -27,7 +27,6 @@ typedef struct MITIPO MITIPO;
 struct MITIPO {
    char *lexema;
    int nlin,ncol;
-   struct MITIPO *tipo;
    string nombre;
    string trad;
    string cod;

@@ -1,3 +1,5 @@
-ERROR(m2r) en linea 1: nombre de instruccion incorrecto (Error)
-Línea 1:  Error semantico (3,12): la expresion a la derecha de '*' debe ser de tipo real o enteromov #2 16001
+AVISO (5.11): caracter 'm' inesperado o falta ';' para comentario
+ (la instrucción 'lssr' debe tener 1 argumentos)
+ERROR(m2r) en línea 7: la instruccion no comienza por letra (empieza por <*>)
+Línea 7: *l 16004mov A 16005
 

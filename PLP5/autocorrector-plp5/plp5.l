@@ -37,12 +37,7 @@ void msgError(int nerror, int nlin,int ncol,const char *s);
 " "                {ncol++;}
 [\t]               {ncol++;}
 [\n]               {nlin++;ncol=1;}
-"//"                    {ncol += strlen(yytext);BEGIN(COMENTARIO);}               
-%<COMENTARIO>[^(*\n]+    {ncol += strlen(yytext);}
-<COMENTARIO>\n          {nlin++;ncol=1; BEGIN(INITIAL);}
-<COMENTARIO><<EOF>>     {msgError(ERREOF,-1,-1,"");}
-%<COMENTARIO>"*)"        {ncol+=strlen(yytext); BEGIN(INITIAL);}
-%<COMENTARIO>[*)]        {ncol += strlen(yytext);}
+"//"(.)*                    {;}               
 "var"                   {return ret(var);}
 "fvar"                  {return ret(fvar);}
 "real"                  {return ret(real);}
