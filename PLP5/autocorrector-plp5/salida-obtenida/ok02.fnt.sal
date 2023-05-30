@@ -1,3 +1,4 @@
-ERROR(m2r) en linea 1: nombre de instruccion incorrecto (TIPO)
-Línea 1: TIPO TERM (FACTOR)0
+ERROR(m2r) en la línea 23: Esperaba numero,'#numero','$numero','A','B','@A' o '@B+numero', encontrado '
+'
+Línea 23: wrr
 

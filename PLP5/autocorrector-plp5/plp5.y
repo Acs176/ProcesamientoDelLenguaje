@@ -65,7 +65,7 @@ TablaTipos *tt;
 %%
 
 S       : {tsa = new TablaSimbolos(NULL); tt = new TablaTipos();} algoritmo dospto id SDec SInstr falgoritmo
-          { $$.cod = $6.cod + "halt"; cout << $$.cod << endl; }
+          { $$.cod = $6.cod + "halt"; cout << $$.cod;}
         ;
 
 SDec    : Dec 
@@ -93,7 +93,7 @@ MDVar   : DVar MDVar
 Lid     : coma id {
                     Simbolo s;
                     s.nombre = $2.lexema;
-                    s.tipo = 1;
+                    s.tipo = $0.tipoPos;
                     s.dir = newVar();
                     s.tam = tt->getTipo(1).tamanyo; // hereda tipo en DVar
                     if(!tsa->newSymb(s)){errorSemantico(ERR_YADECL, $2.nlin, $2.ncol, $2.lexema);}    //ERROR
@@ -105,56 +105,75 @@ Lid     : coma id {
 Tipo    : entero {$$.trad="entero"; $$.tipoPos=0; $$.lexema="i"; }
         | real   {$$.trad="real"; $$.tipoPos=1; $$.lexema="r"; }
         | logico {$$.trad="logico"; $$.tipoPos=2; $$.lexema="l"; }
-        | tabla nentero de Tipo {tt->nuevoTipoArray(stoi($2.lexema), $4.tipoPos); }
+        | tabla nentero de Tipo {int nuevoTipoPos = tt->nuevoTipoArray(stoi($2.lexema), $4.tipoPos); $$.tipoPos = nuevoTipoPos; }
         ;
 
 SInstr  : SInstr pyc {$$.dir=ctemp; } Instr {ctemp = $3.dir; $$.cod = $1.cod + $4.cod;}
         | {$$.dir=ctemp;} Instr {ctemp=$1.dir; $$.cod = $2.cod;}
         ;
 
-Instr   : escribe Expr {$$.cod = $2.cod + getOperator($1.lexema) + getLetraTipo($2.tipoPos) + " " + std::to_string($2.dir) + "\n";}
+Instr   : escribe Expr {
+            if($2.tipoPos == 2){
+                // $$.cod = $2.cod + getOperator() // ME QUEDO POR ACA
+            }
+            else{
+                $$.cod = $2.cod + getOperator($1.lexema) + getLetraTipo($2.tipoPos) + " " + std::to_string($2.dir) + "\n";
+            }
+            }
         | lee Ref {$$.cod = $2.cod + getOperator($1.lexema) + getLetraTipo($2.tipoPos) + " " + std::to_string($2.dir) + "\n"; }
         | si Expr entonces Instr {if($2.tipoPos != 2){
-                                    cerr << $2.tipoPos << endl;
+                                    //cerr << $2.tipoPos << endl;
                                     errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
                                     
                                  }
                                     string l1 = newLabel(); 
                                     $$.cod = $2.cod + "mov " + std::to_string($2.dir) + " A\n"
                                             + "jz L" + l1 + "\n"
-                                            + $4.cod + "\n L" + l1 + ":\n";;
+                                            + $4.cod + "\nL" + l1 + "\n";;
                                             
                                  }
         | si Expr entonces Instr sino Instr {if($2.tipoPos != 2){
-                                            cerr << $2.tipoPos << endl;
+                                            //cerr << $2.tipoPos << endl;
                                             errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
-                                        } 
+                                        }
                                             string l1 = newLabel();
                                             string l2 = newLabel(); 
                                             $$.cod = $2.cod + "mov " + std::to_string($2.dir) + " A\n"
                                                     + "jz L" + l1 + "\n"
-                                                    + $4.cod + "\njmp L" + l2 +"\nL" + l1 + ":\n"
-                                                    + $6.cod + "\nL" + l2 + ":\n";;
+                                                    + $4.cod + "\njmp L" + l2 +"\nL" + l1 + "\n"
+                                                    + $6.cod + "\nL" + l2 + "\n";;
                                         }
         | mientras Expr hacer Instr {
                                         if($2.tipoPos != 2) errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
                                         string l1 = newLabel();
                                         string l2 = newLabel();
-                                        $$.cod = "L" + l1 + ":\n" + $2.cod + "mov " + std::to_string($2.dir) + " A\n"
+                                        $$.cod = "L" + l1 + "\n" + $2.cod + "mov " + std::to_string($2.dir) + " A\n"
                                                 + "jz L" + l2 + "\n"
                                                 + $4.cod + "jmp L" + l1 + "\n";
-                                                + "L" + l2 + ":\n";
+                                                + "L" + l2 + "\n";
                                     }
         | repetir Instr hasta Expr {
                                         if($4.tipoPos != 2) errorSemantico(ERR_EXP_LOG, $1.nlin, $1.ncol, $1.lexema);
                                         string l1 = newLabel();
                                         
-                                        $$.cod = "L" + l1 + ":\n" + $2.cod + "\n" 
+                                        $$.cod = "L" + l1 + "\n" + $2.cod + "\n" 
                                                 + $4.cod +"mov " + std::to_string($4.dir) + " A\n"
                                                 + "jz L" + l1 + "\n";
                                     }
-        | Ref opasig Expr {//comprobarTipos(*$1.tipo, *$3.tipo);
-                            $$.cod = $1.cod + $3.cod + "mov " + std::to_string($3.dir) + " A\n";
+        | Ref {if($1.tipoPos > 2)   errorSemantico(ERR_FALTAN, $1.nlin, $1.ncol, "");}opasig Expr { 
+                            if($1.tipoPos == 0){
+                                //cout << "illo vaya tetorras" << endl;
+                                if($4.tipoPos != 0)  errorSemantico(ERR_EXDER_ENT, $3.nlin, $3.ncol, $3.lexema);
+                            }
+                            else if($1.tipoPos == 1){
+                                //cout << "illo vaya tetorras" << endl;
+                                if($4.tipoPos > 1)  errorSemantico(ERR_EXDER_RE, $3.nlin, $3.ncol, $3.lexema);
+                            }
+                            else if($1.tipoPos == 2){
+                                if($4.tipoPos != 2)  errorSemantico(ERR_EXDER_LOG, $3.nlin, $3.ncol, $3.lexema);
+                            }
+                            //if($4.tipoPos > 1)  errorSemantico(ERR_EXDER_RE, $3.nlin, $3.ncol, $3.lexema);
+                            $$.cod = $1.cod + $4.cod + "mov " + std::to_string($4.dir) + " A\n";
                                     + "mov A " + std::to_string($1.dir) + "\n";
                             }
         | blq {tsa = new TablaSimbolos(tsa);} SDec SInstr fblq {$$.cod = $4.cod; tsa = tsa->padre;}
@@ -169,12 +188,12 @@ Expr    : Expr obool Econj {int tmp = newTemp(); $$.dir = tmp;
                              }
                             $$.cod = $1.cod + $3.cod + 
                             "mov " + std::to_string($1.dir) + " A\n" +
-                            getOperator($2.lexema) + getLetraTipo($1.tipoPos) + " " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n";
+                            getOperator($2.lexema) + "i " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "\nmov A " + std::to_string(tmp) + "\n";
 
                             $$.tipoPos = 2;
-                            cout << "TIPO EXPR " << $$.tipoPos << endl;}
-        | Econj {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos; cout << "TIPO EXPR " << $$.tipoPos << endl;}
+                            }//cout << "TIPO EXPR " << $$.tipoPos << endl;}
+        | Econj {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos;} //cout << "TIPO EXPR " << $$.tipoPos << endl;}
         ;
 
 Econj   : Econj ybool Ecomp {int tmp = newTemp(); $$.dir = tmp;
@@ -186,16 +205,16 @@ Econj   : Econj ybool Ecomp {int tmp = newTemp(); $$.dir = tmp;
                              }
                              $$.cod = $1.cod + $3.cod + 
                             "mov " + std::to_string($1.dir) + " A\n" +
-                            getOperator($2.lexema)  + "i " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
-                            "mov A " + std::to_string(tmp) + "\n";
+                            getOperator($2.lexema) + "i " + std::to_string($3.dir) + // OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
+                            "\nmov A " + std::to_string(tmp) + "\n";
                             $$.tipoPos = 2;
-                            cout << "TIPO ECONJ " << $$.tipoPos << endl;}
-        | Ecomp {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos;cout << "TIPO ECONJ " << $$.tipoPos << endl;}
+                            }//cout << "TIPO ECONJ " << $$.tipoPos << endl;}
+        | Ecomp {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos;}//cout << "TIPO ECONJ " << $$.tipoPos << endl;}
         ;
 
 Ecomp   : Esimple oprel Esimple {int tmp = newTemp(); $$.dir = tmp;
-                                cout << "OPREL\nCOD1\n" << $1.cod << "COD3\n" << $3.cod << endl;
-                                cout << $1.tipoPos << "||" << $3.tipoPos << endl;
+                                //cout << "OPREL\nCOD1\n" << $1.cod << "COD3\n" << $3.cod << endl;
+                                //cout << $1.tipoPos << "||" << $3.tipoPos << endl;
                              if($1.tipoPos == 0 && $3.tipoPos == 1){
                                 $$.cod = $1.cod + $3.cod + 
                                 "mov " + std::to_string($1.dir) + " A\n" +
@@ -209,7 +228,7 @@ Ecomp   : Esimple oprel Esimple {int tmp = newTemp(); $$.dir = tmp;
                                 "mov " + std::to_string($3.dir) + " A\n" +
                                 "itor\n" +
                                 "mov A " + std::to_string(tmp) + "\n" +
-                                "mov " + std::to_string($1.dir) + "\n" +
+                                "mov " + std::to_string($1.dir) + " A\n" +
                                 getOperator($2.lexema) + "r " + std::to_string(tmp) + "\n" + 
                                 "mov A " + std::to_string(tmp) + "\n";
 
@@ -228,8 +247,8 @@ Ecomp   : Esimple oprel Esimple {int tmp = newTemp(); $$.dir = tmp;
 
                              }
                              $$.tipoPos = 2;
-                             cout << "TIPO ECOMP NORMAL" << $$.tipoPos << endl;}
-        | Esimple {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos;cout << "TIPO ECOMP(ESIMPLE)" << $$.tipoPos << endl;}
+                            }//cout << "TIPO ECOMP NORMAL" << $$.tipoPos << endl;}
+        | Esimple {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos;}//cout << "TIPO ECOMP(ESIMPLE)" << $$.tipoPos << endl;}
         ;
 
 Esimple : Esimple opas Term {int tmp = newTemp(); $$.dir = tmp;
@@ -247,7 +266,7 @@ Esimple : Esimple opas Term {int tmp = newTemp(); $$.dir = tmp;
                                 "mov " + std::to_string($3.dir) + " A\n" +
                                 "itor\n" +
                                 "mov A " + std::to_string(tmp) + "\n" +
-                                "mov " + std::to_string($1.dir) + "\n" +
+                                "mov " + std::to_string($1.dir) + " A\n" +
                                 getOperator($2.lexema) + "r " + std::to_string(tmp) + "\n" + 
                                 "mov A " + std::to_string(tmp) + "\n";
                                 $$.tipoPos = 1;
@@ -264,24 +283,24 @@ Esimple : Esimple opas Term {int tmp = newTemp(); $$.dir = tmp;
                                 getOperator($2.lexema) + getLetraTipo($1.tipoPos) + " " + std::to_string($3.dir) + "\n" + 
                                 "mov A " + std::to_string(tmp) + "\n";
                                 $$.tipoPos = $1.tipoPos;
-                                cout << "TIPO ESIMPLE " << $$.tipoPos << endl;
+                                //cout << "TIPO ESIMPLE " << $$.tipoPos << endl;
                              }
                              
                             }
-        | Term {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos; cout << "TIPO ESIMPLE (TERM) " << $$.tipoPos << endl;}
+        | Term {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos;} //cout << "TIPO ESIMPLE (TERM) " << $$.tipoPos << endl;}
         | opas Term {           if($2.tipoPos == 2)   errorSemantico(ERR_EXDER_RE, $2.nlin, $2.ncol, $2.lexema);
                                 int tmp = newTemp(); $$.dir = tmp;
                                 $$.cod = $2.cod +
                                 "mov " + std::to_string($2.dir) + " A\n" +
                                 getOperator($1.lexema) + getLetraTipo($2.tipoPos) + " " + std::to_string($2.dir) +
-                                "mov A " + std::to_string(tmp) + "\n";
+                                "\nmov A " + std::to_string(tmp) + "\n";
                                 $$.tipoPos = $2.tipoPos;
-                                cout << "TIPO ESIMPLE (OPAS TERM) " << $$.tipoPos << endl;
+                                //cout << "TIPO ESIMPLE (OPAS TERM) " << $$.tipoPos << endl;
                             }
         ;
 
 Term    : Term opmd Factor {int tmp = newTemp(); $$.dir = tmp;
-                             cout << "COD1\n" << $1.cod << "COD3\n" << $3.cod << endl;
+                             //cout << "COD1\n" << $1.cod << "COD3\n" << $3.cod << endl;
                              if($1.tipoPos == 0 && $3.tipoPos == 1){
                                 $$.cod = $1.cod + $3.cod + 
                                 "mov " + std::to_string($1.dir) + " A\n" +
@@ -296,14 +315,14 @@ Term    : Term opmd Factor {int tmp = newTemp(); $$.dir = tmp;
                                 "mov " + std::to_string($3.dir) + " A\n" +
                                 "itor\n" +
                                 "mov A " + std::to_string(tmp) + "\n" +
-                                "mov " + std::to_string($1.dir) + "\n" +
+                                "mov " + std::to_string($1.dir) + " A\n" +
                                 getOperator($2.lexema) + "r " + std::to_string(tmp) + "\n" + 
                                 "mov A " + std::to_string(tmp) + "\n";
 
                                 $$.tipoPos = 1;
                              }
                              else if($1.tipoPos == 2){
-                                cout << $1.tipoPos << " " << $3.tipoPos << endl;
+                                //cout << $1.tipoPos << " " << $3.tipoPos << endl;
                                 errorSemantico(ERR_EXIZQ_RE, $2.nlin, $2.ncol, $2.lexema);
                              }
                              else if($3.tipoPos == 2){
@@ -315,10 +334,10 @@ Term    : Term opmd Factor {int tmp = newTemp(); $$.dir = tmp;
                                 getOperator($2.lexema) + getLetraTipo($1.tipoPos) + " " + std::to_string($3.dir) + "\n" +// OJO CON YEPA EYYY (ARREGLAR TEMA TIPOS)
                                 "mov A " + std::to_string(tmp) + "\n"; $$.tipoPos = $1.tipoPos;
                                 }
-                                cout << "TIPO TERM " << $$.tipoPos << endl;
+                                //cout << "TIPO TERM " << $$.tipoPos << endl;
                              }
                              
-        | Factor {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos; cout << "TIPO TERM (FACTOR)" << $$.tipoPos << endl;}
+        | Factor {$$.dir = $1.dir; $$.cod = $1.cod; $$.tipoPos = $1.tipoPos;} //cout << "TIPO TERM (FACTOR)" << $$.tipoPos << endl;}
         ;
 
 Factor  : Ref {$$.dir = $1.dir; $$.cod = $1.cod;}
@@ -335,7 +354,7 @@ Factor  : Ref {$$.dir = $1.dir; $$.cod = $1.cod;}
         | nobool Factor {
                             $$.tipoPos = $2.tipoPos; int tmp = newTemp(); $$.dir = tmp;
                             $$.cod = "mov " + std::to_string($2.dir) + "A\n"
-                                   + "not" + getLetraTipo($2.tipoPos) + "\n"
+                                   + "noti\n"
                                    + "mov A " + std::to_string(tmp) + "\n";
                         }
         | cierto {int tmp = newTemp(); $$.dir = tmp;
@@ -352,7 +371,13 @@ Ref     : id {
                 if( s == NULL )
                     errorSemantico(ERR_NODECL, $1.nlin, $1.ncol, $1.lexema);
                 int tmp = newTemp(); $$.dir = tmp;
-                $$.cod = "mov #0 " + std::to_string(tmp) + "\n";
+                if(s->tipo == 1){
+                    $$.cod = "mov $0 " + std::to_string(tmp) + "\n";
+                }
+                else{
+                    $$.cod = "mov #0 " + std::to_string(tmp) + "\n";
+                }
+                
                 
                 $$.tipoPos = s->tipo;
                 $$.dbase = s->dir;
@@ -371,6 +396,9 @@ Ref     : id {
                                                 "muli #" + std::to_string(tt->getTipo($1.tipoPos).tamanyo) + "\n" +
                                                 "addi " + std::to_string($4.dir) + "\n" +
                                                 "mov A " + std::to_string(tmp) + "\n";
+                                        
+                                        $$.nlin = $5.nlin;
+                                        $$.ncol = $5.ncol;
                                                 
                                     }
         ;
@@ -528,7 +556,7 @@ string getOperator(string op){
         oper = "div";
     }
     else if(op == "&&"){
-        oper == "and";
+        oper = "and";
     }
     else if(op == "||"){
         oper = "or";
@@ -547,6 +575,12 @@ string getOperator(string op){
     }
     else if(op == "<"){
         oper = "lss";
+    }
+    else if(op == ">="){
+        oper = "geq";
+    }
+    else if(op == "<="){
+        oper = "leq";
     }
     else if(op == "escribe"){
         oper = "wr";

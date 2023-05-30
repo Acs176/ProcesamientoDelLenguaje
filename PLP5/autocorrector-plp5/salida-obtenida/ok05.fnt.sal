@@ -1,3 +1,5 @@
-ERROR(m2r) en linea 1: nombre de instruccion incorrecto (TIPO)
-Línea 1: TIPO TERM (FACTOR)2
+
+ERROR(m2r) al leer un valor de la posicion de memoria 16002 sin haberlo
+inicializado, en la instrucción 2
+Línea 2: mov 16002A
 

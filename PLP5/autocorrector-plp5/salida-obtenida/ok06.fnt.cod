@@ -1,19 +1,367 @@
-TIPO TERM (FACTOR)0
-TIPO ESIMPLE (TERM) 0
-TIPO ECOMP(ESIMPLE)0
-TIPO ECONJ 0
-TIPO EXPR 0
-TIPO TERM (FACTOR)0
-TIPO ESIMPLE (TERM) 0
-TIPO TERM (FACTOR)0
-TIPO ESIMPLE (TERM) 0
-OPREL
-COD1
 mov #0 16001
-COD3
+mov #0 16002
+mov 16002 A
+L1
+mov #0 16001
 mov #20 16002
+mov 16001 A
+lssi 16002
+mov A 16003
+mov 16003 A
+jz L2
+mov #0 16004
+mov #0 16005
+mov 16004 A
+muli #20
+addi 16005
+mov A 16006
+mov #0 16007
+mov 16007 A
+mov #0 16004
+mov #0 16005
+mov #1 16006
+mov 16005 A
+addi 16006
+mov A 16007
+mov 16007 A
+jmp L1
+mov #0 16001
+mov #0 16002
+mov 16002 A
+L5
+mov #0 16001
+mov #0 16002
+mov 16002 A
+L4
+mov #0 16001
+mov #0 16002
+mov 16002 A
+L3
+mov #0 16001
+mov #0 16002
+mov 16001 A
+muli #10
+addi 16002
+mov A 16003
+mov #0 16004
+mov 16003 A
+muli #10
+addi 16004
+mov A 16005
+mov #0 16006
+mov 16005 A
+muli #15
+addi 16006
+mov A 16007
+mov #0 16008
+mov #0 16009
+mov 16008 A
+addi 16009
+mov A 16010
+mov #0 16011
+mov 16010 A
+addi 16011
+mov A 16012
+mov 16012 A
+mov #0 16001
+mov #0 16002
+mov #1 16003
+mov 16002 A
+addi 16003
+mov A 16004
+mov 16004 A
 
-0||0
-TIPO ECOMP NORMAL2
-TIPO ECONJ 2
-TIPO EXPR 2
+mov #0 16001
+mov #15 16002
+mov 16001 A
+eqli 16002
+mov A 16003
+mov 16003 A
+jz L3
+mov #0 16001
+mov #0 16002
+mov #1 16003
+mov 16002 A
+addi 16003
+mov A 16004
+mov 16004 A
+
+mov #0 16001
+mov #10 16002
+mov 16001 A
+eqli 16002
+mov A 16003
+mov 16003 A
+jz L4
+mov #0 16001
+mov #0 16002
+mov #1 16003
+mov 16002 A
+addi 16003
+mov A 16004
+mov 16004 A
+
+mov #0 16001
+mov #10 16002
+mov 16001 A
+eqli 16002
+mov A 16003
+mov 16003 A
+jz L5
+mov #0 16001
+mov #0 16002
+mov #0 16003
+mov #0 16004
+mov 16003 A
+muli #10
+addi 16004
+mov A 16005
+mov #1 16006
+mov 16005 A
+muli #10
+addi 16006
+mov A 16007
+mov #2 16008
+mov 16007 A
+muli #15
+addi 16008
+mov A 16009
+mov 16002 A
+muli #10
+addi 16009
+mov A 16010
+mov #0 16011
+mov #2 16012
+mov 16011 A
+muli #10
+addi 16012
+mov A 16013
+mov #0 16014
+mov 16013 A
+muli #10
+addi 16014
+mov A 16015
+mov #0 16016
+mov 16015 A
+muli #15
+addi 16016
+mov A 16017
+mov 16010 A
+muli #10
+addi 16017
+mov A 16018
+mov #1 16019
+mov 16018 A
+muli #15
+addi 16019
+mov A 16020
+mov 16001 A
+muli #15
+addi 16020
+mov A 16021
+mov #0 16022
+mov 16021 A
+muli #10
+addi 16022
+mov A 16023
+mov #0 16024
+mov 16024 A
+mov #0 16001
+mov #0 16002
+mov #0 16003
+mov 16002 A
+muli #20
+addi 16003
+mov A 16004
+mov 16001 A
+muli #15
+addi 16004
+mov A 16005
+mov #0 16006
+mov #0 16007
+mov #1 16008
+mov 16007 A
+muli #20
+addi 16008
+mov A 16009
+mov 16006 A
+muli #10
+addi 16009
+mov A 16010
+mov #0 16011
+mov #0 16012
+mov #1 16013
+mov 16012 A
+muli #20
+addi 16013
+mov A 16014
+mov 16011 A
+muli #10
+addi 16014
+mov A 16015
+mov #0 16016
+mov #1 16017
+mov 16016 A
+muli #20
+addi 16017
+mov A 16018
+mov 16015 A
+muli #10
+addi 16018
+mov A 16019
+mov #0 16020
+mov #2 16021
+mov 16020 A
+muli #20
+addi 16021
+mov A 16022
+mov 16019 A
+muli #15
+addi 16022
+mov A 16023
+mov 16010 A
+muli #10
+addi 16023
+mov A 16024
+mov #1 16025
+mov 16024 A
+muli #15
+addi 16025
+mov A 16026
+mov 16005 A
+muli #10
+addi 16026
+mov A 16027
+mov #0 16028
+mov 16028 A
+mov #0 16001
+mov #0 16002
+mov #0 16003
+mov #0 16004
+mov #0 16005
+mov 16004 A
+muli #10
+addi 16005
+mov A 16006
+mov #1 16007
+mov 16006 A
+muli #10
+addi 16007
+mov A 16008
+mov #2 16009
+mov 16008 A
+muli #15
+addi 16009
+mov A 16010
+mov 16003 A
+muli #10
+addi 16010
+mov A 16011
+mov #0 16012
+mov #2 16013
+mov 16012 A
+muli #10
+addi 16013
+mov A 16014
+mov #0 16015
+mov 16014 A
+muli #10
+addi 16015
+mov A 16016
+mov #0 16017
+mov 16016 A
+muli #15
+addi 16017
+mov A 16018
+mov 16011 A
+muli #10
+addi 16018
+mov A 16019
+mov #1 16020
+mov 16019 A
+muli #15
+addi 16020
+mov A 16021
+mov 16002 A
+muli #15
+addi 16021
+mov A 16022
+mov #0 16023
+mov 16022 A
+muli #10
+addi 16023
+mov A 16024
+mov #0 16025
+mov #0 16026
+mov #0 16027
+mov 16026 A
+muli #20
+addi 16027
+mov A 16028
+mov 16025 A
+muli #15
+addi 16028
+mov A 16029
+mov #0 16030
+mov #0 16031
+mov #1 16032
+mov 16031 A
+muli #20
+addi 16032
+mov A 16033
+mov 16030 A
+muli #10
+addi 16033
+mov A 16034
+mov #0 16035
+mov #0 16036
+mov #1 16037
+mov 16036 A
+muli #20
+addi 16037
+mov A 16038
+mov 16035 A
+muli #10
+addi 16038
+mov A 16039
+mov #0 16040
+mov #1 16041
+mov 16040 A
+muli #20
+addi 16041
+mov A 16042
+mov 16039 A
+muli #10
+addi 16042
+mov A 16043
+mov #0 16044
+mov #2 16045
+mov 16044 A
+muli #20
+addi 16045
+mov A 16046
+mov 16043 A
+muli #15
+addi 16046
+mov A 16047
+mov 16034 A
+muli #10
+addi 16047
+mov A 16048
+mov #1 16049
+mov 16048 A
+muli #15
+addi 16049
+mov A 16050
+mov 16029 A
+muli #10
+addi 16050
+mov A 16051
+mov 16024 A
+addi 16051
+mov A 16052
+mov 16052 A
+mov #0 16001
+mov 16001 A
+wri
+halt

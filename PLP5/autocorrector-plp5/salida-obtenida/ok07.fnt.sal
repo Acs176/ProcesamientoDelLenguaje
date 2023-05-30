@@ -1,1 +1,4 @@
-AVISO: el programa debe terminar con la instrucción 'halt'
+ERROR(m2r) en la línea 188: Esperaba numero,'#numero','$numero','A','B','@A' o '@B+numero', encontrado '
+'
+Línea 188: wrr
+
